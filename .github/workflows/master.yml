@@ -32,5 +32,5 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
-          repository: univ-smb-m1-isc-2020/trading-game
+          repository: univ-smb-m1-isc-2020/trading-game/trading-game
           tag_with_ref: true
