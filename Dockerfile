@@ -1,4 +1,4 @@
-FROM openjdk:15-jre-slim
+FROM openjdk:15.0.2-slim
 
 COPY ./target/trading-game-1.0-SNAPSHOT.jar .
 
