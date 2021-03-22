@@ -18,7 +18,7 @@ public class ChuckFactsController {
     }
 
 
-    @GetMapping(value="/chuck-facts")
+    @GetMapping(value="/trading-game")
     public List<String> pippos() {
         return chuckFactsService.facts()
                 .stream()
