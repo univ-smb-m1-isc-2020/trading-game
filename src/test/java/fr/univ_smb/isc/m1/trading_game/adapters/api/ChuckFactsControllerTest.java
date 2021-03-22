@@ -1,7 +1,8 @@
-package fr.univ_smb.isc.m1.chuck_facts.adapters.api;
+package fr.univ_smb.isc.m1.trading_game.adapters.api;
 
-import fr.univ_smb.isc.m1.chuck_facts.application.ChuckFact;
-import fr.univ_smb.isc.m1.chuck_facts.application.ChuckFactsService;
+import fr.univ_smb.isc.m1.trading_game.adapters.api.ChuckFactsController;
+import fr.univ_smb.isc.m1.trading_game.application.ChuckFact;
+import fr.univ_smb.isc.m1.trading_game.application.ChuckFactsService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.MockMvc;

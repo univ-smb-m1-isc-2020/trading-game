@@ -1,4 +1,4 @@
-package fr.univ_smb.isc.m1.chuck_facts.application;
+package fr.univ_smb.isc.m1.trading_game.application;
 
 
 public class ChuckFact {

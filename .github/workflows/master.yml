@@ -15,7 +15,7 @@ jobs:
 
       - uses: actions/setup-java@v1
         with:
-          java-version: '11.0.X'
+          java-version: '15.0.X'
 
       - name: Maven Build & Sonar analysis
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
@@ -24,7 +24,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       - name: Build Docker image
-        run: docker build -t chuck-facts .
+        run: docker build -t trading-game .
 
       - name: Push to GitHub Packages
         uses: docker/build-push-action@v1
@@ -32,5 +32,5 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
-          repository: univ-smb-m1-isc-2020/chuck-facts/chuck-facts
+          repository: univ-smb-m1-isc-2020/trading-game
           tag_with_ref: true
