@@ -6,7 +6,11 @@ import java.util.HashMap;
 
 public class Portfolio {
     private int balance; //cents
-    private HashMap<Ticker, Integer> parts;
+    private final HashMap<Ticker, Integer> parts;
+
+    public int getBalance() {
+        return balance;
+    }
 
     public Portfolio(int balance){
         this.balance = balance;

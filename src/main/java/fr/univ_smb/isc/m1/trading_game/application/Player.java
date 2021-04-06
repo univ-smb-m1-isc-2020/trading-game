@@ -40,4 +40,12 @@ public class Player {
             o.apply(currentDate);
         }
     }
+
+    public int getTotalBalance(){
+        int total = 0;
+        for(Portfolio port: portfolios){
+            total+= port.getBalance();
+        }
+        return total;
+    }
 }
