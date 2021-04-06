@@ -25,4 +25,14 @@ public class Portfolio {
         parts.put(symbol, newQuantity);
         balance -= totalCost;
     }
+
+    public boolean canSell(Ticker ticker, int quantity) {
+        if(!parts.containsKey(ticker)) return false;
+        else return parts.get(ticker)<=quantity;
+    }
+
+    public void sell(Ticker symbol, int quantity, int benefits) {
+        int newQuantity=parts.get(symbol)-quantity;
+        parts.put(symbol, newQuantity);
+    }
 }

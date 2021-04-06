@@ -1,5 +1,6 @@
 package fr.univ_smb.isc.m1.trading_game.application;
 
+import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.EOD;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Ticker;
 
 import java.util.Date;
@@ -12,6 +13,10 @@ public class SellOrder extends Order{
 
     @Override
     public void apply(Date date) {
-
+        EOD dayData = null;//TODO get it from db
+        int buyingPrice = 50;//TODO get it from EOD dayData
+        if(portfolio.canSell(ticker, quantity)){
+            portfolio.sell(dayData.symbol, quantity, buyingPrice*quantity);
+        }
     }
 }
