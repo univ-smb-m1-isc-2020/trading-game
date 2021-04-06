@@ -34,5 +34,6 @@ public class Portfolio {
     public void sell(Ticker symbol, int quantity, int benefits) {
         int newQuantity=parts.get(symbol)-quantity;
         parts.put(symbol, newQuantity);
+        balance+=benefits;
     }
 }
