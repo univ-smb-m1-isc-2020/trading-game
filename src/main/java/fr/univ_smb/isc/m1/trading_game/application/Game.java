@@ -24,4 +24,8 @@ public class Game {
         currentDuration = 0;
         players = new ArrayList<>();
     }
+
+    public void createPlayer(Object user, int portfolioCount){
+        Player p = new Player(user, portfolioCount, initialBalance);
+    }
 }
