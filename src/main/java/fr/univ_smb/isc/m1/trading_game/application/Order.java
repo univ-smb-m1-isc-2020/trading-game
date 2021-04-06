@@ -6,9 +6,9 @@ import java.util.Date;
 
 public abstract class Order {
 
-    protected Portfolio portfolio;
-    protected Ticker ticker;
-    protected int quantity;
+    protected final Portfolio portfolio;
+    protected final Ticker ticker;
+    protected final int quantity;
 
     public Order(Portfolio portfolio, Ticker ticker, int quantity) {
         this.portfolio = portfolio;

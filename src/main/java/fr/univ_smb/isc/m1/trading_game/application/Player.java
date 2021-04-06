@@ -7,9 +7,9 @@ import java.util.Date;
 import java.util.List;
 
 public class Player {
-    private Object user;//TODO user class instead of Object
-    private List<Portfolio> portfolios;
-    private List<Order> orders;
+    private final Object user;//TODO user class instead of Object
+    private final List<Portfolio> portfolios;
+    private final List<Order> orders;
 
     public Player(Object user, int portfolioCount, int initialBalance) {
         this.user = user;
