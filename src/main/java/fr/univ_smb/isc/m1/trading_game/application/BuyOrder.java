@@ -13,7 +13,7 @@ public class BuyOrder extends Order{
 
     @Override
     public void apply(Date date) {
-        EOD dayData = null;//TODO get it from db
+        EOD dayData = new EOD();//TODO get it from db
         int buyingPrice = 50;//TODO get it from EOD dayData
         if(portfolio.canAfford(buyingPrice*quantity)){
             portfolio.buy(dayData.symbol, quantity, buyingPrice*quantity);

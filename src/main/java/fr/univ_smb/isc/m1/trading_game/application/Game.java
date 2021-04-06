@@ -28,4 +28,13 @@ public class Game {
     public void createPlayer(Object user, int portfolioCount){
         Player p = new Player(user, portfolioCount, initialBalance);
     }
+
+    public void applyEod(){
+        Date currentDate = new Date();
+        currentDate.setTime(startDate.getTime()+(long)currentDuration*24*3600*1000);
+        for(Player p : players){
+            p.applyOrders(currentDate);
+        }
+        currentDuration++;
+    }
 }

@@ -13,7 +13,7 @@ public class SellOrder extends Order{
 
     @Override
     public void apply(Date date) {
-        EOD dayData = null;//TODO get it from db
+        EOD dayData = new EOD();//TODO get it from db
         int buyingPrice = 50;//TODO get it from EOD dayData
         if(portfolio.canSell(ticker, quantity)){
             portfolio.sell(dayData.symbol, quantity, buyingPrice*quantity);

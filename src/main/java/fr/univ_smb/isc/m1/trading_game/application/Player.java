@@ -3,6 +3,7 @@ package fr.univ_smb.isc.m1.trading_game.application;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Ticker;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Player {
@@ -26,7 +27,7 @@ public class Player {
             orders.add(o);
         }
     }
-    
+
     public void createSellOrder(int portfolioNumber, Ticker ticker, int quantity){
         if (portfolioNumber < portfolios.size() && portfolioNumber > 0) {
             SellOrder o = new SellOrder(portfolios.get(portfolioNumber), ticker, quantity);
@@ -34,5 +35,9 @@ public class Player {
         }
     }
 
-
+    public void applyOrders(Date currentDate) {
+        for(Order o : orders){
+            o.apply(currentDate);
+        }
+    }
 }
