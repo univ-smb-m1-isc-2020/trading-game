@@ -13,9 +13,11 @@ public class BuyOrder extends Order {
 
     @Override
     public void apply(EOD dayData) {
-        int buyingPrice = dayData.close;
+        if(dayData.getSymbol() != this.ticker) return;
+
+        int buyingPrice = dayData.getClose();
         if(portfolio.canAfford(buyingPrice*quantity)){
-            portfolio.buy(dayData.symbol, quantity, buyingPrice*quantity);
+            portfolio.buy(dayData.getSymbol(), quantity, buyingPrice*quantity);
         }
     }
 }
