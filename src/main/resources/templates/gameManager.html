@@ -6,20 +6,46 @@
     <link rel="stylesheet" href="/css/nav.css"/>
 </head>
 <body>
-    <!-- Side navigation (Left)-->
+    <!-- Side navigation bars -->
     <div class="sidenavLeft">
         <a href="#">Portefeuille 1</a>
         <a href="#">Portefeuille 2</a>
     </div>
-
-    <!-- Side navigation (Left)-->
     <div class="sidenavRight">
         <a href="#">Mes parts</a>
+        <ul>
+            <li>gdf - 78 - 52$</li>
+        </ul>
     </div>
 
     <!-- Page content -->
     <div class="main">
-        <p>Ceci est un test</p>
+        <h3 class="total">Total : </h3>
+        <table>
+            <thead>
+            <tr>
+                <th colspan="2">Mes ordres</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Part</td>
+                <td>Type</td>
+                <td>Statut</td>
+            </tr>
+            <tr>
+                <td>GDF</td>
+                <td>Achat seuil 48</td>
+                <td>En attente</td>
+            </tr>
+            <tr>
+                <td>GDF</td>
+                <td>Achat seuil 48</td>
+                <td>Effectué (-50$)</td>
+            </tr>
+            </tbody>
+        </table>
+        <button>Créer un ordre</button>
     </div>
 </body>
 </html>
