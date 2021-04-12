@@ -12,6 +12,14 @@ public class Portfolio {
         return balance;
     }
 
+    public int getQuantity(Ticker ticker){
+        return parts.getOrDefault(ticker, 0);
+    }
+
+    private void setQuantity(Ticker ticker, int value){
+        parts.put(ticker, value);
+    }
+
     public Portfolio(int balance){
         this.balance = balance;
         parts = new HashMap<>();
@@ -25,22 +33,19 @@ public class Portfolio {
         if(!canAfford(totalCost)) return;
 
         int newQuantity = quantity;
-        if(parts.containsKey(symbol)){
-            newQuantity+=parts.get(symbol);
-        }
-        parts.put(symbol, newQuantity);
+        newQuantity+=getQuantity(symbol);
+        setQuantity(symbol, newQuantity);
         balance -= totalCost;
     }
 
     public boolean canSell(Ticker ticker, int quantity) {
-        if(!parts.containsKey(ticker)) return false;
-        else return parts.get(ticker)<=quantity;
+        return getQuantity(ticker)>=quantity;
     }
 
     public void sell(Ticker symbol, int quantity, int benefits) {
         if(!canSell(symbol, quantity)) return;
-        int newQuantity=parts.get(symbol)-quantity;
-        parts.put(symbol, newQuantity);
+        int newQuantity=getQuantity(symbol)-quantity;
+        setQuantity(symbol, newQuantity);
         balance+=benefits;
     }
 }
