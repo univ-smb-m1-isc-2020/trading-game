@@ -6,34 +6,34 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
+import javax.sound.sampled.Port;
+
 import static org.mockito.Mockito.mock;
 
 public class PortfolioTest {
 
+    private Portfolio portfolio;
+    private int baseValue;
+
     @BeforeEach
     public void setup(){
-
+        baseValue = 500;
+        portfolio = new Portfolio(baseValue);
     }
 
     @Test
     public void getBalance(){
-        int baseValue = 500;
-        Portfolio portfolio = new Portfolio(baseValue);
         Assertions.assertEquals(baseValue, portfolio.getBalance());
     }
 
     @Test
     public void getQuantity(){
-        int baseValue = 500;
-        Portfolio portfolio = new Portfolio(baseValue);
         Ticker ticker = mock(Ticker.class);
         Assertions.assertEquals(0, portfolio.getQuantity(ticker));
     }
 
     @Test
     public void setQuantity(){
-        int baseValue = 500;
-        Portfolio portfolio = new Portfolio(baseValue);
         int quantity = 10;
         Ticker ticker = mock(Ticker.class);
         portfolio.setQuantity(ticker, quantity);
@@ -42,23 +42,17 @@ public class PortfolioTest {
 
     @Test
     public void canAfford(){
-        int baseValue = 500;
-        Portfolio portfolio = new Portfolio(baseValue);
         Assertions.assertTrue(portfolio.canAfford(baseValue));
     }
 
     @Test
     public void cantAfford(){
-        int baseValue = 500;
         int cantAffordValue = 501;
-        Portfolio portfolio = new Portfolio(baseValue);
         Assertions.assertFalse(portfolio.canAfford(cantAffordValue));
     }
 
     @Test
     public void buy(){
-        int baseValue = 500;
-        Portfolio portfolio = new Portfolio(baseValue);
         Ticker ticker = mock(Ticker.class);
         int quantity = 10;
         int unitValue = 5;
@@ -68,8 +62,6 @@ public class PortfolioTest {
 
     @Test
     public void sell(){
-        int baseValue = 500;
-        Portfolio portfolio = new Portfolio(baseValue);
         Ticker ticker = mock(Ticker.class);
         int quantity = 10;
         int unitValue = 5;
