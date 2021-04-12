@@ -80,8 +80,8 @@ public class SellOrderTest {
         when(portfolio.canSell(eq(ticker),anyInt())).thenReturn(false);
         SellOrder sellOrder = new SellOrder(portfolio, ticker, quantity);
 
-        verify(portfolio, never()).sell(any(), anyInt(), anyInt());
-
         sellOrder.apply(data);
+
+        verify(portfolio, never()).sell(any(), anyInt(), anyInt());
     }
 }

@@ -40,11 +40,11 @@ public class BuyOrderTest {
         when(otherEod.getSymbol()).thenReturn(otherTicker);
 
         when(portfolio.canAfford(anyInt())).thenReturn(true);
-        BuyOrder b = new BuyOrder(portfolio, ticker, quantity);
+        BuyOrder buyOrder = new BuyOrder(portfolio, ticker, quantity);
+
+        buyOrder.apply(otherEod);
 
         verify(portfolio, never()).buy(any(), anyInt(), anyInt());
-
-        b.apply(otherEod);
     }
 
     @Test
@@ -78,10 +78,10 @@ public class BuyOrderTest {
         when(data.getSymbol()).thenReturn(ticker);
 
         when(portfolio.canAfford(anyInt())).thenReturn(false);
-        BuyOrder b = new BuyOrder(portfolio, ticker, quantity);
+        BuyOrder buyOrder = new BuyOrder(portfolio, ticker, quantity);
+
+        buyOrder.apply(data);
 
         verify(portfolio, never()).buy(any(), anyInt(), anyInt());
-
-        b.apply(data);
     }
 }
