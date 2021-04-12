@@ -23,6 +23,24 @@ public class PortfolioTest {
     }
 
     @Test
+    public void getQuantity(){
+        int baseValue = 500;
+        Portfolio portfolio = new Portfolio(baseValue);
+        Ticker ticker = mock(Ticker.class);
+        Assertions.assertEquals(0, portfolio.getQuantity(ticker));
+    }
+
+    @Test
+    public void setQuantity(){
+        int baseValue = 500;
+        Portfolio portfolio = new Portfolio(baseValue);
+        int quantity = 10;
+        Ticker ticker = mock(Ticker.class);
+        portfolio.setQuantity(ticker, quantity);
+        Assertions.assertEquals(quantity, portfolio.getQuantity(ticker));
+    }
+
+    @Test
     public void canAfford(){
         int baseValue = 500;
         Portfolio portfolio = new Portfolio(baseValue);
@@ -55,7 +73,7 @@ public class PortfolioTest {
         Ticker ticker = mock(Ticker.class);
         int quantity = 10;
         int unitValue = 5;
-        portfolio.buy(ticker, quantity, 0); // TODO shouldn't use buy ?
+        portfolio.buy(ticker, quantity, 0); // TODO shouldn't use buy ? use a mock portfolio inheriting portfolio
         portfolio.sell(ticker, quantity, quantity*unitValue);
         Assertions.assertEquals(baseValue+quantity*unitValue,portfolio.getBalance());
     }

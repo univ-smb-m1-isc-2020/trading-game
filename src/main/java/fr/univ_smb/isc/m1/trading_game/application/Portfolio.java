@@ -16,7 +16,7 @@ public class Portfolio {
         return parts.getOrDefault(ticker, 0);
     }
 
-    private void setQuantity(Ticker ticker, int value){
+    public void setQuantity(Ticker ticker, int value){
         parts.put(ticker, value);
     }
 
