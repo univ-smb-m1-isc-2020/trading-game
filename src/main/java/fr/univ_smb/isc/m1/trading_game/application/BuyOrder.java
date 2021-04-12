@@ -5,16 +5,15 @@ import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Ticker;
 
 import java.util.Date;
 
-public class BuyOrder extends Order{
+public class BuyOrder extends Order {
 
     public BuyOrder(Portfolio portfolio, Ticker ticker, int quantity) {
         super(portfolio, ticker, quantity);
     }
 
     @Override
-    public void apply(Date date) {
-        EOD dayData = new EOD();//TODO get it from db
-        int buyingPrice = 50;//TODO get it from EOD dayData
+    public void apply(EOD dayData) {
+        int buyingPrice = dayData.close;
         if(portfolio.canAfford(buyingPrice*quantity)){
             portfolio.buy(dayData.symbol, quantity, buyingPrice*quantity);
         }

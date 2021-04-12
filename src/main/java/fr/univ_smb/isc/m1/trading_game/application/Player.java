@@ -1,5 +1,6 @@
 package fr.univ_smb.isc.m1.trading_game.application;
 
+import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.EOD;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Ticker;
 
 import java.util.ArrayList;
@@ -35,9 +36,9 @@ public class Player {
         }
     }
 
-    public void applyOrders(Date currentDate) {
+    public void applyOrders(EOD dayData) {
         for(Order o : orders){
-            o.apply(currentDate);
+            o.apply(dayData);
         }
     }
 

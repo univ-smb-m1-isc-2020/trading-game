@@ -1,5 +1,6 @@
 package fr.univ_smb.isc.m1.trading_game.application;
 
+import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.EOD;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Ticker;
 
 import java.util.Date;
@@ -16,5 +17,5 @@ public abstract class Order {
         this.quantity = quantity;
     }
 
-    public abstract void apply(Date date);
+    public abstract void apply(EOD dayData);
 }

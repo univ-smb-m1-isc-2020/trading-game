@@ -1,5 +1,7 @@
 package fr.univ_smb.isc.m1.trading_game.application;
 
+import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.EOD;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,10 +32,11 @@ public class Game {
     }
 
     public void applyEod(){
-        Date currentDate = new Date();
-        currentDate.setTime(startDate.getTime()+(long)currentDuration*24*3600*1000);
-        for(Player p : players){
-            p.applyOrders(currentDate);
+        List<EOD> dayData = null;// TODO get appropriate EOD
+        for(EOD eod : dayData){
+            for(Player p : players){
+                p.applyOrders(eod);
+            }
         }
         currentDuration++;
     }
