@@ -15,18 +15,9 @@ public class EOD {
     @JoinColumn(name = "symbol")
     public Ticker symbol;
 
-    @ManyToOne
-    @JoinColumn(name = "mic")
-    public Exchange exchange;
-
-    public float open;
-    public float high;
-    public float low;
-    public float close;
-    public float volume;
-    public float adj_open;
-    public float adj_high;
-    public float adj_low;
-    public float adj_close;
-    public float adj_volume;
+    public int open;
+    public int high;
+    public int low;
+    public int close;
+    public int volume;
 }

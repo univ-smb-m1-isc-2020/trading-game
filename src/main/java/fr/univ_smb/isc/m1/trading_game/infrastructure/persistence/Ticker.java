@@ -1,22 +1,19 @@
 package fr.univ_smb.isc.m1.trading_game.infrastructure.persistence;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 public class Ticker {
     public String name;
-
     @Id
     public String symbol;
 
-    public boolean has_eod;
-    public String country;
-
-    @OneToOne
-    @JoinColumn(name = "mic")
-    public Exchange stock_exchange;
-
+    public Ticker() {
+        name = "b";
+        symbol = "b";
+    }
 }
