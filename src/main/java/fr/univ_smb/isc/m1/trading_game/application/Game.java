@@ -14,7 +14,7 @@ public class Game {
     private final int totalDuration; // days
 
     private int currentDuration; // days
-    private List<Player> players;
+    private final List<Player> players;
 
     public Game(int maxPortfolios, int initialBalance, int transactionFee, Date startDate, int totalDuration) {
         this.maxPortfolios = maxPortfolios;
