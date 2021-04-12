@@ -22,6 +22,8 @@ public class Portfolio {
     }
 
     public void buy(Ticker symbol, int quantity, int totalCost){
+        if(!canAfford(totalCost)) return;
+
         int newQuantity = quantity;
         if(parts.containsKey(symbol)){
             newQuantity+=parts.get(symbol);
@@ -36,6 +38,7 @@ public class Portfolio {
     }
 
     public void sell(Ticker symbol, int quantity, int benefits) {
+        if(!canSell(symbol, quantity)) return;
         int newQuantity=parts.get(symbol)-quantity;
         parts.put(symbol, newQuantity);
         balance+=benefits;
