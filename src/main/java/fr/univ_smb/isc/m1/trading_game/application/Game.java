@@ -55,8 +55,8 @@ public class Game {
         players = new ArrayList<>();
     }
 
-    public void createPlayer(Object user, int portfolioCount){
-        Player p = new Player(user, portfolioCount, initialBalance);
+    public void addPlayer(Player p){
+        players.add(p);
     }
 
     public void applyEod(List<EOD> dayData){
