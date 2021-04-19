@@ -5,8 +5,8 @@ import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Ticker;
 import java.util.HashMap;
 
 public class Portfolio {
-    private int balance; //cents
-    private final HashMap<Ticker, Integer> parts; // TODO Owned parts class
+    protected int balance; //cents
+    protected final HashMap<Ticker, Integer> parts; // TODO Owned parts class
 
     public int getBalance() {
         return balance;

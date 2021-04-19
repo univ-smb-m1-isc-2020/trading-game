@@ -7,14 +7,14 @@ import java.util.Date;
 import java.util.List;
 
 public class Game {
-    private final int maxPortfolios;
-    private final int initialBalance; //cents
-    private final int transactionFee; //cents
-    private final Date startDate;
-    private final int totalDuration; // days
+    protected final int maxPortfolios;
+    protected final int initialBalance; //cents
+    protected final int transactionFee; //cents
+    protected final Date startDate;
+    protected final int totalDuration; // days
 
-    private int currentDuration; // days
-    private final List<Player> players;
+    protected int currentDuration; // days
+    protected final List<Player> players;
 
     public Game(int maxPortfolios, int initialBalance, int transactionFee, Date startDate, int totalDuration) {
         this.maxPortfolios = maxPortfolios;
