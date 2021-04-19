@@ -31,8 +31,7 @@ public class Game {
         Player p = new Player(user, portfolioCount, initialBalance);
     }
 
-    public void applyEod(){
-        List<EOD> dayData = null;// TODO get appropriate EOD
+    public void applyEod(List<EOD> dayData){
         for(EOD eod : dayData){
             for(Player p : players){
                 p.applyOrders(eod);
