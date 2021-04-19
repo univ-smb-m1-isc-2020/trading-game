@@ -59,7 +59,7 @@ public class Game {
         players.add(p);
     }
 
-    public void applyEod(List<EOD> dayData){
+    public void applyDayData(List<EOD> dayData){
         for(EOD eod : dayData){
             for(Player p : players){
                 p.applyOrders(eod);

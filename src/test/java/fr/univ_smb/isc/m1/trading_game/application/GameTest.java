@@ -74,7 +74,7 @@ public class GameTest {
         eods.add(eod2);
         Player p = Mockito.mock(Player.class);
         game.addPlayer(p);
-        game.applyEod(eods);
+        game.applyDayData(eods);
         Mockito.verify(p, Mockito.times(1)).applyOrders(eod);
         Mockito.verify(p, Mockito.times(1)).applyOrders(eod2);
     }
