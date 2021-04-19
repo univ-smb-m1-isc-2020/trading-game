@@ -59,11 +59,6 @@ public class GameTest {
     }
 
     @Test
-    public void getRankings(){
-        //TODO
-    }
-
-    @Test
     public void addPlayer(){
         Player p = Mockito.mock(Player.class);
         game.addPlayer(p);
