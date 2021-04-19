@@ -12,6 +12,18 @@ public class Player {
     protected final List<Portfolio> portfolios;
     protected final List<Order> orders;
 
+    public int getTotalBalance(){
+        int total = 0;
+        for(Portfolio port: portfolios){
+            total+= port.getBalance();
+        }
+        return total;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
     public Player(Object user, int portfolioCount, int initialBalance) {
         this.user = user;
         this.portfolios = new ArrayList<>();
@@ -22,31 +34,13 @@ public class Player {
         }
     }
 
-    public void createBuyOrder(int portfolioNumber, Ticker ticker, int quantity) {
-        if (portfolioNumber < portfolios.size() && portfolioNumber > 0) {
-            BuyOrder o = new BuyOrder(portfolios.get(portfolioNumber), ticker, quantity);
-            orders.add(o);
-        }
-    }
-
-    public void createSellOrder(int portfolioNumber, Ticker ticker, int quantity){
-        if (portfolioNumber < portfolios.size() && portfolioNumber > 0) {
-            SellOrder o = new SellOrder(portfolios.get(portfolioNumber), ticker, quantity);
-            orders.add(o);
-        }
+    public void addOrder(Order o) {
+        orders.add(o);
     }
 
     public void applyOrders(EOD dayData) {
         for(Order o : orders){
             o.apply(dayData);
         }
-    }
-
-    public int getTotalBalance(){
-        int total = 0;
-        for(Portfolio port: portfolios){
-            total+= port.getBalance();
-        }
-        return total;
     }
 }
