@@ -1,11 +1,14 @@
 package fr.univ_smb.isc.m1.trading_game.application;
 
+import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.EOD;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class GameTest {
     private final static int PORT_COUNT = 3;
@@ -61,13 +64,24 @@ public class GameTest {
     }
 
     @Test
-    public void createPlayer(){
-        //TODO
+    public void addPlayer(){
+        Player p = Mockito.mock(Player.class);
+        game.addPlayer(p);
+        Assertions.assertTrue(game.getPlayers().contains(p));
     }
 
     @Test
     public void applyEod(){
-        //TODO
+        EOD eod = Mockito.mock(EOD.class);
+        EOD eod2 = Mockito.mock(EOD.class);
+        List<EOD> eods = new ArrayList<>();
+        eods.add(eod);
+        eods.add(eod2);
+        Player p = Mockito.mock(Player.class);
+        game.addPlayer(p);
+        game.applyEod(eods);
+        Mockito.verify(p, Mockito.times(1)).applyOrders(eod);
+        Mockito.verify(p, Mockito.times(1)).applyOrders(eod2);
     }
 
     @Test

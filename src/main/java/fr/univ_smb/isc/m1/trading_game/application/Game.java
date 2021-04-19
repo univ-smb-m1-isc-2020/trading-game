@@ -71,4 +71,8 @@ public class Game {
     public boolean hasEnded() {
         return currentDuration>=totalDuration;
     }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
 }
