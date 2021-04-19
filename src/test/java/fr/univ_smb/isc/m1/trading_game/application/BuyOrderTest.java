@@ -69,7 +69,7 @@ public class BuyOrderTest {
         when(portfolio.canAfford(anyInt())).thenReturn(true);
         BuyOrder buyOrder = new BuyOrder(portfolio, ticker, quantity);
         buyOrder.setPending(false);
-        
+
         buyOrder.apply(data);
 
         verify(portfolio, never()).buy(any(), anyInt(), anyInt());

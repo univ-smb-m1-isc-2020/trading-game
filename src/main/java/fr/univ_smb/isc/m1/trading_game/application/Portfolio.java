@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 public class Portfolio {
     protected int balance; //cents
-    protected final HashMap<Ticker, Integer> parts; // TODO Owned parts class
+    protected final HashMap<Ticker, Integer> parts;
 
     public int getBalance() {
         return balance;
