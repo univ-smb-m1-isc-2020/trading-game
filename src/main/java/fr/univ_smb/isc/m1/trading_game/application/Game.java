@@ -16,6 +16,34 @@ public class Game {
     protected int currentDuration; // days
     protected final List<Player> players;
 
+    public int getMaxPortfolios() {
+        return maxPortfolios;
+    }
+
+    public int getInitialBalance() {
+        return initialBalance;
+    }
+
+    public int getTransactionFee() {
+        return transactionFee;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public int getTotalDuration() {
+        return totalDuration;
+    }
+
+    public int getCurrentDuration() {
+        return currentDuration;
+    }
+
+    public int getPlayerCount() {
+        return players.size();
+    }
+
     public Game(int maxPortfolios, int initialBalance, int transactionFee, Date startDate, int totalDuration) {
         this.maxPortfolios = maxPortfolios;
         this.initialBalance = initialBalance;
@@ -38,5 +66,9 @@ public class Game {
             }
         }
         currentDuration++;
+    }
+
+    public boolean hasEnded() {
+        return currentDuration>=totalDuration;
     }
 }
