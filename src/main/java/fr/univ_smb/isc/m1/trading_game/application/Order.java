@@ -6,12 +6,21 @@ import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Ticker;
 import java.util.Date;
 
 public abstract class Order {
-
     protected final Portfolio portfolio;
     protected final Ticker ticker;
     protected final int quantity;
+    protected boolean isPending;
+
+    public boolean isPending() {
+        return isPending;
+    }
+
+    public void setPending(boolean pending) {
+        isPending = pending;
+    }
 
     public Order(Portfolio portfolio, Ticker ticker, int quantity) {
+        isPending = true;
         this.portfolio = portfolio;
         this.ticker = ticker;
         this.quantity = quantity;

@@ -14,10 +14,12 @@ public class SellOrder extends Order {
     @Override
     public void apply(EOD dayData) {
         if(dayData.getSymbol() != this.ticker) return;
+        if(!isPending()) return;
 
         int buyingPrice = dayData.getClose();
         if(portfolio.canSell(ticker, quantity)){
             portfolio.sell(dayData.getSymbol(), quantity, buyingPrice*quantity);
+            setPending(false);
         }
     }
 }

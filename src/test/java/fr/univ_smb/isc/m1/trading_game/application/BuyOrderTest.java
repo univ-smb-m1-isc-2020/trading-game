@@ -27,61 +27,68 @@ public class BuyOrderTest {
     public void dontApplyWrongTicker(){
         int quantity = 10;
         int closePrice = 500;
-
         EOD otherEod = mock(EOD.class);
         Ticker otherTicker = mock(Ticker.class);
-
         when(data.getClose()).thenReturn(closePrice);
-
         when(ticker.getSymbol()).thenReturn("TEST");
         when(otherTicker.getSymbol()).thenReturn("WRONG");
-
         when(data.getSymbol()).thenReturn(ticker);
         when(otherEod.getSymbol()).thenReturn(otherTicker);
-
         when(portfolio.canAfford(anyInt())).thenReturn(true);
         BuyOrder buyOrder = new BuyOrder(portfolio, ticker, quantity);
 
         buyOrder.apply(otherEod);
 
         verify(portfolio, never()).buy(any(), anyInt(), anyInt());
+        Assertions.assertTrue(buyOrder.isPending());
     }
 
     @Test
     public void applyCanAfford(){
         int quantity = 10;
         int close_price = 500;
-
         when(data.getClose()).thenReturn(close_price);
-
         when(ticker.getSymbol()).thenReturn("TEST");
-
         when(data.getSymbol()).thenReturn(ticker);
-
         when(portfolio.canAfford(anyInt())).thenReturn(true);
         BuyOrder buyOrder = new BuyOrder(portfolio, ticker, quantity);
 
         buyOrder.apply(data);
 
         verify(portfolio, times(1)).buy(data.getSymbol(), quantity, close_price*quantity);
+        Assertions.assertFalse(buyOrder.isPending());
+    }
+
+    @Test
+    public void applyAlreadyApplied(){
+        int quantity = 10;
+        int close_price = 500;
+        when(data.getClose()).thenReturn(close_price);
+        when(ticker.getSymbol()).thenReturn("TEST");
+        when(data.getSymbol()).thenReturn(ticker);
+        when(portfolio.canAfford(anyInt())).thenReturn(true);
+        BuyOrder buyOrder = new BuyOrder(portfolio, ticker, quantity);
+        buyOrder.setPending(false);
+        
+        buyOrder.apply(data);
+
+        verify(portfolio, never()).buy(any(), anyInt(), anyInt());
+        Assertions.assertFalse(buyOrder.isPending());
     }
 
     @Test
     public void applyCantAfford(){
         int quantity = 10;
         int close_price = 500;
-
         when(data.getClose()).thenReturn(close_price);
-
         when(ticker.getSymbol()).thenReturn("TEST");
-
         when(data.getSymbol()).thenReturn(ticker);
-
         when(portfolio.canAfford(anyInt())).thenReturn(false);
         BuyOrder buyOrder = new BuyOrder(portfolio, ticker, quantity);
 
         buyOrder.apply(data);
 
         verify(portfolio, never()).buy(any(), anyInt(), anyInt());
+        Assertions.assertTrue(buyOrder.isPending());
     }
 }
