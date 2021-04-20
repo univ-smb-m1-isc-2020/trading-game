@@ -11,17 +11,26 @@ import java.util.concurrent.ScheduledFuture;
 @Service
 public class TaskSchedulerService {
     private final TaskScheduler scheduler;
-    private ScheduledFuture<?> scheduledTask;
+    private final HashMap<Integer, ScheduledFuture<?>> tasks;
+    private int lastId;
 
     public TaskSchedulerService(TaskScheduler scheduler){
         this.scheduler = scheduler;
+        tasks = new HashMap<>();
+        lastId = 0;
     }
 
-    public void scheduleTask(Runnable task, CronTrigger cron){
-        scheduledTask = scheduler.schedule(task, cron);
+    public int scheduleTask(Runnable task, CronTrigger cron){
+        lastId++;
+        tasks.put(lastId, scheduler.schedule(task, cron));
+        return lastId;
     }
 
-    public void stop(){
-        scheduledTask.cancel(false);
+    public void cancel(int id){
+        ScheduledFuture<?> task = tasks.get(id);
+        if(task!=null){
+            task.cancel(false);
+            tasks.remove(id);
+        }
     }
 }
