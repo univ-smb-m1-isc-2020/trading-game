@@ -38,13 +38,6 @@ public class Game {
         return currentDuration;
     }
 
-    public Date getCurrentDate() {
-        Calendar calendar = GregorianCalendar.getInstance();
-        calendar.setTime(startDate);
-        calendar.add(Calendar.DATE, currentDuration);
-        return calendar.getTime();
-    }
-
     public int getPlayerCount() {
         return players.size();
     }
