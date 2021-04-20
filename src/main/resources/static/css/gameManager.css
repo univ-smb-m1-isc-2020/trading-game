@@ -1,4 +1,10 @@
+/* TODO : à revoir et nettoyer */
 /* The sidebar menu */
+
+body {
+    font-size: large;
+    font-family: Carlito;
+}
 
 .sidenavLeft {
     height: 100%; /* Full-height: remove this if you want "auto" height */

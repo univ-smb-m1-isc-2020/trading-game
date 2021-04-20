@@ -1,0 +1,32 @@
+/* TODO : à revoir */
+
+body {
+    font-size: large;
+    font-family: Carlito;
+}
+
+.verticalAligned {
+    /*width: 100%;*/
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: block;
+    /*box-sizing: border-box;*/
+}
+
+.collapsedDiv{
+    margin: 10px;
+    padding: 12px 20px;
+    border: 1px solid #ccc;
+    padding: 12px 20px;
+}
+
+label span {
+    font-weight: bold;
+    color: dodgerblue;
+}
+
+button {
+    margin: 10px;
+    padding: 12px 20px;
+    padding: 12px 20px;
+}
