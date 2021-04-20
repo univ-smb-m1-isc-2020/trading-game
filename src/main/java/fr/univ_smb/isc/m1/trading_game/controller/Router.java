@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class Router {
     @RequestMapping(value = { "/", "/index" })
     public String index() {
-        return "homePageCommon";
+        return "homePagePlayer";
     }
 
     @RequestMapping(value = "/gameManager")
