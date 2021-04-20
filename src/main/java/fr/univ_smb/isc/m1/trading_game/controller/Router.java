@@ -13,7 +13,7 @@ public class Router {
 
     @RequestMapping(value = "/gameManager")
     public String gameManager(Model model) {
-        //model.addAttribute("currentWallet", player.currentWallet.getBalance()); // TODO : mettre le vrai objet
+        //model.addAttribute("currentWallet", player.currentWallet.getBalance()); // TODO : faire le lien avec le modèle
         return "gameManager";
     }
 
