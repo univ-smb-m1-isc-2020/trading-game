@@ -3,34 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Trading Game - Création d'ordre</title>
-    <link rel="stylesheet" href="/css/createOrder.css"/>
+    <link rel="stylesheet" href="/css/appTheme.css"/>
 </head>
 <body>
-<!-- Choix type d'ordre -->
-<div>
-    <div class="collapsedDiv">
-        <label class="verticalAligned" for="orderTypeSelect">Type :</label>
-        <select class="verticalAligned" name="types" id="orderTypeSelect">
-            <option value="buy">Achat</option>
-            <option value="sell">Vente</option>
-        </select>
+    <!-- Choix type d'ordre -->
+    <div class="verticallyAligned">
+        <div class="cell verticallyAligned">
+            <label for="orderTypeSelect">Type :</label>
+            <select name="types" id="orderTypeSelect">
+                <option value="buy">Achat</option>
+                <option value="sell">Vente</option>
+            </select>
+        </div>
+        <!-- Choix ticker -->
+        <div class="cell verticallyAligned">
+            <label for="tickerSelect">Ticker :</label>
+            <select name="tickers" id="tickerSelect">
+                <option>GDF</option>
+                <option>Total</option>
+            </select>
+        </div>
+        <!-- Infos -->
+        <div class="cell verticallyAligned">
+            <label>Coût à l'unité : <span class="importantInfo">50$</span></label>
+        </div>
+        <div class="cell verticallyAligned">
+            <label>Quantité :</label>
+            <input type="text"/>
+        </div>
+        <!-- Confirmation -->
+        <button class="genericButton">Confirmer</button>
     </div>
-    <!-- Choix ticker -->
-    <div class="collapsedDiv">
-        <label class="verticalAligned" for="tickerSelect">Ticker :</label>
-        <select class="verticalAligned" name="tickers" id="tickerSelect">
-            <option>GDF</option>
-            <option>Total</option>
-        </select>
-    </div>
-    <!-- Infos -->
-    <label class="verticalAligned collapsedDiv">Coût à l'unité : <span>50$</span></label>
-    <div class="collapsedDiv">
-        <label class="verticalAligned">Quantité :</label>
-        <input class="verticalAligned" type="text"/>
-    </div>
-    <!-- Confirmation -->
-    <button>Confirmer</button>
-</div>
 </body>
 </html>

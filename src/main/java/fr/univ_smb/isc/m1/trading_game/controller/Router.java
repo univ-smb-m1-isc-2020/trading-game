@@ -26,4 +26,9 @@ public class Router {
     public String joinGame() {
         return "joinGame";
     }
+
+    @RequestMapping(value = "/gameSelected")
+    public String gameSelected() {
+        return "gameSelected";
+    }
 }

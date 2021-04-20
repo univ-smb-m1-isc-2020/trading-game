@@ -3,45 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <title>Trading Game - Rejoindre une partie</title> <!-- TODO : Voir si nécessaire de rajouter le nom du joueur -->
-  <link rel="stylesheet" href="/css/joinGame.css"/>
+  <link rel="stylesheet" href="/css/appTheme.css"/>
 </head>
 <body>
-<h1>Trading Game ©</h1>
-<a>xXxTr4d3rxXx - Se déconnecter</a>
-<!-- Liste des parties -->
-<div class="collapsedDiv">
-  <label class="gameHeader">Partie de ADMIN</label>
-  <label class="gameHeader">Durée : <span>1 an</span></label>
-  <label class="gameHeader">Depuis le <span>05/03/1995</span></label>
-  <label class="gameHeader"><span>10min/j</span></label>
-  <ol>
-    <li>
-      <label class="gameHeader">Nombre de joueurs actuel : <span>14</span></label>
-    </li>
-    <li>
-      <label class="gameHeader">Montant initial : <span>3x1000$</span></label>
-      <label class="gameHeader">Frais de transaction : <span>0.5$</span></label>
-    </li>
-  </ol>
-  <button>Rejoindre</button>
-</div>
-<div class="collapsedDiv">
-  <label class="gameHeader">Partie de ADMIN</label>
-  <label class="gameHeader">Durée : <span>30 jours</span></label>
-  <label class="gameHeader"><span>Temps réel</span></label>
-  <ol>
-    <li>
-      <label class="gameHeader">Nombre de joueurs actuel : <span>14</span></label>
-    </li>
-    <li>
-      <label class="gameHeader">Montant initial : <span>3x1000$</span></label>
-      <label class="gameHeader">Frais de transaction : <span>0.5$</span></label>
-    </li>
-  </ol>
-  <button>Rejoindre</button>
-</div>
-<form action="/index">
-  <button class="joinGameButton" type="submit">Accueil</button>
-</form>
+  <h1 class="pageMainTitle">Trading Game ©</h1>
+  <a class="logInOutLink">xXxTr4d3rxXx - Se déconnecter</a>
+  <!-- Liste des parties -->
+  <div class="cell">
+    <label class="gameCellHeader">Partie de ADMIN</label>
+    <label class="gameCellHeader">Durée : <span class="importantInfo">1 an</span></label>
+    <label class="gameCellHeader">Depuis le <span class="importantInfo">05/03/1995</span></label>
+    <label class="gameCellHeader"><span class="importantInfo">10min/j</span></label>
+    <ol>
+      <li>
+        <label class="gameCellHeader">Nombre de joueurs actuel : <span class="importantInfo">14</span></label>
+      </li>
+      <li>
+        <label class="gameCellHeader">Montant initial : <span class="importantInfo">3x1000$</span></label>
+        <label class="gameCellHeader">Frais de transaction : <span class="importantInfo">0.5$</span></label>
+      </li>
+    </ol>
+    <form style="display: inline-block" action="/gameSelected">
+      <button class="genericButton inCellButton" type="submit">Rejoindre</button>
+    </form>
+  </div>
+  <div class="cell">
+    <label class="gameCellHeader">Partie de ADMIN</label>
+    <label class="gameCellHeader">Durée : <span class="importantInfo">30 jours</span></label>
+    <label class="gameCellHeader"><span class="importantInfo">Temps réel</span></label>
+    <ol>
+      <li>
+        <label class="gameCellHeader">Nombre de joueurs actuel : <span class="importantInfo">14</span></label>
+      </li>
+      <li>
+        <label class="gameCellHeader">Montant initial : <span class="importantInfo">3x1000$</span></label>
+        <label class="gameCellHeader">Frais de transaction : <span class="importantInfo">0.5$</span></label>
+      </li>
+    </ol>
+    <form style="display: inline-block" action="/gameSelected">
+      <button class="genericButton inCellButton" type="submit">Rejoindre</button>
+    </form>
+  </div>
+  <form action="/index">
+    <button class="genericButton topLeftButton" type="submit">Accueil</button>
+  </form>
 </body>
 </html>

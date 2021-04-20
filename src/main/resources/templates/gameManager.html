@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Trading Game - Gestion de partie</title>
-    <link rel="stylesheet" href="/css/gameManager.css"/>
+    <link rel="stylesheet" href="/css/appTheme.css"/>
 </head>
 <body>
     <!-- Side navigation bars -->
     <div class="sidenavLeft">
-        <a href="#">Portefeuille 1</a>
-        <a href="#">Portefeuille 2</a>
+        <a class="walletLink">Portefeuille 1</a>
+        <a class="walletLink">Portefeuille 2</a>
     </div>
     <div class="sidenavRight">
-        <h3>Mes parts</h3>
+        <h3 class="action">Mes parts</h3>
         <ul>
-            <li>gdf - 78 - 52$</li>
+            <li class="action">gdf - <span class="importantInfo">78</span> - <span class="importantInfo">52$</span></li>
         </ul>
     </div>
 
     <!-- Page content -->
     <div class="main">
-        <h3 class="total">Total : </h3>
+        <h3>Total : <span class="importantInfo">~</span></h3>
         <table>
             <thead>
             <tr>
@@ -35,18 +35,18 @@
             </tr>
             <tr>
                 <td>GDF</td>
-                <td>Achat seuil 48</td>
+                <td>Achat seuil <span class="importantInfo">48</span></td>
                 <td>En attente</td>
             </tr>
             <tr>
                 <td>GDF</td>
-                <td>Achat seuil 48</td>
-                <td>Effectué (-50$)</td>
+                <td>Achat seuil <span class="importantInfo">48</span></td>
+                <td>Effectué <span class="importantInfo">(-50$)</span></td>
             </tr>
             </tbody>
         </table>
         <form action="/createOrder">
-            <button type="submit" value="createOrder">Créer un ordre</button>
+            <button class="genericButton" type="submit">Créer un ordre</button>
         </form>
     </div>
 </body>
