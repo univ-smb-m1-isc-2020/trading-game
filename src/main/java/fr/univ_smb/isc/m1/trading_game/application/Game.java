@@ -13,8 +13,6 @@ public class Game {
     protected final Date startDate;
     protected final int totalDuration; // days
 
-    protected GameTaskScheduler scheduler;
-
     protected int currentDuration; // days
     protected final List<Player> players;
 
@@ -64,24 +62,10 @@ public class Game {
         currentDuration = 0;
         players = new ArrayList<>();
 
-        scheduler = new GameTaskScheduler();
-    }
-
-    public void start(){
-        scheduler.scheduleTask(this::playCurrentDay, new CronTrigger("0 0 0 * * ?"));
-    }
-
-    public void stop(){
-        scheduler.cancel();
     }
 
     public void addPlayer(Player p){
         players.add(p);
-    }
-
-    public void playCurrentDay(){
-        List<EOD> dayData = new ArrayList<>();//TODO get it from DB
-        applyDayData(dayData);
     }
 
     public void applyDayData(List<EOD> dayData){
