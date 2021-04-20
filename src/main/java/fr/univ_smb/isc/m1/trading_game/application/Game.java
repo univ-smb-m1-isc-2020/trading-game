@@ -2,9 +2,7 @@ package fr.univ_smb.isc.m1.trading_game.application;
 
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.EOD;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class Game {
     protected final int maxPortfolios;
@@ -40,8 +38,23 @@ public class Game {
         return currentDuration;
     }
 
+    public Date getCurrentDate() {
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTime(startDate);
+        calendar.add(Calendar.DATE, currentDuration);
+        return calendar.getTime();
+    }
+
     public int getPlayerCount() {
         return players.size();
+    }
+
+    public boolean hasEnded() {
+        return currentDuration>=totalDuration;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
     }
 
     public Game(int maxPortfolios, int initialBalance, int transactionFee, Date startDate, int totalDuration) {
@@ -66,13 +79,5 @@ public class Game {
             }
         }
         currentDuration++;
-    }
-
-    public boolean hasEnded() {
-        return currentDuration>=totalDuration;
-    }
-
-    public List<Player> getPlayers() {
-        return players;
     }
 }
