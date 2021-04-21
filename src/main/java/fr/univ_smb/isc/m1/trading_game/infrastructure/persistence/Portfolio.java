@@ -2,21 +2,20 @@ package fr.univ_smb.isc.m1.trading_game.infrastructure.persistence;
 
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Ticker;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 public class Portfolio {
     @Id
     @GeneratedValue
     protected int id;
+
     protected int balance; //cents
 
     @ElementCollection
-    protected final HashMap<Ticker, Integer> parts;
+    protected Map<Ticker, Integer> parts;
 
     public int getBalance() {
         return balance;
@@ -28,6 +27,10 @@ public class Portfolio {
 
     public void setQuantity(Ticker ticker, int value){
         parts.put(ticker, value);
+    }
+
+    public Portfolio(){
+        //JPA
     }
 
     public Portfolio(int balance){
