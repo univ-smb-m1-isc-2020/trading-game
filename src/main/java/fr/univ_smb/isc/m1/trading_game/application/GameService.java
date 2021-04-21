@@ -7,12 +7,14 @@ import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Player;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class GameService {
     private GameRepository repository;
     private PlayerService playerService;
+    private EODService eodService;
 
     public void addPlayer(long gameId, Player p){
         Game game = repository.getOne(gameId);
@@ -21,7 +23,7 @@ public class GameService {
     }
 
     public void applyDayData(long gameId){
-        List<EOD> dayData = new ArrayList<>();//TODO EOD service
+        List<EOD> dayData = eodService.getEODs(new Date());//TODO real date
         Game game = repository.getOne(gameId);
         for(EOD eod : dayData){
             for(Player p : game.getPlayers()){
