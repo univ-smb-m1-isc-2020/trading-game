@@ -8,14 +8,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class Router {
     @RequestMapping(value = { "/", "/index" })
     public String index() {
+        return "homePageCommon";
+    }
+
+    @RequestMapping(value = "/homePagePlayer")
+    public String homePagePlayer() {
+        return "homePagePlayer";
+    }
+
+    @RequestMapping(value = "/homePageAdmin")
+    public String homePageAdmin() {
         return "homePageAdmin";
     }
 
     @RequestMapping(value = "/gameManager")
-    public String gameManager(Model model) {
-        //model.addAttribute("currentWallet", player.currentWallet.getBalance()); // TODO : faire le lien avec le modèle
-        return "gameManager";
-    }
+    public String gameManager() { return "gameManager"; }
 
     @RequestMapping(value = "/createOrder")
     public String createOrder() {
@@ -35,5 +42,15 @@ public class Router {
     @RequestMapping(value = "/gameSelected")
     public String gameSelected() {
         return "gameSelected";
+    }
+
+    @RequestMapping(value = "/logIn")
+    public String logIn() {
+        return "logIn";
+    }
+
+    @RequestMapping(value = "/register")
+    public String register() {
+        return "register";
     }
 }
