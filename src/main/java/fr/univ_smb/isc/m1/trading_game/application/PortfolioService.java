@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 public class PortfolioService {
     private PortfolioRepository repository;
     private OrderService orderService;
+    private TickerService tickerService;
 
     public void applyOrders(long portfolioId, EOD dayData) {
         Portfolio portfolio = repository.getOne(portfolioId);
@@ -18,7 +19,7 @@ public class PortfolioService {
     public boolean buy(long portfolioId, String tickerMic, int unitPrice, int quantity)
     {
         Portfolio port = repository.getOne(portfolioId);
-        Ticker ticker = null;//TODO get from service
+        Ticker ticker = tickerService.get(tickerMic);
         int totalCost = unitPrice*quantity;
         int funds = port.getBalance();
 

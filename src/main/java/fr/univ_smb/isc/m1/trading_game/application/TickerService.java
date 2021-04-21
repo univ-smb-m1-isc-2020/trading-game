@@ -15,6 +15,6 @@ public class TickerService {
     }
 
     public Ticker get(String mic){
-        return new Ticker();
+        return new Ticker(); // TODO get from repository
     }
 }
