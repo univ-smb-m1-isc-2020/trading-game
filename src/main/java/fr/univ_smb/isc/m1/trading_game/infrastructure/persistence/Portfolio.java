@@ -1,11 +1,21 @@
-package fr.univ_smb.isc.m1.trading_game.application;
+package fr.univ_smb.isc.m1.trading_game.infrastructure.persistence;
 
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Ticker;
 
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.HashMap;
 
+@Entity
 public class Portfolio {
+    @Id
+    @GeneratedValue
+    protected int id;
     protected int balance; //cents
+
+    @ElementCollection
     protected final HashMap<Ticker, Integer> parts;
 
     public int getBalance() {

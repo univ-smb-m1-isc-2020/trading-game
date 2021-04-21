@@ -1,11 +1,13 @@
-package fr.univ_smb.isc.m1.trading_game.application;
+package fr.univ_smb.isc.m1.trading_game.infrastructure.persistence;
 
-import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.EOD;
-import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Ticker;
+import javax.persistence.Entity;
 
-import java.util.Date;
-
+@Entity
 public class SellOrder extends Order {
+
+    public SellOrder() {
+        super();
+    }
 
     public SellOrder(Portfolio portfolio, Ticker ticker, int quantity) {
         super(portfolio, ticker, quantity);

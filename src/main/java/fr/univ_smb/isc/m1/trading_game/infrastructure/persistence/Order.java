@@ -1,14 +1,17 @@
-package fr.univ_smb.isc.m1.trading_game.application;
+package fr.univ_smb.isc.m1.trading_game.infrastructure.persistence;
 
-import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.EOD;
-import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Ticker;
+import javax.persistence.*;
 
-import java.util.Date;
-
+@MappedSuperclass
 public abstract class Order {
-    protected final Portfolio portfolio;
-    protected final Ticker ticker;
-    protected final int quantity;
+    @Id
+    @GeneratedValue
+    protected int id;
+    @ManyToOne
+    protected Portfolio portfolio;
+    @ManyToOne
+    protected Ticker ticker;
+    protected int quantity;
     protected boolean isPending;
 
     public boolean isPending() {
@@ -17,6 +20,10 @@ public abstract class Order {
 
     public void setPending(boolean pending) {
         isPending = pending;
+    }
+
+    public Order(){
+        //JPA
     }
 
     public Order(Portfolio portfolio, Ticker ticker, int quantity) {

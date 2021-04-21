@@ -1,6 +1,8 @@
 package fr.univ_smb.isc.m1.trading_game.application;
 
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.EOD;
+import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Portfolio;
+import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.SellOrder;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Ticker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

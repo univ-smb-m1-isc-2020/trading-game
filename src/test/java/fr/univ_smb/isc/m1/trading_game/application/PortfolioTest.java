@@ -1,12 +1,10 @@
 package fr.univ_smb.isc.m1.trading_game.application;
 
+import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Portfolio;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Ticker;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-
-import javax.sound.sampled.Port;
 
 import static org.mockito.Mockito.mock;
 
