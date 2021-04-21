@@ -36,7 +36,7 @@ public class PortfolioService {
     public boolean sell(long portfolioId, String tickerMic, int unitPrice, int quantity)
     {
         Portfolio port = repository.getOne(portfolioId);
-        Ticker ticker = null;//TODO get from service
+        Ticker ticker = tickerService.get(tickerMic);
 
         if(quantity > port.getQuantity(ticker)) return false;
 
