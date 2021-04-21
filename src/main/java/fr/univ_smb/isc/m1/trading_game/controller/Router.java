@@ -22,6 +22,11 @@ public class Router {
         return "createOrder";
     }
 
+    @RequestMapping(value = "/createGame")
+    public String createGame() {
+        return "createGame";
+    }
+
     @RequestMapping(value = "/joinGame")
     public String joinGame() {
         return "joinGame";
