@@ -24,7 +24,7 @@ public class BuyOrderTest {
         portfolio = mock(Portfolio.class);
     }
 
-    @Test
+    /*@Test
     public void dontApplyWrongTicker(){
         int quantity = 10;
         int closePrice = 500;
@@ -91,5 +91,5 @@ public class BuyOrderTest {
 
         verify(portfolio, never()).buy(any(), anyInt(), anyInt());
         Assertions.assertTrue(buyOrder.isPending());
-    }
+    }*/
 }

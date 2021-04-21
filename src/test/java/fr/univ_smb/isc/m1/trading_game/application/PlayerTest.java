@@ -12,7 +12,7 @@ import static org.mockito.Mockito.*;
 
 public class PlayerTest {
 
-    private final static int INIT_BALANCE = 1000;
+    /*private final static int INIT_BALANCE = 1000;
     private final static int PORTFOLIO_COUNT = 3;
     private Object user;
     private Player player;
@@ -47,5 +47,5 @@ public class PlayerTest {
     @Test
     public void getTotalBalance(){
         Assertions.assertEquals(INIT_BALANCE*PORTFOLIO_COUNT, player.getTotalBalance());
-    }
+    }*/
 }

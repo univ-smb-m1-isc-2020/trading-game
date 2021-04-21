@@ -19,9 +19,7 @@ public class BuyOrder extends Order {
         if(!isPending()) return;
 
         int buyingPrice = dayData.getClose();
-        if(portfolio.canAfford(buyingPrice*quantity)){
-            portfolio.buy(dayData.getSymbol(), quantity, buyingPrice*quantity);
-            setPending(false);
-        }
+        //portfolio.buy(dayData.getSymbol(), quantity, buyingPrice*quantity);
+        setPending(false);
     }
 }

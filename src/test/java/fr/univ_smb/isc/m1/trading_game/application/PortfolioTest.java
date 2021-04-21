@@ -10,7 +10,7 @@ import static org.mockito.Mockito.mock;
 
 public class PortfolioTest {
 
-    private Portfolio portfolio;
+    /*private Portfolio portfolio;
     private int baseValue;
 
     @BeforeEach
@@ -88,5 +88,5 @@ public class PortfolioTest {
         portfolio.setQuantity(ticker, quantity);
         portfolio.sell(ticker, quantity, quantity*unitValue);
         Assertions.assertEquals(baseValue+quantity*unitValue,portfolio.getBalance());
-    }
+    }*/
 }

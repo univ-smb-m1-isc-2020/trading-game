@@ -21,6 +21,10 @@ public class Portfolio {
         return balance;
     }
 
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
     public int getQuantity(Ticker ticker){
         return parts.getOrDefault(ticker, 0);
     }
@@ -36,29 +40,5 @@ public class Portfolio {
     public Portfolio(int balance){
         this.balance = balance;
         parts = new HashMap<>();
-    }
-
-    public boolean canAfford(int i) {
-        return i<=balance;
-    }
-
-    public void buy(Ticker symbol, int quantity, int totalCost){
-        if(!canAfford(totalCost)) return;
-
-        int newQuantity = quantity;
-        newQuantity+=getQuantity(symbol);
-        setQuantity(symbol, newQuantity);
-        balance -= totalCost;
-    }
-
-    public boolean canSell(Ticker ticker, int quantity) {
-        return getQuantity(ticker)>=quantity;
-    }
-
-    public void sell(Ticker symbol, int quantity, int benefits) {
-        if(!canSell(symbol, quantity)) return;
-        int newQuantity=getQuantity(symbol)-quantity;
-        setQuantity(symbol, newQuantity);
-        balance+=benefits;
     }
 }

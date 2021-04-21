@@ -21,9 +21,7 @@ public class SellOrder extends Order {
         if(!isPending()) return;
 
         int buyingPrice = dayData.getClose();
-        if(portfolio.canSell(ticker, quantity)){
-            portfolio.sell(dayData.getSymbol(), quantity, buyingPrice*quantity);
-            setPending(false);
-        }
+        //portfolio.sell(dayData.getSymbol(), quantity, buyingPrice*quantity);
+        setPending(false);
     }
 }

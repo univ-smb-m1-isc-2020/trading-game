@@ -13,7 +13,7 @@ import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.never;
 
 public class SellOrderTest {
-    private EOD data;
+    /*private EOD data;
     private Ticker ticker;
     private Portfolio portfolio;
 
@@ -85,5 +85,5 @@ public class SellOrderTest {
         sellOrder.apply(data);
 
         verify(portfolio, never()).sell(any(), anyInt(), anyInt());
-    }
+    }*/
 }
