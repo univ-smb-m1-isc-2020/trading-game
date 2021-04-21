@@ -16,7 +16,7 @@ public class OrderService {
         if (order instanceof BuyOrder) {
             return buyOrderService.apply(order.getId(), dayData, portfolioId);
         } else if (order instanceof SellOrder) {
-            return sellOrderService.apply((SellOrder) order, dayData, portfolioId);
+            return sellOrderService.apply(order.getId(), dayData, portfolioId);
         } else {
             return false;
         }
