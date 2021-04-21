@@ -1,6 +1,8 @@
 package fr.univ_smb.isc.m1.trading_game.infrastructure.persistence;
 
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 @Entity
 public class SellOrder extends Order {

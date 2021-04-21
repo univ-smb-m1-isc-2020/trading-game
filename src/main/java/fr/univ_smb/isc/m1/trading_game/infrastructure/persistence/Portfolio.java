@@ -10,7 +10,7 @@ import java.util.Map;
 public class Portfolio {
     @Id
     @GeneratedValue
-    protected int id;
+    protected long id;
 
     protected int balance; //cents
 

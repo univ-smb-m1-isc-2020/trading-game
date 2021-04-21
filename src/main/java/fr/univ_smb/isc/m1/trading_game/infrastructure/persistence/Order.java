@@ -2,11 +2,12 @@ package fr.univ_smb.isc.m1.trading_game.infrastructure.persistence;
 
 import javax.persistence.*;
 
-@MappedSuperclass
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Order {
     @Id
     @GeneratedValue
-    protected int id;
+    protected long id;
     @ManyToOne
     protected Portfolio portfolio;
     @ManyToOne

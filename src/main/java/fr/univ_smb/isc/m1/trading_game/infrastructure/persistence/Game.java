@@ -7,7 +7,7 @@ import java.util.*;
 public class Game {
     @Id
     @GeneratedValue
-    protected int id;
+    protected long id;
     protected int maxPortfolios;
     protected int initialBalance; //cents
     protected int transactionFee; //cents
