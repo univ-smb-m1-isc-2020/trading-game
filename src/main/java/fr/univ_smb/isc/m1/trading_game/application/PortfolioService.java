@@ -1,17 +1,15 @@
 package fr.univ_smb.isc.m1.trading_game.application;
 
-import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.EOD;
-import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Order;
-import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Portfolio;
-import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Ticker;
+import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.*;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PortfolioService {
+    private PortfolioRepository repository;
     private OrderService orderService;
 
     public void applyOrders(long portfolioId, EOD dayData) {
-        Portfolio portfolio = new Portfolio();//TODO get from repository
+        Portfolio portfolio = repository.getOne(portfolioId);
         for(Order o : portfolio.getOrders()){
             orderService.apply(o, dayData, portfolioId);
         }
@@ -19,7 +17,7 @@ public class PortfolioService {
 
     public boolean buy(long portfolioId, String tickerMic, int unitPrice, int quantity)
     {
-        Portfolio port = new Portfolio();//TODO get it from repository
+        Portfolio port = repository.getOne(portfolioId);
         Ticker ticker = null;//TODO get from service
         int totalCost = unitPrice*quantity;
         int funds = port.getBalance();
@@ -30,12 +28,13 @@ public class PortfolioService {
         newQuantity+=port.getQuantity(ticker);
         port.setQuantity(ticker, newQuantity);
         port.setBalance(funds-totalCost);
+        repository.save(port);
         return true;
     }
 
     public boolean sell(long portfolioId, String tickerMic, int unitPrice, int quantity)
     {
-        Portfolio port = new Portfolio();//TODO get it from repository
+        Portfolio port = repository.getOne(portfolioId);
         Ticker ticker = null;//TODO get from service
 
         if(quantity > port.getQuantity(ticker)) return false;
@@ -45,6 +44,7 @@ public class PortfolioService {
         newQuantity-=port.getQuantity(ticker);
         port.setQuantity(ticker, newQuantity);
         port.setBalance(port.getBalance()+totalBenefits);
+        repository.save(port);
         return true;
     }
 }
