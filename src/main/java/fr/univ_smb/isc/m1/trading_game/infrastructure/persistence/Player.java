@@ -26,6 +26,14 @@ public class Player {
         return total;
     }
 
+    public List<Portfolio> getPortfolios() {
+        return portfolios;
+    }
+
+    public void setPortfolios(List<Portfolio> portfolios) {
+        this.portfolios = portfolios;
+    }
+
     public Player(){
         //JPA
     }

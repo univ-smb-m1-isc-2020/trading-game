@@ -1,12 +1,21 @@
 package fr.univ_smb.isc.m1.trading_game.application;
 
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.EOD;
+import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Order;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Portfolio;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Ticker;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PortfolioService {
+    private OrderService orderService;
+
+    public void applyOrders(long portfolioId, EOD dayData) {
+        Portfolio portfolio = new Portfolio();//TODO get from repository
+        for(Order o : portfolio.getOrders()){
+            orderService.apply(o, dayData, portfolioId);
+        }
+    }
 
     public boolean buy(long portfolioId, String tickerMic, int unitPrice, int quantity)
     {
@@ -38,5 +47,4 @@ public class PortfolioService {
         port.setBalance(port.getBalance()+totalBenefits);
         return true;
     }
-
 }

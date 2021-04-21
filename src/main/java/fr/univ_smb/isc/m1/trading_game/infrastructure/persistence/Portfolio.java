@@ -42,6 +42,14 @@ public class Portfolio {
         parts.put(ticker, value);
     }
 
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
     public Portfolio(){
         //JPA
     }
