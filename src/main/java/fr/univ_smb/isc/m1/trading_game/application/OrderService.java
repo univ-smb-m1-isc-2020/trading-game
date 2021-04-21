@@ -14,7 +14,7 @@ public class OrderService {
     public boolean apply(Order order, EOD dayData, long portfolioId) {
         if (isNotApplicable(order, dayData)) return false;
         if (order instanceof BuyOrder) {
-            return buyOrderService.apply((BuyOrder) order, dayData, portfolioId);
+            return buyOrderService.apply(order.getId(), dayData, portfolioId);
         } else if (order instanceof SellOrder) {
             return sellOrderService.apply((SellOrder) order, dayData, portfolioId);
         } else {

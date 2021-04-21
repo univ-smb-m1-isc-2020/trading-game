@@ -24,6 +24,10 @@ public abstract class Order {
         this.quantity = quantity;
     }
 
+    public long getId() {
+        return id;
+    }
+
     public boolean isPending() {
         return isPending;
     }
