@@ -16,8 +16,8 @@ public class Game {
 
     protected int currentDuration; // days
 
-    /*@ManyToMany
-    protected Set<Player> players;*/
+    @ManyToMany
+    protected List<Player> players;
 
     public int getMaxPortfolios() {
         return maxPortfolios;
@@ -48,13 +48,11 @@ public class Game {
     }
 
     public int getPlayerCount() {
-        //return players.size(); TODO
-        return 0;
+        return players.size();
     }
 
     public List<Player> getPlayers() {
-        //return players; TODO
-        return null;
+        return players;
     }
 
     public Game(){
@@ -69,19 +67,19 @@ public class Game {
         this.totalDuration = totalDuration;
 
         currentDuration = 0;
-        //players = new ArrayList<>(); TODO
+        players = new ArrayList<>();
     }
 
     public void addPlayer(Player p){
-        //players.add(p); TODO
+        players.add(p);
     }
 
     public void applyDayData(List<EOD> dayData){
-        /*for(EOD eod : dayData){ TODO
+        for(EOD eod : dayData){
             for(Player p : players){
                 p.applyOrders(eod);
             }
-        }*/
+        }
         currentDuration++;
     }
 }
