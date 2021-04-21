@@ -25,6 +25,10 @@ public class Portfolio {
         this.balance = balance;
     }
 
+    public long getId() {
+        return id;
+    }
+
     public int getQuantity(Ticker ticker){
         return parts.getOrDefault(ticker, 0);
     }

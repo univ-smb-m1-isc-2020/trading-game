@@ -15,14 +15,6 @@ public abstract class Order {
     protected int quantity;
     protected boolean isPending;
 
-    public boolean isPending() {
-        return isPending;
-    }
-
-    public void setPending(boolean pending) {
-        isPending = pending;
-    }
-
     public Order(){
         //JPA
     }
@@ -34,5 +26,35 @@ public abstract class Order {
         this.quantity = quantity;
     }
 
-    public abstract void apply(EOD dayData);
+    public Portfolio getPortfolio() {
+        return portfolio;
+    }
+
+    public void setPortfolio(Portfolio portfolio) {
+        this.portfolio = portfolio;
+    }
+
+    public boolean isPending() {
+        return isPending;
+    }
+
+    public void setPending(boolean pending) {
+        isPending = pending;
+    }
+
+    public Ticker getTicker() {
+        return ticker;
+    }
+
+    public void setTicker(Ticker ticker) {
+        this.ticker = ticker;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 }

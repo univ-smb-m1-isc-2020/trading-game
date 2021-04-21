@@ -52,7 +52,7 @@ public class Player {
 
     public void applyOrders(EOD dayData) {
         for(Order o : orders){
-            o.apply(dayData);
+            //o.apply(dayData); TODO
         }
     }
 }
