@@ -17,8 +17,6 @@ public class Player {
 
     @OneToMany
     protected List<Portfolio> portfolios;
-    @OneToMany
-    protected List<Order> orders;
 
     public int getTotalBalance(){
         int total = 0;
@@ -28,10 +26,6 @@ public class Player {
         return total;
     }
 
-    public List<Order> getOrders() {
-        return orders;
-    }
-
     public Player(){
         //JPA
     }
@@ -39,20 +33,9 @@ public class Player {
     public Player(Object user, int portfolioCount, int initialBalance) {
         this.user = user;
         this.portfolios = new ArrayList<>();
-        this.orders = new ArrayList<>();
         for(int i=0; i<portfolioCount; i++){
             Portfolio port = new Portfolio(initialBalance);
             portfolios.add(port);
-        }
-    }
-
-    public void addOrder(Order o) {
-        orders.add(o);
-    }
-
-    public void applyOrders(EOD dayData) {
-        for(Order o : orders){
-            //o.apply(dayData); TODO
         }
     }
 }

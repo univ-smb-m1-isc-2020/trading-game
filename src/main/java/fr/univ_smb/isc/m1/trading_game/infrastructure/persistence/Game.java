@@ -77,7 +77,7 @@ public class Game {
     public void applyDayData(List<EOD> dayData){
         for(EOD eod : dayData){
             for(Player p : players){
-                p.applyOrders(eod);
+                //p.applyOrders(eod);
             }
         }
         currentDuration++;

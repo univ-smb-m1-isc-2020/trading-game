@@ -4,7 +4,9 @@ import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Ticker;
 
 import javax.persistence.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Entity
 public class Portfolio {
@@ -16,6 +18,9 @@ public class Portfolio {
 
     @ElementCollection
     protected Map<Ticker, Integer> parts;
+
+    @OneToMany
+    protected List<Order> orders;
 
     public int getBalance() {
         return balance;

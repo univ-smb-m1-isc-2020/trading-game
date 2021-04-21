@@ -9,7 +9,7 @@ public class BuyOrder extends Order {
         super();
     }
 
-    public BuyOrder(Portfolio portfolio, Ticker ticker, int quantity) {
-        super(portfolio, ticker, quantity);
+    public BuyOrder(Ticker ticker, int quantity) {
+        super(ticker, quantity);
     }
 }

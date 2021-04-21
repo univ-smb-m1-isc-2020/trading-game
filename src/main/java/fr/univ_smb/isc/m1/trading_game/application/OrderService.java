@@ -8,25 +8,24 @@ public class OrderService {
 
     private PortfolioService portfolioService;
 
-    public boolean apply(Order order, EOD dayData) {
+    public boolean apply(Order order, EOD dayData, long portfolioId) {
         if (order instanceof BuyOrder) {
-            return applyBuyOrder((BuyOrder) order, dayData);
+            return applyBuyOrder((BuyOrder) order, dayData, portfolioId);
         } else if (order instanceof SellOrder) {
-            return applySellOrder((SellOrder) order, dayData);
+            return applySellOrder((SellOrder) order, dayData, portfolioId);
         } else {
             return false;
         }
     }
 
-    public boolean applyBuyOrder(BuyOrder order, EOD dayData) {
+    public boolean applyBuyOrder(BuyOrder order, EOD dayData, long portfolioId) {
         if (isNotApplicable(order, dayData)) return false;
 
         int buyingPrice = dayData.getClose();
         int quantity = order.getQuantity();
         String symbol = dayData.getSymbol().getSymbol();
-        long portId = order.getPortfolio().getId();
 
-        boolean success = portfolioService.buy(portId, symbol, buyingPrice, quantity);
+        boolean success = portfolioService.buy(portfolioId, symbol, buyingPrice, quantity);
 
         if (success) {
             order.setPending(false);
@@ -36,15 +35,14 @@ public class OrderService {
         }
     }
 
-    public boolean applySellOrder(SellOrder order, EOD dayData) {
+    public boolean applySellOrder(SellOrder order, EOD dayData, long portfolioId) {
         if (isNotApplicable(order, dayData)) return false;
 
         int sellingPrice = dayData.getClose();
         int quantity = order.getQuantity();
         String symbol = dayData.getSymbol().getSymbol();
-        long portId = order.getPortfolio().getId();
 
-        boolean success = portfolioService.sell(portId, symbol, sellingPrice, quantity);
+        boolean success = portfolioService.sell(portfolioId, symbol, sellingPrice, quantity);
 
         if (success) {
             order.setPending(false);
@@ -57,5 +55,4 @@ public class OrderService {
     private boolean isNotApplicable(Order order, EOD dayData) {
         return !order.isPending() || dayData.getSymbol() != order.getTicker();
     }
-
 }

@@ -11,7 +11,7 @@ public class SellOrder extends Order {
         super();
     }
 
-    public SellOrder(Portfolio portfolio, Ticker ticker, int quantity) {
-        super(portfolio, ticker, quantity);
+    public SellOrder(Ticker ticker, int quantity) {
+        super(ticker, quantity);
     }
 }
