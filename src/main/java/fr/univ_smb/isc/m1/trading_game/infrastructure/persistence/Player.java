@@ -1,8 +1,11 @@
-package fr.univ_smb.isc.m1.trading_game.application;
+package fr.univ_smb.isc.m1.trading_game.infrastructure.persistence;
 
+import fr.univ_smb.isc.m1.trading_game.application.Order;
+import fr.univ_smb.isc.m1.trading_game.application.Portfolio;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.EOD;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Ticker;
 
+import javax.persistence.Entity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

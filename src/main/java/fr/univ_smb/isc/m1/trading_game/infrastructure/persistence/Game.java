@@ -1,18 +1,23 @@
-package fr.univ_smb.isc.m1.trading_game.application;
+package fr.univ_smb.isc.m1.trading_game.infrastructure.persistence;
 
-import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.EOD;
-
+import javax.persistence.*;
 import java.util.*;
 
+@Entity
 public class Game {
-    protected final int maxPortfolios;
-    protected final int initialBalance; //cents
-    protected final int transactionFee; //cents
-    protected final Date startDate;
-    protected final int totalDuration; // days
+    @Id
+    @GeneratedValue
+    protected int id;
+    protected int maxPortfolios;
+    protected int initialBalance; //cents
+    protected int transactionFee; //cents
+    protected Date startDate;
+    protected int totalDuration; // days
 
     protected int currentDuration; // days
-    protected final List<Player> players;
+
+    /*@ManyToMany
+    protected Set<Player> players;*/
 
     public int getMaxPortfolios() {
         return maxPortfolios;
@@ -38,16 +43,22 @@ public class Game {
         return currentDuration;
     }
 
-    public int getPlayerCount() {
-        return players.size();
-    }
-
     public boolean hasEnded() {
         return currentDuration>=totalDuration;
     }
 
+    public int getPlayerCount() {
+        //return players.size(); TODO
+        return 0;
+    }
+
     public List<Player> getPlayers() {
-        return players;
+        //return players; TODO
+        return null;
+    }
+
+    public Game(){
+        //JPA
     }
 
     public Game(int maxPortfolios, int initialBalance, int transactionFee, Date startDate, int totalDuration) {
@@ -58,20 +69,19 @@ public class Game {
         this.totalDuration = totalDuration;
 
         currentDuration = 0;
-        players = new ArrayList<>();
-
+        //players = new ArrayList<>(); TODO
     }
 
     public void addPlayer(Player p){
-        players.add(p);
+        //players.add(p); TODO
     }
 
     public void applyDayData(List<EOD> dayData){
-        for(EOD eod : dayData){
+        /*for(EOD eod : dayData){ TODO
             for(Player p : players){
                 p.applyOrders(eod);
             }
-        }
+        }*/
         currentDuration++;
     }
 }
