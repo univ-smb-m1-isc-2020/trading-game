@@ -12,6 +12,7 @@ import java.util.concurrent.ScheduledFuture;
 
 public class GameScheduler {
     private final Game game;
+    private GameService gameService;
     private final TaskScheduler scheduler;
     private ScheduledFuture<?> scheduledTask;
 
@@ -32,6 +33,7 @@ public class GameScheduler {
 
     public void applyCycle(){
         List<EOD> data = new ArrayList<>();//TODO get if from db
+        ga
         game.applyDayData(data);
     }
 

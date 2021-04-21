@@ -43,6 +43,10 @@ public class Game {
         return currentDuration;
     }
 
+    public void setCurrentDuration(int duration) {
+        currentDuration = duration;
+    }
+
     public boolean hasEnded() {
         return currentDuration>=totalDuration;
     }
@@ -68,18 +72,5 @@ public class Game {
 
         currentDuration = 0;
         players = new ArrayList<>();
-    }
-
-    public void addPlayer(Player p){
-        players.add(p);
-    }
-
-    public void applyDayData(List<EOD> dayData){
-        for(EOD eod : dayData){
-            for(Player p : players){
-                //p.applyOrders(eod);
-            }
-        }
-        currentDuration++;
     }
 }

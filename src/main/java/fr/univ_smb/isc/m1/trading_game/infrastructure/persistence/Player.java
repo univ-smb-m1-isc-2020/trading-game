@@ -15,6 +15,10 @@ public class Player {
 
     protected Object user;//TODO user class instead of Object
 
+    public long getId() {
+        return id;
+    }
+
     @OneToMany
     protected List<Portfolio> portfolios;
 
