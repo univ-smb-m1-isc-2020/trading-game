@@ -76,7 +76,7 @@ public class BuyOrderServiceTest {
         Assertions.assertTrue(service.apply(mockOrderId, mockData, mockPortfolioId));
 
         verify(mockPortfolioService, times(1)).buy(mockPortfolioId, mockTicker.getSymbol(), mockData.getClose(), mockOrder.getQuantity());
-        verify(mockOrder, atLeastOnce()).setPending(false);
+        verify(mockOrder, times(1)).setPending(false);
         verify(mockOrder, never()).setPending(true);
         verify(mockRepository, atLeastOnce()).save(mockOrder);
     }
@@ -84,6 +84,7 @@ public class BuyOrderServiceTest {
 
     @Test
     public void applyAlreadyApplied(){
+        // Order has already been carried out
         when(mockOrder.isPending()).thenReturn(false);
         // Service to test
         BuyOrderService service = new BuyOrderService(mockRepository, mockPortfolioService);
@@ -94,19 +95,16 @@ public class BuyOrderServiceTest {
         verify(mockRepository, never()).save(mockOrder);
     }
 
-   /* @Test
+    @Test
     public void applyCantAfford(){
-        int quantity = 10;
-        int close_price = 500;
-        when(data.getClose()).thenReturn(close_price);
-        when(ticker.getSymbol()).thenReturn("TEST");
-        when(data.getSymbol()).thenReturn(ticker);
-        when(portfolio.canAfford(anyInt())).thenReturn(false);
-        BuyOrder buyOrder = new BuyOrder(portfolio, ticker, quantity);
+        // Portfolio can't afford the desired quantity
+        when(mockPortfolioService.buy(anyLong(),any(),anyInt(),anyInt())).thenReturn(false);
+        // Service to test
+        BuyOrderService service = new BuyOrderService(mockRepository, mockPortfolioService);
 
-        buyOrder.apply(data);
-
-        verify(portfolio, never()).buy(any(), anyInt(), anyInt());
-        Assertions.assertTrue(buyOrder.isPending());
-    }*/
+        Assertions.assertFalse(service.apply(mockOrderId, mockData, mockPortfolioId));
+        verify(mockPortfolioService, times(1)).buy(anyLong(), any(), anyInt(), anyInt());
+        verify(mockOrder, never()).setPending(anyBoolean());
+        verify(mockRepository, never()).save(mockOrder);
+    }
 }
