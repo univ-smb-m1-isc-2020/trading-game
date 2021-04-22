@@ -12,7 +12,7 @@ public class Player {
     @Id
     @GeneratedValue
     protected long id;
-    protected Object user;//TODO user class instead of Object
+    //protected Object user;//TODO user class instead of Object
     @OneToMany
     protected List<Portfolio> portfolios;
 
@@ -21,7 +21,7 @@ public class Player {
     }
 
     public Player(Object user, int portfolioCount, int initialBalance) {
-        this.user = user;
+        //this.user = user;
         this.portfolios = new ArrayList<>();
         for(int i=0; i<portfolioCount; i++){
             Portfolio port = new Portfolio(initialBalance);
