@@ -1,10 +1,11 @@
 package fr.univ_smb.isc.m1.trading_game.infrastructure.persistence;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 public class Ticker {
     private String name;
@@ -12,9 +13,6 @@ public class Ticker {
     private String symbol;
     private boolean has_eod;
     private String country;
-    @OneToOne
-    @JoinColumn(name = "mic")
-    private Exchange stock_exchange;
 
     public String getName() {
         return name;
@@ -46,13 +44,5 @@ public class Ticker {
 
     public void setCountry(String country) {
         this.country = country;
-    }
-
-    public Exchange getStock_exchange() {
-        return stock_exchange;
-    }
-
-    public void setStock_exchange(Exchange stock_exchange) {
-        this.stock_exchange = stock_exchange;
     }
 }

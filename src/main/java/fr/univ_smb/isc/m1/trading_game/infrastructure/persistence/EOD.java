@@ -1,8 +1,11 @@
 package fr.univ_smb.isc.m1.trading_game.infrastructure.persistence;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.Date;
 
+@JsonIgnoreProperties(ignoreUnknown = true, value = {"symbol"})
 @Entity
 public class EOD {
     @Id
@@ -12,9 +15,6 @@ public class EOD {
     @ManyToOne
     @JoinColumn(name = "symbol")
     private Ticker symbol;
-    @ManyToOne
-    @JoinColumn(name = "mic")
-    private Exchange exchange;
     private int open;
     private int high;
     private int low;
@@ -43,14 +43,6 @@ public class EOD {
 
     public void setSymbol(Ticker symbol) {
         this.symbol = symbol;
-    }
-
-    public Exchange getExchange() {
-        return exchange;
-    }
-
-    public void setExchange(Exchange exchange) {
-        this.exchange = exchange;
     }
 
     public int getOpen() {
