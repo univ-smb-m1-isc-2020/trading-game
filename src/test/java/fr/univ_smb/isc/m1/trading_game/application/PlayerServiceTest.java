@@ -54,6 +54,20 @@ public class PlayerServiceTest {
     }
 
     @Test
+    public void getPortfolios(){
+        int portfolioCount = 3;
+        ArrayList<Portfolio> ports = new ArrayList<>();
+        for(int i=0; i<portfolioCount; i++){
+            Portfolio p = mock(Portfolio.class);
+            when(p.getId()).thenReturn((long)i);
+            ports.add(p);
+        }
+        when(mockPlayer.getPortfolios()).thenReturn(ports);
+        PlayerService service = new PlayerService(mockRepository, mockPortfolioService);
+        Assertions.assertEquals(ports, service.getPortfolios(mockPlayerId));
+    }
+
+    @Test
     public void getTotalBalance(){
         int portfolioCount = 3;
         int[] portfolioAmounts = new int[]{10,50,78};
