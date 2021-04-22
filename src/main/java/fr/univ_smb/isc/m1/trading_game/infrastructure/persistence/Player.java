@@ -33,19 +33,7 @@ public class Player {
         return id;
     }
 
-    public int getTotalBalance(){
-        int total = 0;
-        for(Portfolio port: portfolios){
-            total+= port.getBalance();
-        }
-        return total;
-    }
-
     public List<Portfolio> getPortfolios() {
         return portfolios;
-    }
-
-    public void setPortfolios(List<Portfolio> portfolios) {
-        this.portfolios = portfolios;
     }
 }
