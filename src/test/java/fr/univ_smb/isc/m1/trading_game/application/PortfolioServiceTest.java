@@ -5,59 +5,45 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class PortfolioServiceTest {
     private final static long mockPortfolioId = 0;
-    private final static long mockOrderId = 0;
+    private final static String mockTickerMic = "TEST";
 
-    private final static int baseValue = 500;
     private final static int closePrice = 5;
     private final static int quantity = 10;
 
     private Ticker mockTicker;
-    private EOD mockData;
-    private BuyOrder mockOrder;
     private Portfolio mockPortfolio;
-    private PortfolioRepository repository;
-    private OrderService orderService;
-    private TickerService tickerService;
+    private PortfolioRepository mockRepository;
+    private OrderService mockOrderService;
+    private TickerService mockTickerService;
 
 
     @BeforeEach
     public void setup(){
         // Mock ticker
         mockTicker = mock(Ticker.class);
-        when(mockTicker.getSymbol()).thenReturn("TEST");
-
-        // Mock EOD
-        mockData = mock(EOD.class);
-        when(mockData.getClose()).thenReturn(closePrice);
-        when(mockData.getSymbol()).thenReturn(mockTicker);
-
-        // Mock order, about the mock ticker
-        mockOrder = mock(BuyOrder.class);
-        when(mockOrder.getId()).thenReturn(mockOrderId);
-        when(mockOrder.isPending()).thenReturn(true);
-        when(mockOrder.getQuantity()).thenReturn(quantity);
-        when(mockOrder.getTicker()).thenReturn(mockTicker);
+        when(mockTicker.getSymbol()).thenReturn(mockTickerMic);
 
         // Mock portfolio
         mockPortfolio = mock(Portfolio.class);
         when(mockPortfolio.getId()).thenReturn(mockPortfolioId);
+        when(mockPortfolio.getQuantity(mockTicker)).thenReturn(0);
 
         // Mock portfolio repository
-        repository = mock(PortfolioRepository.class);
-        when(repository.getOne(anyLong())).thenReturn(mockPortfolio);
+        mockRepository = mock(PortfolioRepository.class);
+        when(mockRepository.getOne(anyLong())).thenReturn(mockPortfolio);
 
         // Mock order service
-        orderService = mock(OrderService.class);
+        mockOrderService = mock(OrderService.class);
 
         //Mock ticker service
-        tickerService = mock(TickerService.class);
+        mockTickerService = mock(TickerService.class);
+        when(mockTickerService.get(any())).thenReturn(mockTicker);
     }
 
     @Test
@@ -66,20 +52,33 @@ public class PortfolioServiceTest {
     }
 
     @Test
-    public void buy(){
-        /*Ticker ticker = mock(Ticker.class);
-        int quantity = 10;
-        int unitValue = 5;
-        portfolio.buy(ticker, quantity, quantity*unitValue);
-        Assertions.assertEquals(baseValue-quantity*unitValue, portfolio.getBalance());*/
+    public void buyCanAfford(){
+        // Affordable case
+        int cost = closePrice*quantity;
+        int initialBalance = closePrice*quantity+1;
+        when(mockPortfolio.getBalance()).thenReturn(initialBalance);
+
+        PortfolioService service = new PortfolioService(mockRepository, mockOrderService, mockTickerService);
+        Assertions.assertTrue(service.buy(mockPortfolioId, mockTickerMic, closePrice, quantity));
+        verify(mockPortfolio, times(1)).setBalance(initialBalance-cost);
+        verify(mockPortfolio, times(1)).setQuantity(mockTicker, quantity);
+        verify(mockRepository, times(1)).save(mockPortfolio);
     }
 
     @Test
+    public void buyCantAfford(){
+       /* PortfolioService service = new PortfolioService(mockRepository, mockOrderService, mockTickerService);
+        service.buy(mockPortfolioId, mockTickerMic, closePrice, quantity);
+//        Assertions.assertEquals(baseValue-quantity*unitValue, portfolio.getBalance());
+verify(mockPortfolio, never()).setBalance(anyInt());
+        verify(mockPortfolio, never()).setQuantity(any(), anyInt());
+        verify(mockRepository, never()).save(mockPortfolio);*/
+    }
+
+
+    @Test
     public void sell(){
-        /*Ticker ticker = mock(Ticker.class);
-        int quantity = 10;
-        int unitValue = 5;
-        portfolio.setQuantity(ticker, quantity);
+        /*portfolio.setQuantity(ticker, quantity);
         portfolio.sell(ticker, quantity, quantity*unitValue);
         Assertions.assertEquals(baseValue+quantity*unitValue,portfolio.getBalance());*/
     }
