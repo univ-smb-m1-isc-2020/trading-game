@@ -64,7 +64,8 @@ public class BuyOrderServiceTest {
 
         Assertions.assertFalse(service.apply(mockOrderId, mockOtherEod, mockPortfolioId));
         verify(mockPortfolioService, never()).buy(anyLong(), any(), anyInt(), anyInt());
-        verify(mockOrder, never()).setPending(false);
+        verify(mockOrder, never()).setPending(anyBoolean());
+        verify(mockRepository, never()).save(mockOrder);
     }
 
     @Test
@@ -80,25 +81,20 @@ public class BuyOrderServiceTest {
         verify(mockRepository, atLeastOnce()).save(mockOrder);
     }
 
-    /*
+
     @Test
     public void applyAlreadyApplied(){
-        int quantity = 10;
-        int close_price = 500;
-        when(data.getClose()).thenReturn(close_price);
-        when(ticker.getSymbol()).thenReturn("TEST");
-        when(data.getSymbol()).thenReturn(ticker);
-        when(portfolio.canAfford(anyInt())).thenReturn(true);
-        BuyOrder buyOrder = new BuyOrder(portfolio, ticker, quantity);
-        buyOrder.setPending(false);
+        when(mockOrder.isPending()).thenReturn(false);
+        // Service to test
+        BuyOrderService service = new BuyOrderService(mockRepository, mockPortfolioService);
 
-        buyOrder.apply(data);
-
-        verify(portfolio, never()).buy(any(), anyInt(), anyInt());
-        Assertions.assertFalse(buyOrder.isPending());
+        Assertions.assertFalse(service.apply(mockOrderId, mockData, mockPortfolioId));
+        verify(mockPortfolioService, never()).buy(anyLong(), any(), anyInt(), anyInt());
+        verify(mockOrder, never()).setPending(anyBoolean());
+        verify(mockRepository, never()).save(mockOrder);
     }
 
-    @Test
+   /* @Test
     public void applyCantAfford(){
         int quantity = 10;
         int close_price = 500;
