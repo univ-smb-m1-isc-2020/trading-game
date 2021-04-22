@@ -19,6 +19,7 @@ public class OrderService {
 
     public void setPortfolioService(PortfolioService service){
         buyOrderService.setPortfolioService(service);
+        buyOrderService.setPortfolioService(service);
     }
 
     public boolean apply(Order order, EOD dayData, long portfolioId) {

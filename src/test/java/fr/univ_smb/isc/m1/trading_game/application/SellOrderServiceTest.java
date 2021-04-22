@@ -58,7 +58,8 @@ public class SellOrderServiceTest {
         // Service to test
         Ticker ticker = mock(Ticker.class);
         int quantity = 5;
-        SellOrderService service = new SellOrderService(mockRepository, mockPortfolioService);
+        SellOrderService service = new SellOrderService(mockRepository);
+        service.setPortfolioService(mockPortfolioService);
         SellOrder order = service.create(ticker, quantity);
         verify(mockRepository,times(1)).save(order);
         Assertions.assertEquals(ticker, order.getTicker());
@@ -76,7 +77,8 @@ public class SellOrderServiceTest {
         when(mockOtherEod.getSymbol()).thenReturn(mockOtherTicker);
 
         // Service to test
-        SellOrderService service = new SellOrderService(mockRepository, mockPortfolioService);
+        SellOrderService service = new SellOrderService(mockRepository);
+        service.setPortfolioService(mockPortfolioService);
 
         Assertions.assertFalse(service.apply(mockOrderId, mockOtherEod, mockPortfolioId));
         verify(mockPortfolioService, never()).sell(anyLong(), any(), anyInt(), anyInt());
@@ -87,7 +89,8 @@ public class SellOrderServiceTest {
     @Test
     public void applyCanSell(){
         // Service to test
-        SellOrderService service = new SellOrderService(mockRepository, mockPortfolioService);
+        SellOrderService service = new SellOrderService(mockRepository);
+        service.setPortfolioService(mockPortfolioService);
 
         Assertions.assertTrue(service.apply(mockOrderId, mockData, mockPortfolioId));
 
@@ -102,7 +105,8 @@ public class SellOrderServiceTest {
         // Order has already been carried out
         when(mockOrder.isPending()).thenReturn(false);
         // Service to test
-        SellOrderService service = new SellOrderService(mockRepository, mockPortfolioService);
+        SellOrderService service = new SellOrderService(mockRepository);
+        service.setPortfolioService(mockPortfolioService);
 
         Assertions.assertFalse(service.apply(mockOrderId, mockData, mockPortfolioId));
         verify(mockPortfolioService, never()).sell(anyLong(), any(), anyInt(), anyInt());
@@ -115,7 +119,8 @@ public class SellOrderServiceTest {
         // Portfolio can't afford the desired quantity
         when(mockPortfolioService.sell(anyLong(),any(),anyInt(),anyInt())).thenReturn(false);
         // Service to test
-        SellOrderService service = new SellOrderService(mockRepository, mockPortfolioService);
+        SellOrderService service = new SellOrderService(mockRepository);
+        service.setPortfolioService(mockPortfolioService);
 
         Assertions.assertFalse(service.apply(mockOrderId, mockData, mockPortfolioId));
         verify(mockPortfolioService, times(1)).sell(anyLong(), any(), anyInt(), anyInt());
