@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 
+import java.util.Date;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -49,6 +50,18 @@ public class BuyOrderServiceTest {
         // Mock portfolio service that can always buy
         mockPortfolioService = mock(PortfolioService.class);
         when(mockPortfolioService.buy(anyLong(),any(),anyInt(),anyInt())).thenReturn(true);
+    }
+
+    @Test
+    public void createBuyOrder(){
+        // Service to test
+        Ticker ticker = mock(Ticker.class);
+        int quantity = 5;
+        BuyOrderService service = new BuyOrderService(mockRepository, mockPortfolioService);
+        BuyOrder order = service.create(ticker, quantity);
+        verify(mockRepository,times(1)).save(order);
+        Assertions.assertEquals(ticker, order.getTicker());
+        Assertions.assertEquals(quantity, order.getQuantity());
     }
 
     @Test
