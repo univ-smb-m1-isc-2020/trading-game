@@ -1,9 +1,6 @@
 package fr.univ_smb.isc.m1.trading_game.application;
 
-import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.EOD;
-import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Order;
-import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.SellOrder;
-import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.SellOrderRepository;
+import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.*;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,6 +11,12 @@ public class SellOrderService {
     public SellOrderService(SellOrderRepository repository, PortfolioService portfolioService) {
         this.repository = repository;
         this.portfolioService = portfolioService;
+    }
+
+    public SellOrder create(Ticker ticker, int quantity){
+        SellOrder order = new SellOrder(ticker, quantity);
+        repository.save(order);
+        return order;
     }
 
     public boolean apply(long orderId, EOD dayData, long portfolioId) {
