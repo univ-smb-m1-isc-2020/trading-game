@@ -14,7 +14,7 @@ public class TickerService {
         this.repository = repository;
     }
 
-    public List<Ticker> tickers(){
+    public List<Ticker> getTickers(){
         return repository.findAll();
     }
 

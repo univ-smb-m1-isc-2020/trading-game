@@ -44,7 +44,7 @@ public class TickerServiceTest {
     @Test
     public void getAll(){
         TickerService service = new TickerService(mockRepository);
-        List<Ticker> tickers = service.tickers();
+        List<Ticker> tickers = service.getTickers();
         Assertions.assertEquals(mockTickerCount, tickers.size());
         Assertions.assertEquals(mockTickers, tickers);
     }
