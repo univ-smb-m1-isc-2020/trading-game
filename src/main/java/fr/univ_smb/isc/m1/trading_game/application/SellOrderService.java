@@ -8,8 +8,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SellOrderService {
-    private PortfolioService portfolioService;
-    private SellOrderRepository repository;
+    private final SellOrderRepository repository;
+    private final PortfolioService portfolioService;
+
+    public SellOrderService(SellOrderRepository repository, PortfolioService portfolioService) {
+        this.repository = repository;
+        this.portfolioService = portfolioService;
+    }
 
     public boolean apply(long orderId, EOD dayData, long portfolioId) {
         SellOrder order = repository.getOne(orderId);

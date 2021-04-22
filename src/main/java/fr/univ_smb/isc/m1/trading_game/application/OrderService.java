@@ -7,9 +7,15 @@ import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.SellOrder;
 import org.springframework.stereotype.Service;
 
 @Service
+//Service used to operate orders without knowing their types
 public class OrderService {
-    private BuyOrderService buyOrderService;
-    private SellOrderService sellOrderService;
+    private final BuyOrderService buyOrderService;
+    private final SellOrderService sellOrderService;
+
+    public OrderService(BuyOrderService buyOrderService, SellOrderService sellOrderService) {
+        this.buyOrderService = buyOrderService;
+        this.sellOrderService = sellOrderService;
+    }
 
     public boolean apply(Order order, EOD dayData, long portfolioId) {
         if (isNotApplicable(order, dayData)) return false;

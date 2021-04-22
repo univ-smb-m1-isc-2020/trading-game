@@ -12,9 +12,15 @@ import java.util.List;
 
 @Service
 public class GameService {
-    private GameRepository repository;
-    private PlayerService playerService;
-    private EODService eodService;
+    private final GameRepository repository;
+    private final PlayerService playerService;
+    private final EODService eodService;
+
+    public GameService(GameRepository repository, PlayerService playerService, EODService eodService) {
+        this.repository = repository;
+        this.playerService = playerService;
+        this.eodService = eodService;
+    }
 
     public void addPlayer(long gameId, Player p){
         Game game = repository.getOne(gameId);

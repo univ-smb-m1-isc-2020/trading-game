@@ -5,9 +5,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PortfolioService {
-    private PortfolioRepository repository;
-    private OrderService orderService;
-    private TickerService tickerService;
+    private final PortfolioRepository repository;
+    private final OrderService orderService;
+    private final TickerService tickerService;
+
+    public PortfolioService(PortfolioRepository repository, OrderService orderService, TickerService tickerService) {
+        this.repository = repository;
+        this.orderService = orderService;
+        this.tickerService = tickerService;
+    }
 
     public void applyOrders(long portfolioId, EOD dayData) {
         Portfolio portfolio = repository.getOne(portfolioId);

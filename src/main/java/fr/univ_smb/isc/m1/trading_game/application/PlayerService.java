@@ -7,8 +7,13 @@ import java.util.List;
 
 @Service
 public class PlayerService {
-    private PlayerRepository repository;
-    private PortfolioService portfolioService;
+    private final PlayerRepository repository;
+    private final PortfolioService portfolioService;
+
+    public PlayerService(PlayerRepository repository, PortfolioService portfolioService) {
+        this.repository = repository;
+        this.portfolioService = portfolioService;
+    }
 
     public void applyOrders(long playerId, EOD dayData){
         Player player = repository.getOne(playerId);
