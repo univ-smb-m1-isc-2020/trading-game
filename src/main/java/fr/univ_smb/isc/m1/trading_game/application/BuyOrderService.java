@@ -13,6 +13,12 @@ public class BuyOrderService {
         this.repository = repository;
     }
 
+    public BuyOrder create(Ticker ticker, int quantity){
+        BuyOrder order = new BuyOrder(ticker, quantity);
+        repository.save(order);
+        return order;
+    }
+
     public boolean apply(long orderId, EOD dayData, long portfolioId) {
         BuyOrder order = repository.findById(orderId).orElse(null);//TODO order not existing test
         if(order==null) return false;
