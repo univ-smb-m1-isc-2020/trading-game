@@ -9,17 +9,47 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
 public class BuyOrderServiceTest {
-    @Test
-    public void dontApplyWrongTicker(){
-        int mockPortfolioId = 0;
-        int mockOrderId = 0;
+
+    private final static int mockPortfolioId = 0;
+    private final static long mockOrderId = 0;
+
+    Ticker mockTicker;
+    EOD mockData;
+    BuyOrder mockOrder;
+    BuyOrderRepository mockRepository;
+    PortfolioService mockPortfolioService;
+
+    @BeforeEach
+    public void setUp(){
         int quantity = 10;
         int closePrice = 500;
 
         // Mock ticker
-        Ticker mockTicker = mock(Ticker.class);
+        mockTicker = mock(Ticker.class);
         when(mockTicker.getSymbol()).thenReturn("TEST");
 
+        // Mock EOD
+        mockData = mock(EOD.class);
+        when(mockData.getClose()).thenReturn(closePrice);
+        when(mockData.getSymbol()).thenReturn(mockTicker);
+
+        // Mock order, about the mock ticker
+        mockOrder = mock(BuyOrder.class);
+        when(mockOrder.getId()).thenReturn(mockOrderId);
+        when(mockOrder.getQuantity()).thenReturn(quantity);
+        when(mockOrder.getTicker()).thenReturn(mockTicker);
+
+        // Mock repository that always give the mock ticker
+        mockRepository = mock(BuyOrderRepository.class);
+        when(mockRepository.getOne(anyLong())).thenReturn(mockOrder);
+
+        // Mock portfolio service that can always buy
+        mockPortfolioService = mock(PortfolioService.class);
+        when(mockPortfolioService.buy(anyInt(),any(),anyInt(),anyInt())).thenReturn(true);
+    }
+
+    @Test
+    public void dontApplyWrongTicker(){
         // Mock unrelated ticker
         Ticker mockOtherTicker = mock(Ticker.class);
         when(mockOtherTicker.getSymbol()).thenReturn("WRONG");
@@ -27,24 +57,6 @@ public class BuyOrderServiceTest {
         // Mock unrelated data
         EOD mockOtherEod = mock(EOD.class);
         when(mockOtherEod.getSymbol()).thenReturn(mockOtherTicker);
-
-        // Mock EOD data
-        EOD mockData = mock(EOD.class);
-        when(mockData.getClose()).thenReturn(closePrice);
-        when(mockData.getSymbol()).thenReturn(mockTicker);
-
-        // Mock order, about a mock ticker
-        BuyOrder mockOrder = mock(BuyOrder.class);
-        when(mockOrder.getQuantity()).thenReturn(quantity);
-        when(mockOrder.getTicker()).thenReturn(mockTicker);
-
-        // Mock repository that always give the mock ticker
-        BuyOrderRepository mockRepository = mock(BuyOrderRepository.class);
-        when(mockRepository.getOne(anyLong())).thenReturn(mockOrder);
-
-        // Mock portfolio service that can always buy
-        PortfolioService mockPortfolioService = mock(PortfolioService.class);
-        when(mockPortfolioService.buy(anyInt(),any(),anyInt(),anyInt())).thenReturn(true);
 
         // Service to test
         BuyOrderService service = new BuyOrderService(mockRepository, mockPortfolioService);
@@ -54,9 +66,9 @@ public class BuyOrderServiceTest {
         verify(mockOrder, never()).setPending(false);
     }
 
-   /* @Test
+    @Test
     public void applyCanAfford(){
-        int quantity = 10;
+       /* int quantity = 10;
         int close_price = 500;
         when(data.getClose()).thenReturn(close_price);
         when(ticker.getSymbol()).thenReturn("TEST");
@@ -67,9 +79,10 @@ public class BuyOrderServiceTest {
         buyOrder.apply(data);
 
         verify(portfolio, times(1)).buy(data.getSymbol(), quantity, close_price*quantity);
-        Assertions.assertFalse(buyOrder.isPending());
+        Assertions.assertFalse(buyOrder.isPending());*/
     }
 
+    /*
     @Test
     public void applyAlreadyApplied(){
         int quantity = 10;
