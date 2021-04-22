@@ -95,4 +95,20 @@ public class PortfolioServiceTest {
         verify(mockPortfolio, times(1)).setBalance(initialBalance+closePrice*sellQuantity);
         verify(mockRepository, times(1)).save(mockPortfolio);
     }
+
+    @Test
+    public void cantSell(){
+        // Affordable case
+        int initialBalance = 100;
+        int sellQuantity = 10;
+        int ownedQuantity = sellQuantity-1;
+        when(mockPortfolio.getQuantity(mockTicker)).thenReturn(ownedQuantity);
+        when(mockPortfolio.getBalance()).thenReturn(initialBalance);
+
+        PortfolioService service = new PortfolioService(mockRepository, mockOrderService, mockTickerService);
+        Assertions.assertFalse(service.sell(mockPortfolioId, mockTickerMic, closePrice, sellQuantity));
+        verify(mockPortfolio, never()).setQuantity(any(), anyInt());
+        verify(mockPortfolio, never()).setBalance(anyInt());
+        verify(mockRepository, never()).save(mockPortfolio);
+    }
 }
