@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.mockito.Mockito.*;
 
@@ -50,5 +51,23 @@ public class PlayerServiceTest {
             Portfolio p = ports.get(i);
             verify(mockPortfolioService, times(1)).applyOrders(p.getId(), mockData);
         }
+    }
+
+    @Test
+    public void getTotalBalance(){
+        int portfolioCount = 3;
+        int[] portfolioAmounts = new int[]{10,50,78};
+        ArrayList<Portfolio> ports = new ArrayList<>();
+        for(int i=0; i<portfolioCount; i++){
+            Portfolio p = mock(Portfolio.class);
+            when(p.getId()).thenReturn((long)i);
+            when(p.getBalance()).thenReturn(portfolioAmounts[i]);
+            ports.add(p);
+        }
+        when(mockPlayer.getPortfolios()).thenReturn(ports);
+
+        PlayerService service = new PlayerService(mockRepository, mockPortfolioService);
+        int total = service.getTotalBalance(mockPlayerId);
+        Assertions.assertEquals(Arrays.stream(portfolioAmounts).sum(), total);
     }
 }
