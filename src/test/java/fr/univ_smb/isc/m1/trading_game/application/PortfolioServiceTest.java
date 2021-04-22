@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -48,7 +51,22 @@ public class PortfolioServiceTest {
 
     @Test
     public void applyOrders(){
+        int orderCount = 3;
 
+        EOD mockData = mock(EOD.class);
+        List<Order> orders = new ArrayList<Order>();
+        for(int i=0; i<orderCount; i++){
+            orders.add(mock(Order.class));
+        }
+
+        when(mockPortfolio.getOrders()).thenReturn(orders);
+
+        PortfolioService service = new PortfolioService(mockRepository, mockOrderService, mockTickerService);
+        service.applyOrders(mockPortfolioId, mockData);
+
+        for(int i=0; i<orderCount; i++){
+            verify(mockOrderService, times(1)).apply(orders.get(i), mockData, mockPortfolioId);
+        }
     }
 
     @Test
@@ -78,7 +96,6 @@ public class PortfolioServiceTest {
         verify(mockPortfolio, never()).setQuantity(any(), anyInt());
         verify(mockRepository, never()).save(mockPortfolio);
     }
-
 
     @Test
     public void canSell(){
