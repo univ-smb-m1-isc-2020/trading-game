@@ -5,8 +5,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -47,6 +49,32 @@ public class PortfolioServiceTest {
         //Mock ticker service
         mockTickerService = mock(TickerService.class);
         when(mockTickerService.get(any())).thenReturn(mockTicker);
+    }
+
+    @Test
+    public void getOrders(){
+        int orderCount = 3;
+        List<Order> orders = new ArrayList<>();
+        for(int i=0; i<orderCount; i++){
+            orders.add(mock(Order.class));
+        }
+        when(mockPortfolio.getOrders()).thenReturn(orders);
+
+        PortfolioService service = new PortfolioService(mockRepository, mockOrderService, mockTickerService);
+        Assertions.assertEquals(orders, service.getOrders(mockPortfolioId));
+    }
+
+    @Test
+    public void getParts(){
+        int[] partCounts = new int[]{5,17,20};
+        Map<Ticker, Integer> parts = new HashMap<>();
+        for (int partCount : partCounts) {
+            parts.put(mock(Ticker.class), partCount);
+        }
+        when(mockPortfolio.getParts()).thenReturn(parts);
+
+        PortfolioService service = new PortfolioService(mockRepository, mockOrderService, mockTickerService);
+        Assertions.assertEquals(parts, service.getParts(mockPortfolioId));
     }
 
     @Test
