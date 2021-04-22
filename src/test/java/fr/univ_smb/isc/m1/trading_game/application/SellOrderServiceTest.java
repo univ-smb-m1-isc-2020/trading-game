@@ -1,22 +1,24 @@
 package fr.univ_smb.isc.m1.trading_game.application;
 
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.never;
 
-public class BuyOrderServiceTest {
+public class SellOrderServiceTest {
 
     private final static int mockPortfolioId = 0;
     private final static long mockOrderId = 0;
 
     Ticker mockTicker;
     EOD mockData;
-    BuyOrder mockOrder;
-    BuyOrderRepository mockRepository;
+    SellOrder mockOrder;
+    SellOrderRepository mockRepository;
     PortfolioService mockPortfolioService;
 
     @BeforeEach
@@ -34,19 +36,19 @@ public class BuyOrderServiceTest {
         when(mockData.getSymbol()).thenReturn(mockTicker);
 
         // Mock order, about the mock ticker
-        mockOrder = mock(BuyOrder.class);
+        mockOrder = mock(SellOrder.class);
         when(mockOrder.getId()).thenReturn(mockOrderId);
         when(mockOrder.isPending()).thenReturn(true);
         when(mockOrder.getQuantity()).thenReturn(quantity);
         when(mockOrder.getTicker()).thenReturn(mockTicker);
 
         // Mock repository that always give the mock ticker
-        mockRepository = mock(BuyOrderRepository.class);
+        mockRepository = mock(SellOrderRepository.class);
         when(mockRepository.getOne(anyLong())).thenReturn(mockOrder);
 
         // Mock portfolio service that can always buy
         mockPortfolioService = mock(PortfolioService.class);
-        when(mockPortfolioService.buy(anyLong(),any(),anyInt(),anyInt())).thenReturn(true);
+        when(mockPortfolioService.sell(anyLong(),any(),anyInt(),anyInt())).thenReturn(true);
     }
 
     @Test
@@ -60,22 +62,22 @@ public class BuyOrderServiceTest {
         when(mockOtherEod.getSymbol()).thenReturn(mockOtherTicker);
 
         // Service to test
-        BuyOrderService service = new BuyOrderService(mockRepository, mockPortfolioService);
+        SellOrderService service = new SellOrderService(mockRepository, mockPortfolioService);
 
         Assertions.assertFalse(service.apply(mockOrderId, mockOtherEod, mockPortfolioId));
-        verify(mockPortfolioService, never()).buy(anyLong(), any(), anyInt(), anyInt());
+        verify(mockPortfolioService, never()).sell(anyLong(), any(), anyInt(), anyInt());
         verify(mockOrder, never()).setPending(anyBoolean());
         verify(mockRepository, never()).save(mockOrder);
     }
 
     @Test
-    public void applyCanAfford(){
+    public void applyCanSell(){
         // Service to test
-        BuyOrderService service = new BuyOrderService(mockRepository, mockPortfolioService);
+        SellOrderService service = new SellOrderService(mockRepository, mockPortfolioService);
 
         Assertions.assertTrue(service.apply(mockOrderId, mockData, mockPortfolioId));
 
-        verify(mockPortfolioService, times(1)).buy(mockPortfolioId, mockTicker.getSymbol(), mockData.getClose(), mockOrder.getQuantity());
+        verify(mockPortfolioService, times(1)).sell(mockPortfolioId, mockTicker.getSymbol(), mockData.getClose(), mockOrder.getQuantity());
         verify(mockOrder, times(1)).setPending(false);
         verify(mockOrder, never()).setPending(true);
         verify(mockRepository, atLeastOnce()).save(mockOrder);
@@ -86,23 +88,23 @@ public class BuyOrderServiceTest {
         // Order has already been carried out
         when(mockOrder.isPending()).thenReturn(false);
         // Service to test
-        BuyOrderService service = new BuyOrderService(mockRepository, mockPortfolioService);
+        SellOrderService service = new SellOrderService(mockRepository, mockPortfolioService);
 
         Assertions.assertFalse(service.apply(mockOrderId, mockData, mockPortfolioId));
-        verify(mockPortfolioService, never()).buy(anyLong(), any(), anyInt(), anyInt());
+        verify(mockPortfolioService, never()).sell(anyLong(), any(), anyInt(), anyInt());
         verify(mockOrder, never()).setPending(anyBoolean());
         verify(mockRepository, never()).save(mockOrder);
     }
 
     @Test
-    public void applyCantAfford(){
+    public void applyCantSell(){
         // Portfolio can't afford the desired quantity
-        when(mockPortfolioService.buy(anyLong(),any(),anyInt(),anyInt())).thenReturn(false);
+        when(mockPortfolioService.sell(anyLong(),any(),anyInt(),anyInt())).thenReturn(false);
         // Service to test
-        BuyOrderService service = new BuyOrderService(mockRepository, mockPortfolioService);
+        SellOrderService service = new SellOrderService(mockRepository, mockPortfolioService);
 
         Assertions.assertFalse(service.apply(mockOrderId, mockData, mockPortfolioId));
-        verify(mockPortfolioService, times(1)).buy(anyLong(), any(), anyInt(), anyInt());
+        verify(mockPortfolioService, times(1)).sell(anyLong(), any(), anyInt(), anyInt());
         verify(mockOrder, never()).setPending(anyBoolean());
         verify(mockRepository, never()).save(mockOrder);
     }
