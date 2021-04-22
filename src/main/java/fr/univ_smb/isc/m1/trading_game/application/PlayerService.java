@@ -15,6 +15,10 @@ public class PlayerService {
         this.portfolioService = portfolioService;
     }
 
+    public Player getPlayer(long playerId) {
+        return repository.getOne(playerId);
+    }
+
     public void applyOrders(long playerId, EOD dayData){
         Player player = repository.getOne(playerId);
         List<Portfolio> portfolios = player.getPortfolios();
