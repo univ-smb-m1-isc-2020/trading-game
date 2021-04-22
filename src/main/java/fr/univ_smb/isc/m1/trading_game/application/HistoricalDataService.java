@@ -25,7 +25,7 @@ public class HistoricalDataService {
         this.eodRepository = eodRepository;
     }
 
-    @PostConstruct
+    //@PostConstruct
     public void initialize() {
         if (tickers().isEmpty()) {
             try {
