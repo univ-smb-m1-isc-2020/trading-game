@@ -23,7 +23,6 @@ public class BuyOrderService {
         String symbol = dayData.getSymbol().getSymbol();
 
         boolean success = portfolioService.buy(portfolioId, symbol, buyingPrice, quantity);
-
         if (success) {
             order.setPending(false);
             repository.save(order);
