@@ -11,9 +11,4 @@ public class Ticker {
     public String name;
     @Id
     public String symbol;
-
-    public Ticker() {
-        name = "b";
-        symbol = "b";
-    }
 }
