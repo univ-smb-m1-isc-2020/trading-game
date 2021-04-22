@@ -54,6 +54,18 @@ public class SellOrderServiceTest {
     }
 
     @Test
+    public void createSellOrder(){
+        // Service to test
+        Ticker ticker = mock(Ticker.class);
+        int quantity = 5;
+        SellOrderService service = new SellOrderService(mockRepository, mockPortfolioService);
+        SellOrder order = service.create(ticker, quantity);
+        verify(mockRepository,times(1)).save(order);
+        Assertions.assertEquals(ticker, order.getTicker());
+        Assertions.assertEquals(quantity, order.getQuantity());
+    }
+
+    @Test
     public void dontApplyWrongTicker(){
         // Mock unrelated ticker
         Ticker mockOtherTicker = mock(Ticker.class);
