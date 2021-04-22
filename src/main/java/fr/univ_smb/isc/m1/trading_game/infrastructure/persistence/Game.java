@@ -13,11 +13,24 @@ public class Game {
     protected int transactionFee; //cents
     protected Date startDate;
     protected int totalDuration; // days
-
     protected int currentDuration; // days
-
     @ManyToMany
     protected List<Player> players;
+
+    public Game(){
+        //JPA
+    }
+
+    public Game(int maxPortfolios, int initialBalance, int transactionFee, Date startDate, int totalDuration) {
+        this.maxPortfolios = maxPortfolios;
+        this.initialBalance = initialBalance;
+        this.transactionFee = transactionFee;
+        this.startDate = startDate;
+        this.totalDuration = totalDuration;
+
+        currentDuration = 0;
+        players = new ArrayList<>();
+    }
 
     public int getMaxPortfolios() {
         return maxPortfolios;
@@ -57,20 +70,5 @@ public class Game {
 
     public List<Player> getPlayers() {
         return players;
-    }
-
-    public Game(){
-        //JPA
-    }
-
-    public Game(int maxPortfolios, int initialBalance, int transactionFee, Date startDate, int totalDuration) {
-        this.maxPortfolios = maxPortfolios;
-        this.initialBalance = initialBalance;
-        this.transactionFee = transactionFee;
-        this.startDate = startDate;
-        this.totalDuration = totalDuration;
-
-        currentDuration = 0;
-        players = new ArrayList<>();
     }
 }

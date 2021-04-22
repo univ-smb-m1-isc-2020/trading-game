@@ -4,11 +4,9 @@ import javax.persistence.Entity;
 
 @Entity
 public class BuyOrder extends Order {
-
     public BuyOrder() {
         super();
     }
-
     public BuyOrder(Ticker ticker, int quantity) {
         super(ticker, quantity);
     }

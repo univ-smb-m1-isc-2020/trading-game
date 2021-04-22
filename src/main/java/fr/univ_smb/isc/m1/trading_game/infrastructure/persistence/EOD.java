@@ -8,17 +8,13 @@ public class EOD {
     @Id
     @GeneratedValue
     private Long id;
-
     private Date date;
-
     @ManyToOne
     @JoinColumn(name = "symbol")
     private Ticker symbol;
-
     @ManyToOne
     @JoinColumn(name = "mic")
     private Exchange exchange;
-
     private int open;
     private int high;
     private int low;

@@ -8,13 +8,10 @@ import javax.persistence.OneToOne;
 @Entity
 public class Ticker {
     private String name;
-
     @Id
     private String symbol;
-
     private boolean has_eod;
     private String country;
-
     @OneToOne
     @JoinColumn(name = "mic")
     private Exchange stock_exchange;

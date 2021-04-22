@@ -6,11 +6,9 @@ import javax.persistence.InheritanceType;
 
 @Entity
 public class SellOrder extends Order {
-
     public SellOrder() {
         super();
     }
-
     public SellOrder(Ticker ticker, int quantity) {
         super(ticker, quantity);
     }

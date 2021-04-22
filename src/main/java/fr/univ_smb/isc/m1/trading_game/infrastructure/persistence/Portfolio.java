@@ -13,14 +13,20 @@ public class Portfolio {
     @Id
     @GeneratedValue
     protected long id;
-
     protected int balance; //cents
-
     @ElementCollection
     protected Map<Ticker, Integer> parts;
-
     @OneToMany
     protected List<Order> orders;
+
+    public Portfolio(){
+        //JPA
+    }
+
+    public Portfolio(int balance){
+        this.balance = balance;
+        parts = new HashMap<>();
+    }
 
     public int getBalance() {
         return balance;
@@ -50,12 +56,4 @@ public class Portfolio {
         this.orders = orders;
     }
 
-    public Portfolio(){
-        //JPA
-    }
-
-    public Portfolio(int balance){
-        this.balance = balance;
-        parts = new HashMap<>();
-    }
 }
