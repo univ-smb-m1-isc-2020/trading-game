@@ -3,6 +3,7 @@ package fr.univ_smb.isc.m1.trading_game.application;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.*;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,26 +21,31 @@ public class PortfolioService {
     }
 
     public void applyOrders(long portfolioId, EOD dayData) {
-        Portfolio portfolio = repository.getOne(portfolioId);
+        Portfolio portfolio = repository.findById(portfolioId).orElse(null);
+        if(portfolio==null) return;//TODO test
         for(Order o : portfolio.getOrders()){
             orderService.apply(o, dayData, portfolioId);
         }
     }
 
     public List<Order> getOrders(long portfolioId){
-        Portfolio port = repository.getOne(portfolioId);
+        Portfolio port = repository.findById(portfolioId).orElse(null);
+        if(port==null) return new ArrayList<>();//TODO test
         return port.getOrders();
     }
 
     public Map<Ticker, Integer> getParts(long portfolioId){
-        Portfolio port = repository.getOne(portfolioId);
+        Portfolio port = repository.findById(portfolioId).orElse(null);
+        if(port==null) return new HashMap<>();//TODO test
         return port.getParts();
     }
 
     public boolean buy(long portfolioId, String tickerMic, int unitPrice, int quantity)
     {
-        Portfolio port = repository.getOne(portfolioId);
+        Portfolio port = repository.findById(portfolioId).orElse(null);
+        if(port == null) return false;//TODO test
         Ticker ticker = tickerService.get(tickerMic);
+        if(ticker == null) return false;//TODO test
         int totalCost = unitPrice*quantity;
         int funds = port.getBalance();
 
@@ -55,8 +61,10 @@ public class PortfolioService {
 
     public boolean sell(long portfolioId, String tickerMic, int unitPrice, int quantity)
     {
-        Portfolio port = repository.getOne(portfolioId);
+        Portfolio port = repository.findById(portfolioId).orElse(null);
+        if(port==null)return false;//TODO test
         Ticker ticker = tickerService.get(tickerMic);
+        if(ticker==null)return false;//TODO test
 
         if(quantity > port.getQuantity(ticker)) return false;
 

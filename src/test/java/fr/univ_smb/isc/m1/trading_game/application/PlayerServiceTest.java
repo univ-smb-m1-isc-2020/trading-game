@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
@@ -21,7 +22,7 @@ public class PlayerServiceTest {
         mockPlayer = mock(Player.class);
         when(mockPlayer.getId()).thenReturn(mockPlayerId);
         mockRepository = mock(PlayerRepository.class);
-        when(mockRepository.getOne(mockPlayerId)).thenReturn(mockPlayer);
+        when(mockRepository.findById(mockPlayerId)).thenReturn(Optional.of(mockPlayer));
         mockPortfolioService = mock(PortfolioService.class);
     }
 

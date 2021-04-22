@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
@@ -44,7 +46,7 @@ public class SellOrderServiceTest {
 
         // Mock repository that always give the mock ticker
         mockRepository = mock(SellOrderRepository.class);
-        when(mockRepository.getOne(anyLong())).thenReturn(mockOrder);
+        when(mockRepository.findById(anyLong())).thenReturn(Optional.of(mockOrder));
 
         // Mock portfolio service that can always buy
         mockPortfolioService = mock(PortfolioService.class);

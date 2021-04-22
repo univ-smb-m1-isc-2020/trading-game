@@ -5,10 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -41,7 +38,7 @@ public class PortfolioServiceTest {
 
         // Mock portfolio repository
         mockRepository = mock(PortfolioRepository.class);
-        when(mockRepository.getOne(anyLong())).thenReturn(mockPortfolio);
+        when(mockRepository.findById(anyLong())).thenReturn(Optional.of(mockPortfolio));
 
         // Mock order service
         mockOrderService = mock(OrderService.class);

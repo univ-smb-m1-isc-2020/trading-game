@@ -19,6 +19,6 @@ public class TickerService {
     }
 
     public Ticker get(String mic){
-        return repository.getOne(mic);
+        return repository.findById(mic).orElse(null);
     }
 }

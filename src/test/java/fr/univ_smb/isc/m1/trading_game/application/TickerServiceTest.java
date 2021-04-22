@@ -31,7 +31,7 @@ public class TickerServiceTest {
         }
 
         mockRepository = mock(TickerRepository.class);
-        when(mockRepository.getOne(mockTickerMic)).thenReturn(mainMockTicker);
+        when(mockRepository.findById(mockTickerMic)).thenReturn(Optional.of(mainMockTicker));
         when(mockRepository.findAll()).thenReturn(mockTickers);
     }
 

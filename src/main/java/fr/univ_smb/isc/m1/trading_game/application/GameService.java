@@ -22,8 +22,15 @@ public class GameService {
         this.eodService = eodService;
     }
 
+    public Game createGame(int maxPortfolios, int initialBalance, int transactionFee, Date startDate, int totalDuration){
+        Game game = new Game(maxPortfolios, initialBalance, transactionFee, startDate, totalDuration);
+        repository.save(game);
+        return game;
+    }
+
     public void addPlayer(long gameId, long playerId){
-        Game game = repository.getOne(gameId);
+        Game game = repository.findById(gameId).orElse(null);//TODO test game not existing
+        if(game==null) return;
         Player player = playerService.getPlayer(playerId);
         game.getPlayers().add(player);
         repository.save(game);
@@ -31,7 +38,8 @@ public class GameService {
 
     public void applyDayData(long gameId){
         List<EOD> dayData = eodService.getEODs(new Date());//TODO real date
-        Game game = repository.getOne(gameId);
+        Game game = repository.findById(gameId).orElse(null);//TODO test
+        if(game == null) return;
         for(EOD eod : dayData){
             for(Player p : game.getPlayers()){
                 playerService.applyOrders(p.getId(),eod);

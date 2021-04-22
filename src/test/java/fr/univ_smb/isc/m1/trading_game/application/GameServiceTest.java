@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -27,7 +28,7 @@ public class GameServiceTest {
         when(mockGame.getId()).thenReturn(mockGameId);
 
         mockRepository = mock(GameRepository.class);
-        when(mockRepository.getOne(anyLong())).thenReturn(mockGame);
+        when(mockRepository.findById(anyLong())).thenReturn(Optional.of(mockGame));
 
         mockPlayerService = mock(PlayerService.class);
         mockEodService = mock(EODService.class);
