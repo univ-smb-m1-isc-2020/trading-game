@@ -4,7 +4,9 @@ import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.EOD;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Order;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.SellOrder;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.SellOrderRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SellOrderService {
     private PortfolioService portfolioService;
     private SellOrderRepository repository;
