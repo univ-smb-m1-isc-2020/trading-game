@@ -17,6 +17,10 @@ public class OrderService {
         this.sellOrderService = sellOrderService;
     }
 
+    public void setPortfolioService(PortfolioService service){
+        buyOrderService.setPortfolioService(service);
+    }
+
     public boolean apply(Order order, EOD dayData, long portfolioId) {
         if (isNotApplicable(order, dayData)) return false;
         if (order instanceof BuyOrder) {

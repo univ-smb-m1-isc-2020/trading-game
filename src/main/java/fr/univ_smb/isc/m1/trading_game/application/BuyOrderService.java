@@ -6,11 +6,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class BuyOrderService {
     private final BuyOrderRepository repository;
-    private final PortfolioService portfolioService;
+    private PortfolioService portfolioService;
 
-    public BuyOrderService(BuyOrderRepository repository, PortfolioService portfolioService) {
-        this.portfolioService = portfolioService;
+    public BuyOrderService(BuyOrderRepository repository) {
         this.repository = repository;
+    }
+
+    public void setPortfolioService(PortfolioService portfolioService) {
+        this.portfolioService = portfolioService;
     }
 
     public BuyOrder create(Ticker ticker, int quantity){

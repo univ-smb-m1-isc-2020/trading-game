@@ -3,6 +3,7 @@ package fr.univ_smb.isc.m1.trading_game.application;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.*;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,11 @@ public class PortfolioService {
         this.repository = repository;
         this.orderService = orderService;
         this.tickerService = tickerService;
+    }
+
+    @PostConstruct
+    public void init(){
+        orderService.setPortfolioService(this);
     }
 
     public void applyOrders(long portfolioId, EOD dayData) {
