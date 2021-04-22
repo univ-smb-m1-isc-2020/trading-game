@@ -47,8 +47,8 @@ public class PortfolioService {
         if(quantity > port.getQuantity(ticker)) return false;
 
         int totalBenefits = unitPrice*quantity;
-        int newQuantity = quantity;
-        newQuantity-=port.getQuantity(ticker);
+        int newQuantity = port.getQuantity(ticker);
+        newQuantity-= quantity;
         port.setQuantity(ticker, newQuantity);
         port.setBalance(port.getBalance()+totalBenefits);
         repository.save(port);

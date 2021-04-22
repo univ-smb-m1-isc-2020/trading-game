@@ -81,9 +81,18 @@ public class PortfolioServiceTest {
 
 
     @Test
-    public void sell(){
-        /*portfolio.setQuantity(ticker, quantity);
-        portfolio.sell(ticker, quantity, quantity*unitValue);
-        Assertions.assertEquals(baseValue+quantity*unitValue,portfolio.getBalance());*/
+    public void canSell(){
+        // Affordable case
+        int initialBalance = 100;
+        int sellQuantity = 10;
+        int ownedQuantity = sellQuantity+1;
+        when(mockPortfolio.getQuantity(mockTicker)).thenReturn(ownedQuantity);
+        when(mockPortfolio.getBalance()).thenReturn(initialBalance);
+
+        PortfolioService service = new PortfolioService(mockRepository, mockOrderService, mockTickerService);
+        Assertions.assertTrue(service.sell(mockPortfolioId, mockTickerMic, closePrice, sellQuantity));
+        verify(mockPortfolio, times(1)).setQuantity(mockTicker, ownedQuantity-sellQuantity);
+        verify(mockPortfolio, times(1)).setBalance(initialBalance+closePrice*sellQuantity);
+        verify(mockRepository, times(1)).save(mockPortfolio);
     }
 }
