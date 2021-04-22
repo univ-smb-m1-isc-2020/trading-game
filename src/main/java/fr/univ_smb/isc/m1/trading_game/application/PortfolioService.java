@@ -3,6 +3,10 @@ package fr.univ_smb.isc.m1.trading_game.application;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.*;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class PortfolioService {
     private final PortfolioRepository repository;
@@ -20,6 +24,16 @@ public class PortfolioService {
         for(Order o : portfolio.getOrders()){
             orderService.apply(o, dayData, portfolioId);
         }
+    }
+
+    public List<Order> getOrders(long portfolioId){
+        Portfolio port = repository.getOne(portfolioId);
+        return port.getOrders();
+    }
+
+    public Map<Ticker, Integer> getParts(long portfolioId){
+        Portfolio port = repository.getOne(portfolioId);
+        return port.getParts();
     }
 
     public boolean buy(long portfolioId, String tickerMic, int unitPrice, int quantity)

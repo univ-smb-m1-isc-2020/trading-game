@@ -48,6 +48,10 @@ public class Portfolio {
         parts.put(ticker, value);
     }
 
+    public Map<Ticker, Integer> getParts() {
+        return parts;
+    }
+
     public List<Order> getOrders() {
         return orders;
     }
@@ -55,5 +59,4 @@ public class Portfolio {
     public void setOrders(List<Order> orders) {
         this.orders = orders;
     }
-
 }
