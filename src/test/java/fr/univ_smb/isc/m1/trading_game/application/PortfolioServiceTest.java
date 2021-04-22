@@ -55,7 +55,7 @@ public class PortfolioServiceTest {
     public void buyCanAfford(){
         // Affordable case
         int cost = closePrice*quantity;
-        int initialBalance = closePrice*quantity+1;
+        int initialBalance = cost+1;
         when(mockPortfolio.getBalance()).thenReturn(initialBalance);
 
         PortfolioService service = new PortfolioService(mockRepository, mockOrderService, mockTickerService);
@@ -67,12 +67,16 @@ public class PortfolioServiceTest {
 
     @Test
     public void buyCantAfford(){
-       /* PortfolioService service = new PortfolioService(mockRepository, mockOrderService, mockTickerService);
-        service.buy(mockPortfolioId, mockTickerMic, closePrice, quantity);
-//        Assertions.assertEquals(baseValue-quantity*unitValue, portfolio.getBalance());
-verify(mockPortfolio, never()).setBalance(anyInt());
+        // Affordable case
+        int cost = closePrice*quantity;
+        int initialBalance = cost-1;
+        when(mockPortfolio.getBalance()).thenReturn(initialBalance);
+
+        PortfolioService service = new PortfolioService(mockRepository, mockOrderService, mockTickerService);
+        Assertions.assertFalse(service.buy(mockPortfolioId, mockTickerMic, closePrice, quantity));
+        verify(mockPortfolio, never()).setBalance(anyInt());
         verify(mockPortfolio, never()).setQuantity(any(), anyInt());
-        verify(mockRepository, never()).save(mockPortfolio);*/
+        verify(mockRepository, never()).save(mockPortfolio);
     }
 
 
