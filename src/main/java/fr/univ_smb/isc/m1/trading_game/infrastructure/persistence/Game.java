@@ -32,6 +32,10 @@ public class Game {
         players = new ArrayList<>();
     }
 
+    public long getId() {
+        return id;
+    }
+
     public int getMaxPortfolios() {
         return maxPortfolios;
     }

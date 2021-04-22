@@ -22,7 +22,7 @@ public class GameService {
         this.eodService = eodService;
     }
 
-    public void addPlayer(long gameId, Player p){
+    public void addPlayer(long gameId, Player p){//TODO use player id
         Game game = repository.getOne(gameId);
         game.getPlayers().add(p);
         repository.save(game);
