@@ -10,14 +10,14 @@ import static org.mockito.Mockito.*;
 
 public class BuyOrderServiceTest {
 
-    private final static int mockPortfolioId = 0;
+    private final static long mockPortfolioId = 0;
     private final static long mockOrderId = 0;
 
-    Ticker mockTicker;
-    EOD mockData;
-    BuyOrder mockOrder;
-    BuyOrderRepository mockRepository;
-    PortfolioService mockPortfolioService;
+    private Ticker mockTicker;
+    private EOD mockData;
+    private BuyOrder mockOrder;
+    private BuyOrderRepository mockRepository;
+    private PortfolioService mockPortfolioService;
 
     @BeforeEach
     public void setUp(){
