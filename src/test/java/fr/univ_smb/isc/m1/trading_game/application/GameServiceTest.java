@@ -44,7 +44,7 @@ public class GameServiceTest {
 
         GameService service = new GameService(mockRepository, mockPlayerService, mockEodService);
         service.addPlayer(mockGameId, mockPlayer.getId());
-        //Assertions.assertTrue(players.contains(mockPlayer));
+        Assertions.assertTrue(players.contains(mockPlayer));
         Assertions.assertEquals(1, players.size());
         verify(mockRepository, times(1)).save(mockGame);
     }
