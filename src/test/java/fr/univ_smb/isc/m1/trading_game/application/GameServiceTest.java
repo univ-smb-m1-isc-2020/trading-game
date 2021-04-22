@@ -1,5 +1,6 @@
 package fr.univ_smb.isc.m1.trading_game.application;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Game;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.GameRepository;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Player;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -32,6 +34,23 @@ public class GameServiceTest {
 
         mockPlayerService = mock(PlayerService.class);
         mockEodService = mock(EODService.class);
+    }
+
+    @Test
+    public void createGame(){
+        int ports = 4;
+        int balance = 500;
+        int fee = 2;
+        Date date = new Date();
+        int duration = 20;
+        GameService service = new GameService(mockRepository, mockPlayerService, mockEodService);
+        Game g = service.createGame(ports, balance, fee, date, duration);
+        verify(mockRepository,times(1)).save(g);
+        Assertions.assertEquals(ports, g.getMaxPortfolios());
+        Assertions.assertEquals(balance, g.getInitialBalance());
+        Assertions.assertEquals(fee, g.getTransactionFee());
+        Assertions.assertEquals(date, g.getStartDate());
+        Assertions.assertEquals(duration, g.getTotalDuration());
     }
 
     @Test
