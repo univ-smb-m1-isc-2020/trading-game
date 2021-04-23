@@ -1,6 +1,5 @@
 package fr.univ_smb.isc.m1.trading_game.application;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.EOD;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Game;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.GameRepository;
@@ -8,6 +7,7 @@ import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Player;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.scheduling.TaskScheduler;
 
 import java.util.*;
 
@@ -21,6 +21,7 @@ public class GameServiceTest {
     private GameRepository mockRepository;
     private PlayerService mockPlayerService;
     private EODService mockEodService;
+    private TaskScheduler scheduler;
 
     @BeforeEach
     public void setUp(){
@@ -32,6 +33,7 @@ public class GameServiceTest {
 
         mockPlayerService = mock(PlayerService.class);
         mockEodService = mock(EODService.class);
+        scheduler = mock(TaskScheduler.class);
     }
 
     @Test
@@ -49,7 +51,7 @@ public class GameServiceTest {
         when(mockGame.getStartDate()).thenReturn(calendar.getTime());
         when(mockGame.getCurrentDuration()).thenReturn(duration);
 
-        GameService service = new GameService(mockRepository, mockPlayerService, mockEodService);
+        GameService service = new GameService(scheduler, mockRepository, mockPlayerService, mockEodService);
 
         Date neededDate = service.getNeededDate(mockGame);
 
@@ -70,7 +72,7 @@ public class GameServiceTest {
         int fee = 2;
         Date date = new Date();
         int duration = 20;
-        GameService service = new GameService(mockRepository, mockPlayerService, mockEodService);
+        GameService service = new GameService(scheduler, mockRepository, mockPlayerService, mockEodService);
         Game g = service.createGame(ports, balance, fee, date, duration);
         verify(mockRepository,times(1)).save(g);
         Assertions.assertEquals(ports, g.getMaxPortfolios());
@@ -89,7 +91,7 @@ public class GameServiceTest {
         when(mockGame.getPlayers()).thenReturn(players);
         when(mockPlayerService.getPlayer(mockPlayerId)).thenReturn(mockPlayer);
 
-        GameService service = new GameService(mockRepository, mockPlayerService, mockEodService);
+        GameService service = new GameService(scheduler, mockRepository, mockPlayerService, mockEodService);
         service.addPlayer(mockGameId, mockPlayer.getId());
         Assertions.assertTrue(players.contains(mockPlayer));
         Assertions.assertEquals(1, players.size());
@@ -123,7 +125,7 @@ public class GameServiceTest {
         when(mockGame.getStartDate()).thenReturn(new Date());
         when(mockGame.getCurrentDuration()).thenReturn(duration);
 
-        GameService service = new GameService(mockRepository, mockPlayerService, mockEodService);
+        GameService service = new GameService(scheduler, mockRepository, mockPlayerService, mockEodService);
         service.applyDayData(mockGameId);
 
         verify(mockGame, times(1)).setCurrentDuration(duration+1);

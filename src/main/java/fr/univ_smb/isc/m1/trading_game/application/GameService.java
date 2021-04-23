@@ -4,18 +4,24 @@ import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.EOD;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Game;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.GameRepository;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Player;
+import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.*;
+import java.util.concurrent.ScheduledFuture;
 
 @Service
 public class GameService {
     private final static String DEFAULT_TIMEZONE = "GMT";
+    private final static Map<Long, ScheduledFuture<?>> RUNNING_GAMES = new HashMap<>();
+    private final TaskScheduler scheduler;
     private final GameRepository repository;
     private final PlayerService playerService;
     private final EODService eodService;
 
-    public GameService(GameRepository repository, PlayerService playerService, EODService eodService) {
+    public GameService(TaskScheduler scheduler, GameRepository repository, PlayerService playerService, EODService eodService) {
+        this.scheduler = scheduler;
         this.repository = repository;
         this.playerService = playerService;
         this.eodService = eodService;
@@ -33,6 +39,27 @@ public class GameService {
         Player player = playerService.getPlayer(playerId);
         game.getPlayers().add(player);
         repository.save(game);
+    }
+
+    public void startGame(long gameId, int dayDuration){//TODO test
+        if(RUNNING_GAMES.get(gameId) != null) return;
+        Runnable gameRunnable = () -> {
+            this.applyDayData(gameId);
+            this.endGameTaskIfNecessary(gameId);
+        };
+        ScheduledFuture<?> task = scheduler.scheduleAtFixedRate(gameRunnable, Duration.ofMinutes(dayDuration));
+        RUNNING_GAMES.put(gameId, task);
+    }
+
+    public void endGameTaskIfNecessary(long gameId){//TODO test
+        Game game = repository.findById(gameId).orElse(null);
+        if(game==null) return;
+        if(game.hasEnded()){
+            ScheduledFuture<?> task = RUNNING_GAMES.get(gameId);
+            if(task!=null){
+                task.cancel(false);
+            }
+        }
     }
 
     public void applyDayData(long gameId){
