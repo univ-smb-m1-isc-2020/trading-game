@@ -36,7 +36,7 @@ public class GameService {
     }
 
     public void applyDayData(long gameId){
-        Game game = repository.findById(gameId).orElse(null);//TODO test
+        Game game = repository.findById(gameId).orElse(null);
         List<EOD> dayData = eodService.getEODs(getNeededDate(game));
         if(game == null) return;
         for(EOD eod : dayData){

@@ -1,6 +1,7 @@
 package fr.univ_smb.isc.m1.trading_game.application;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.EOD;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Game;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.GameRepository;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Player;
@@ -94,7 +95,42 @@ public class GameServiceTest {
 
     @Test
     public void applyDayData(){
-        //TODO
+        int duration = 5;
+        int playerCount = 4;
+        int EODCount = 10;
+
+        ArrayList<Player> players = new ArrayList<>();
+        ArrayList<EOD> eods = new ArrayList<>();
+
+        for(int i=0; i<playerCount; i++){
+            Player p = mock(Player.class);
+            when(p.getId()).thenReturn((long)i);
+            players.add(p);
+        }
+
+        for(int i=0; i<EODCount; i++){
+            EOD eod = mock(EOD.class);
+            when(eod.getId()).thenReturn((long)i);
+            eods.add(eod);
+        }
+
+        when(mockEodService.getEODs(any())).thenReturn(eods);
+
+        when(mockGame.getPlayers()).thenReturn(players);
+        when(mockGame.getStartDate()).thenReturn(new Date());
+        when(mockGame.getCurrentDuration()).thenReturn(duration);
+
+        GameService service = new GameService(mockRepository, mockPlayerService, mockEodService);
+        service.applyDayData(mockGameId);
+
+        verify(mockGame, times(1)).setCurrentDuration(duration+1);
+        for(int i=0; i<playerCount; i++){
+            for(int j=0; j<EODCount; j++){
+                verify(mockPlayerService, times(1)).applyOrders(players.get(i).getId(), eods.get(j));
+            }
+        }
+        verify(mockRepository, times(1)).save(mockGame);
+
     }
 
 }
