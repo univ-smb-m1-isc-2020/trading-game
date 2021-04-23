@@ -54,7 +54,9 @@ public class GameService {
         int currentDuration = game.getCurrentDuration();
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(TIMEZONE));
         calendar.setTime(startDate);
-        calendar.add(Calendar.DATE, currentDuration);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.add(Calendar.DATE, currentDuration+1);
         return calendar.getTime();
     }
 }

@@ -8,10 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Optional;
+import java.util.*;
 
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -34,6 +31,58 @@ public class GameServiceTest {
 
         mockPlayerService = mock(PlayerService.class);
         mockEodService = mock(EODService.class);
+    }
+
+    @Test
+    public void getNeededDateHourMinute(){
+        String timezone = "Europe/Paris";
+        int year = 2000;
+        int month = Calendar.JANUARY;
+        int date = 10;
+        int hour = 12;
+        int min = 30;
+        int duration = 1;
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(timezone));
+        calendar.set(year,month,date,hour,min);
+        when(mockGame.getStartDate()).thenReturn(calendar.getTime());
+        when(mockGame.getCurrentDuration()).thenReturn(duration);
+
+        GameService service = new GameService(mockRepository, mockPlayerService, mockEodService);
+
+        Date neededDate = service.getNeededDate(mockGame);
+
+        calendar.setTime(neededDate);
+        Assertions.assertEquals(year, calendar.get(Calendar.YEAR));
+        Assertions.assertEquals(Calendar.JANUARY, calendar.get(Calendar.MONTH));
+        Assertions.assertEquals(date+duration+1, calendar.get(Calendar.DATE));
+        Assertions.assertEquals(0, calendar.get(Calendar.HOUR_OF_DAY));
+        Assertions.assertEquals(0, calendar.get(Calendar.MINUTE));
+    }
+    
+    @Test
+    public void getNeededDate(){
+        String timezone = "Europe/Paris";
+        int year = 2000;
+        int month = Calendar.JANUARY;
+        int date = 10;
+        int hour = 0;
+        int min = 0;
+        int duration = 1;
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(timezone));
+        calendar.set(year,month,date,hour,min);
+        when(mockGame.getStartDate()).thenReturn(calendar.getTime());
+        when(mockGame.getCurrentDuration()).thenReturn(duration);
+
+        GameService service = new GameService(mockRepository, mockPlayerService, mockEodService);
+
+        Date neededDate = service.getNeededDate(mockGame);
+
+        calendar.setTime(neededDate);
+        Assertions.assertEquals(year, calendar.get(Calendar.YEAR));
+        Assertions.assertEquals(Calendar.JANUARY, calendar.get(Calendar.MONTH));
+        Assertions.assertEquals(date+duration+1, calendar.get(Calendar.DATE));
+        Assertions.assertEquals(0, calendar.get(Calendar.HOUR_OF_DAY));
+        Assertions.assertEquals(0, calendar.get(Calendar.MINUTE));
     }
 
     @Test
@@ -71,7 +120,7 @@ public class GameServiceTest {
 
     @Test
     public void applyDayData(){
-
+        //TODO
     }
 
 }
