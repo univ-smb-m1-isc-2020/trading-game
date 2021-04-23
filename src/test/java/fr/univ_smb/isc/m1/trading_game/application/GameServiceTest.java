@@ -130,7 +130,6 @@ public class GameServiceTest {
             }
         }
         verify(mockRepository, times(1)).save(mockGame);
-
     }
 
 }
