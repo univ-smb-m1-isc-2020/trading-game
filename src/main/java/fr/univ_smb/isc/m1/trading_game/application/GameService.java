@@ -10,7 +10,7 @@ import java.util.*;
 
 @Service
 public class GameService {
-    private final static String TIMEZONE = "Europe/Paris";
+    private final static String DEFAULT_TIMEZONE = "GMT";
     private final GameRepository repository;
     private final PlayerService playerService;
     private final EODService eodService;
@@ -52,10 +52,12 @@ public class GameService {
         if(game==null) return null;
         Date startDate = game.getStartDate();
         int currentDuration = game.getCurrentDuration();
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(TIMEZONE));
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(DEFAULT_TIMEZONE));
         calendar.setTime(startDate);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
         calendar.add(Calendar.DATE, currentDuration+1);
         return calendar.getTime();
     }

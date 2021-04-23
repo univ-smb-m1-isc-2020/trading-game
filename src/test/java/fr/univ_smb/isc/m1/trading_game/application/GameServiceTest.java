@@ -36,7 +36,7 @@ public class GameServiceTest {
 
     @Test
     public void getNeededDateHourMinute(){
-        String timezone = "Europe/Paris";
+        String timezone = "GMT";
         int year = 2000;
         int month = Calendar.JANUARY;
         int date = 10;
@@ -44,6 +44,7 @@ public class GameServiceTest {
         int min = 30;
         int duration = 1;
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(timezone));
+        calendar.clear();
         calendar.set(year,month,date,hour,min);
         when(mockGame.getStartDate()).thenReturn(calendar.getTime());
         when(mockGame.getCurrentDuration()).thenReturn(duration);
@@ -58,6 +59,8 @@ public class GameServiceTest {
         Assertions.assertEquals(date+duration+1, calendar.get(Calendar.DATE));
         Assertions.assertEquals(0, calendar.get(Calendar.HOUR_OF_DAY));
         Assertions.assertEquals(0, calendar.get(Calendar.MINUTE));
+        Assertions.assertEquals(0, calendar.get(Calendar.SECOND));
+        Assertions.assertEquals(0, calendar.get(Calendar.MILLISECOND));
     }
 
     @Test
