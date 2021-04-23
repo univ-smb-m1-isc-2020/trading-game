@@ -13,12 +13,13 @@ import org.springframework.web.client.RestTemplate;
 import javax.annotation.PostConstruct;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
-public class HistoricalDataService {
+public class HistoricalDataService {//TODO test
     private final TickerRepository tickerRepository;
     private final EODRepository eodRepository;
 
