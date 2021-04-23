@@ -111,7 +111,7 @@ public class GameServiceTest {
         int duration = 5;
         GameService service = new GameService(mockScheduler, mockRepository, mockPlayerService, mockEodService);
         service.startGame(mockGameId, duration);
-        verify(mockScheduler, times(1)).scheduleAtFixedRate(any(), argThat((Duration d) -> d.toMinutes()==duration));
+        verify(mockScheduler, times(1)).scheduleAtFixedRate(any(), argThat((Duration d) -> d.toSeconds()==duration));
     }
 
     @Test

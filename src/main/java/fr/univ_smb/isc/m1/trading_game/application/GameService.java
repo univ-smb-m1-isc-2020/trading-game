@@ -41,7 +41,7 @@ public class GameService {
         repository.save(game);
     }
 
-    public void startGame(long gameId, int dayDuration){
+    public void startGame(long gameId, int dayDurationInSeconds){
         Game game = repository.findById(gameId).orElse(null);//TODO test game not existing
         if(game==null) return;
         if(RUNNING_GAMES.get(gameId) != null) return;
@@ -49,7 +49,7 @@ public class GameService {
             this.applyDayData(gameId);
             this.endGameTaskIfNecessary(gameId);
         };
-        ScheduledFuture<?> task = scheduler.scheduleAtFixedRate(gameRunnable, Duration.ofMinutes(dayDuration));
+        ScheduledFuture<?> task = scheduler.scheduleAtFixedRate(gameRunnable, Duration.ofSeconds(dayDurationInSeconds));
         addScheduledTask(gameId, task);
     }
 
