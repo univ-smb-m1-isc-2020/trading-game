@@ -41,23 +41,33 @@ public class GameService {
         repository.save(game);
     }
 
-    public void startGame(long gameId, int dayDuration){//TODO test
+    public void startGame(long gameId, int dayDuration){
+        Game game = repository.findById(gameId).orElse(null);//TODO test game not existing
+        if(game==null) return;
         if(RUNNING_GAMES.get(gameId) != null) return;
         Runnable gameRunnable = () -> {
             this.applyDayData(gameId);
             this.endGameTaskIfNecessary(gameId);
         };
         ScheduledFuture<?> task = scheduler.scheduleAtFixedRate(gameRunnable, Duration.ofMinutes(dayDuration));
+        addScheduledTask(gameId, task);
+    }
+
+    public void addScheduledTask(long gameId,ScheduledFuture<?> task){
         RUNNING_GAMES.put(gameId, task);
     }
 
-    public void endGameTaskIfNecessary(long gameId){//TODO test
+    public void endGameTaskIfNecessary(long gameId){
         Game game = repository.findById(gameId).orElse(null);
-        if(game==null) return;
+        if(game==null){
+            RUNNING_GAMES.remove(gameId);
+            return;
+        }
         if(game.hasEnded()){
             ScheduledFuture<?> task = RUNNING_GAMES.get(gameId);
             if(task!=null){
                 task.cancel(false);
+                RUNNING_GAMES.remove(gameId);
             }
         }
     }
@@ -87,5 +97,12 @@ public class GameService {
         calendar.set(Calendar.MILLISECOND, 0);
         calendar.add(Calendar.DATE, currentDuration+1);
         return calendar.getTime();
+    }
+
+    public static void reset(){
+        for(ScheduledFuture<?> task : RUNNING_GAMES.values()){
+            if(task!=null) task.cancel(true);
+        }
+        RUNNING_GAMES.clear();
     }
 }

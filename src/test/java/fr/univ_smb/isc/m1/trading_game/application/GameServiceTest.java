@@ -7,9 +7,13 @@ import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Player;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
+import org.mockito.Mock;
 import org.springframework.scheduling.TaskScheduler;
 
+import java.time.Duration;
 import java.util.*;
+import java.util.concurrent.ScheduledFuture;
 
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -21,10 +25,12 @@ public class GameServiceTest {
     private GameRepository mockRepository;
     private PlayerService mockPlayerService;
     private EODService mockEodService;
-    private TaskScheduler scheduler;
+    private TaskScheduler mockScheduler;
+    private ScheduledFuture<?> mockTask;
 
     @BeforeEach
     public void setUp(){
+        GameService.reset();
         mockGame = mock(Game.class);
         when(mockGame.getId()).thenReturn(mockGameId);
 
@@ -33,7 +39,9 @@ public class GameServiceTest {
 
         mockPlayerService = mock(PlayerService.class);
         mockEodService = mock(EODService.class);
-        scheduler = mock(TaskScheduler.class);
+        mockScheduler = mock(TaskScheduler.class);
+        mockTask = mock(ScheduledFuture.class);
+        doReturn((mockTask)).when(mockScheduler).scheduleAtFixedRate(any(),any());
     }
 
     @Test
@@ -51,7 +59,7 @@ public class GameServiceTest {
         when(mockGame.getStartDate()).thenReturn(calendar.getTime());
         when(mockGame.getCurrentDuration()).thenReturn(duration);
 
-        GameService service = new GameService(scheduler, mockRepository, mockPlayerService, mockEodService);
+        GameService service = new GameService(mockScheduler, mockRepository, mockPlayerService, mockEodService);
 
         Date neededDate = service.getNeededDate(mockGame);
 
@@ -72,7 +80,7 @@ public class GameServiceTest {
         int fee = 2;
         Date date = new Date();
         int duration = 20;
-        GameService service = new GameService(scheduler, mockRepository, mockPlayerService, mockEodService);
+        GameService service = new GameService(mockScheduler, mockRepository, mockPlayerService, mockEodService);
         Game g = service.createGame(ports, balance, fee, date, duration);
         verify(mockRepository,times(1)).save(g);
         Assertions.assertEquals(ports, g.getMaxPortfolios());
@@ -91,11 +99,29 @@ public class GameServiceTest {
         when(mockGame.getPlayers()).thenReturn(players);
         when(mockPlayerService.getPlayer(mockPlayerId)).thenReturn(mockPlayer);
 
-        GameService service = new GameService(scheduler, mockRepository, mockPlayerService, mockEodService);
+        GameService service = new GameService(mockScheduler, mockRepository, mockPlayerService, mockEodService);
         service.addPlayer(mockGameId, mockPlayer.getId());
         Assertions.assertTrue(players.contains(mockPlayer));
         Assertions.assertEquals(1, players.size());
         verify(mockRepository, times(1)).save(mockGame);
+    }
+
+    @Test
+    public void startGame(){
+        int duration = 5;
+        GameService service = new GameService(mockScheduler, mockRepository, mockPlayerService, mockEodService);
+        service.startGame(mockGameId, duration);
+        verify(mockScheduler, times(1)).scheduleAtFixedRate(any(), argThat((Duration d) -> d.toMinutes()==duration));
+    }
+
+    @Test
+    public void endGameTaskIfNecessary(){
+        when(mockRepository.findById(anyLong())).thenReturn(Optional.of(mockGame));
+        when(mockGame.hasEnded()).thenReturn(true);
+        GameService service = new GameService(mockScheduler, mockRepository, mockPlayerService, mockEodService);
+        service.addScheduledTask(mockGameId, mockTask);
+        service.endGameTaskIfNecessary(mockGameId);
+        verify(mockTask, times(1)).cancel(false);
     }
 
     @Test
@@ -125,7 +151,7 @@ public class GameServiceTest {
         when(mockGame.getStartDate()).thenReturn(new Date());
         when(mockGame.getCurrentDuration()).thenReturn(duration);
 
-        GameService service = new GameService(scheduler, mockRepository, mockPlayerService, mockEodService);
+        GameService service = new GameService(mockScheduler, mockRepository, mockPlayerService, mockEodService);
         service.applyDayData(mockGameId);
 
         verify(mockGame, times(1)).setCurrentDuration(duration+1);
