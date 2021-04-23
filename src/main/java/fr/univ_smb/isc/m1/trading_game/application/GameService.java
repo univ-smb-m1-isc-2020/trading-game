@@ -6,12 +6,11 @@ import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.GameRepository
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Player;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class GameService {
+    private final static String TIMEZONE = "Europe/Paris";
     private final GameRepository repository;
     private final PlayerService playerService;
     private final EODService eodService;
@@ -37,8 +36,8 @@ public class GameService {
     }
 
     public void applyDayData(long gameId){
-        List<EOD> dayData = eodService.getEODs(new Date());//TODO real date
         Game game = repository.findById(gameId).orElse(null);//TODO test
+        List<EOD> dayData = eodService.getEODs(getNeededDate(game));
         if(game == null) return;
         for(EOD eod : dayData){
             for(Player p : game.getPlayers()){
@@ -47,5 +46,15 @@ public class GameService {
         }
         game.setCurrentDuration(game.getCurrentDuration()+1);
         repository.save(game);
+    }
+
+    public Date getNeededDate(Game game){
+        if(game==null) return null;
+        Date startDate = game.getStartDate();
+        int currentDuration = game.getCurrentDuration();
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(TIMEZONE));
+        calendar.setTime(startDate);
+        calendar.add(Calendar.DATE, currentDuration);
+        return calendar.getTime();
     }
 }
