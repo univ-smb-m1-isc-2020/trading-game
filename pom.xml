@@ -126,7 +126,7 @@
                         <SPRING_DATASOURCE_URL>jdbc:postgresql://localhost:5432/postgres</SPRING_DATASOURCE_URL>
                         <SPRING_DATASOURCE_USERNAME>postgres</SPRING_DATASOURCE_USERNAME>
                         <SPRING_DATASOURCE_PASSWORD>root</SPRING_DATASOURCE_PASSWORD>
-                        <SPRING_JPA_HIBERNATE_DDL_AUTO>update</SPRING_JPA_HIBERNATE_DDL_AUTO>
+                        <SPRING_JPA_HIBERNATE_DDL_AUTO>create-drop</SPRING_JPA_HIBERNATE_DDL_AUTO>
                         <SPRING_JPA_DATABASE>POSTGRESQL</SPRING_JPA_DATABASE>
                     </environmentVariables>
                 </configuration>
