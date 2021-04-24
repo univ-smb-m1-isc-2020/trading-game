@@ -5,10 +5,12 @@ import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.UserRepository
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
-public class UserService implements UserDetailsService {
+@Service
+public class UserService implements UserDetailsService {//TODO test
     private final UserRepository repository;
 
     public UserService(UserRepository repository) {

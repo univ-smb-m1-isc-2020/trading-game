@@ -1,5 +1,6 @@
 package fr.univ_smb.isc.m1.trading_game.controller.security;
 
+import fr.univ_smb.isc.m1.trading_game.application.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,10 +13,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TradingGameAuthProvider extends DaoAuthenticationProvider {
+    private final UserService userDetailsService;
 
-    private final UserDetailsService userDetailsService;
-
-    public TradingGameAuthProvider(UserDetailsService userDetailsService) {
+    public TradingGameAuthProvider(UserService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
