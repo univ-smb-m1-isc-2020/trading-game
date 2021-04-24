@@ -2,6 +2,9 @@ package fr.univ_smb.isc.m1.trading_game.application;
 
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.TradingGameUser;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.UserRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -9,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {//TODO test
@@ -18,6 +22,13 @@ public class UserService implements UserDetailsService {//TODO test
     public UserService(PasswordEncoder passwordEncoder, UserRepository repository) {
         this.passwordEncoder = passwordEncoder;
         this.repository = repository;
+    }
+
+    public TradingGameUser getCurrentUser(SecurityContext ctx){
+        Authentication auth = ctx.getAuthentication();
+        if(auth==null)return null;
+        long uid =  ((TradingGameUser) auth.getPrincipal()).getId();
+        return repository.findById(uid).orElse(null);
     }
 
     @Override
@@ -33,6 +44,12 @@ public class UserService implements UserDetailsService {//TODO test
         }
         TradingGameUser user = new TradingGameUser(name, passwordEncoder.encode(password));
         repository.save(user);
+    }
+
+    public boolean isAdmin(long userId){
+        Optional<TradingGameUser> user = repository.findById(userId);
+        if(user.isEmpty()) return false;
+        return user.get().isAdmin();
     }
 
     private boolean userExists(String username){
