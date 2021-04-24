@@ -15,7 +15,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-public class UserService implements UserDetailsService {//TODO test
+public class UserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository repository;
 
