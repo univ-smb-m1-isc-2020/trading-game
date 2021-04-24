@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Trading Game - Gestion de partie</title>
+    <link rel="stylesheet" href="/css/appTheme.css"/>
+</head>
+<body>
+    <!-- Side navigation bars -->
+    <div class="sidenavLeft">
+        <a class="walletLink">Portefeuille 1</a>
+        <a class="walletLink">Portefeuille 2</a>
+    </div>
+    <div class="sidenavRight">
+        <h3 class="action">Mes parts</h3>
+        <ul>
+            <li class="action">gdf - <span class="importantInfo">78</span> - <span class="importantInfo">52$</span></li>
+        </ul>
+    </div>
+    <!-- Page content -->
+    <div class="main">
+        <h3>Total : <span class="importantInfo">~</span></h3>
+        <table>
+            <thead>
+            <tr>
+                <th colspan="2">Mes ordres</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Part</td>
+                <td>Type</td>
+                <td>Statut</td>
+            </tr>
+            <tr>
+                <td>GDF</td>
+                <td>Achat seuil <span class="importantInfo">48</span></td>
+                <td>En attente</td>
+            </tr>
+            <tr>
+                <td>GDF</td>
+                <td>Achat seuil <span class="importantInfo">48</span></td>
+                <td>Effectué <span class="importantInfo">(-50$)</span></td>
+            </tr>
+            </tbody>
+        </table>
+        <form action="/createOrder">
+            <button class="genericButton" type="submit">Créer un ordre</button>
+        </form>
+    </div>
+</body>
+</html>

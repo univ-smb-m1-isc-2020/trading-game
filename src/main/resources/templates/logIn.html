@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Trading Game - Page de connexion</title>
+    <link rel="stylesheet" href="/css/appTheme.css"/>
+</head>
+<body>
+  <h1 class="pageMainTitle">Se connecter</h1>
+  <div class="verticallyAligned" style="position: fixed; top: 20%; left: 35%;">
+    <!-- Pseudo -->
+    <div style="margin-top: 20px; margin-bottom: 20px;">
+      <label>Nom d'utilisateur :</label>
+      <input type="text">
+    </div>
+    <!-- Mot de passe -->
+    <div style="margin-top: 20px; margin-bottom: 20px;">
+      <label>Mot de passe :</label>
+      <input type="password">
+    </div>
+    <a class="registerLink" style="padding-top: 20px;" href="/register">Vous n'avez pas encore de compte ? Enregistrez vous</a>
+  </div>
+  <form action="/homePagePlayer"> <!-- TODO : Ou homePageAdmin selon le compte -->
+    <button class="genericButton" style="position: fixed; bottom: 40%; left: 44%;" type="submit">S'authentifier</button>
+  </form>
+</body>
+</html>

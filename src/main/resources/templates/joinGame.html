@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Trading Game - Rejoindre une partie</title>
+  <link rel="stylesheet" href="/css/appTheme.css"/>
+</head>
+<body>
+  <h1 class="pageMainTitle">Trading Game ©</h1>
+  <a class="logInOutLink">xXxTr4d3rxXx - Se déconnecter</a>
+  <!-- Liste des parties -->
+  <div class="cell">
+    <label class="gameCellHeader">Partie de ADMIN</label>
+    <label class="gameCellHeader">Durée : <span class="importantInfo">1 an</span></label>
+    <label class="gameCellHeader">Depuis le <span class="importantInfo">05/03/1995</span></label>
+    <label class="gameCellHeader"><span class="importantInfo">10min/j</span></label>
+    <ol>
+      <li>
+        <label class="gameCellHeader">Nombre de joueurs actuel : <span class="importantInfo">14</span></label>
+      </li>
+      <li>
+        <label class="gameCellHeader">Montant initial : <span class="importantInfo">3x1000$</span></label>
+        <label class="gameCellHeader">Frais de transaction : <span class="importantInfo">0.5$</span></label>
+      </li>
+    </ol>
+    <form style="display: inline-block" action="/gameSelected">
+      <button class="genericButton inCellButton" type="submit">Rejoindre</button>
+    </form>
+  </div>
+  <div class="cell">
+    <label class="gameCellHeader">Partie de ADMIN</label>
+    <label class="gameCellHeader">Durée : <span class="importantInfo">30 jours</span></label>
+    <label class="gameCellHeader"><span class="importantInfo">Temps réel</span></label>
+    <ol>
+      <li>
+        <label class="gameCellHeader">Nombre de joueurs actuel : <span class="importantInfo">14</span></label>
+      </li>
+      <li>
+        <label class="gameCellHeader">Montant initial : <span class="importantInfo">3x1000$</span></label>
+        <label class="gameCellHeader">Frais de transaction : <span class="importantInfo">0.5$</span></label>
+      </li>
+    </ol>
+    <form style="display: inline-block" action="/gameSelected">
+      <button class="genericButton inCellButton" type="submit">Rejoindre</button>
+    </form>
+  </div>
+  <form action="/homePagePlayer">
+    <button class="genericButton topLeftButton" type="submit">Accueil</button>
+  </form>
+</body>
+</html>
