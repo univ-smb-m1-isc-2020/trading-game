@@ -16,11 +16,11 @@ public class PlayerService {
         this.portfolioService = portfolioService;
     }
 
-    public Player createPlayer(TradingGameUser user, int portfolioCount, int initialBalance){
+    public Player createPlayer(TradingGameUser user, int portfolioCount, int initialBalance){//TODO test
         List<Portfolio> portfolios = new ArrayList<>();
         for(int i=0; i<portfolioCount; i++){
-            /*Portfolio p = PortfolioService.create(initialBalance);
-            portfolios.add(p);*/
+            Portfolio p = portfolioService.create(initialBalance);
+            portfolios.add(p);
         }
         Player p = new Player(user, portfolios);
         repository.save(p);

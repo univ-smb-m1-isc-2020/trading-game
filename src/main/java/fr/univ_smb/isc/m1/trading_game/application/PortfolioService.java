@@ -26,6 +26,12 @@ public class PortfolioService {
         orderService.setPortfolioService(this);
     }
 
+    public Portfolio create(int initialBalance) {//TODO test
+        Portfolio portfolio = new Portfolio(initialBalance);
+        repository.save(portfolio);
+        return portfolio;
+    }
+
     public void applyOrders(long portfolioId, EOD dayData) {
         Portfolio portfolio = repository.findById(portfolioId).orElse(null);
         if(portfolio==null) return;//TODO test
