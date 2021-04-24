@@ -16,6 +16,15 @@ public class TradingGameUser implements UserDetails {
     private String username;
     private String password;
 
+    public TradingGameUser(){
+        // JPA
+    }
+
+    public TradingGameUser(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public long getId() {
         return id;
     }
