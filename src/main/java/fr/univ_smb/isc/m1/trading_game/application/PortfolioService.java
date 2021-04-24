@@ -26,7 +26,7 @@ public class PortfolioService {
         orderService.setPortfolioService(this);
     }
 
-    public Portfolio create(int initialBalance) {//TODO test
+    public Portfolio create(int initialBalance) {
         Portfolio portfolio = new Portfolio(initialBalance);
         repository.save(portfolio);
         return portfolio;

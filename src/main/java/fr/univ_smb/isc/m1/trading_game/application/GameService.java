@@ -1,9 +1,6 @@
 package fr.univ_smb.isc.m1.trading_game.application;
 
-import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.EOD;
-import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Game;
-import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.GameRepository;
-import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Player;
+import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.*;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Service;
 
@@ -33,10 +30,10 @@ public class GameService {
         return game;
     }
 
-    public void addPlayer(long gameId, long playerId){
+    public void addPlayer(long gameId, TradingGameUser user){
         Game game = repository.findById(gameId).orElse(null);//TODO test game not existing
         if(game==null) return;
-        Player player = playerService.getPlayer(playerId);
+        Player player = playerService.createPlayer(user, game.getMaxPortfolios(), game.getInitialBalance());
         game.getPlayers().add(player);
         repository.save(game);
     }
