@@ -33,6 +33,10 @@ public class GameService {
         return game;
     }
 
+    public List<Game> getGames(){
+        return repository.findAll();
+    }
+
     public void addPlayer(long gameId, long playerId){
         Game game = repository.findById(gameId).orElse(null);//TODO test game not existing
         if(game==null) return;
