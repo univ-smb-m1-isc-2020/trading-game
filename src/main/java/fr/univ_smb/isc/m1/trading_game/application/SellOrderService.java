@@ -18,7 +18,7 @@ public class SellOrderService {
 
     public SellOrder create(Ticker ticker, int quantity){
         SellOrder order = new SellOrder(ticker, quantity);
-        repository.save(order);
+        repository.saveAndFlush(order);
         return order;
     }
 
@@ -35,7 +35,7 @@ public class SellOrderService {
 
         if (success) {
             order.setPending(false);
-            repository.save(order);
+            repository.saveAndFlush(order);
             return true;
         } else {
             return false;

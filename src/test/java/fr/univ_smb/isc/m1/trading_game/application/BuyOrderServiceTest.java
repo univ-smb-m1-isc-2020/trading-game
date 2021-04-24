@@ -61,7 +61,7 @@ public class BuyOrderServiceTest {
         service.setPortfolioService(mockPortfolioService);
 
         BuyOrder order = service.create(ticker, quantity);
-        verify(mockRepository,times(1)).save(order);
+        verify(mockRepository,times(1)).saveAndFlush(order);
         Assertions.assertEquals(ticker, order.getTicker());
         Assertions.assertEquals(quantity, order.getQuantity());
     }
@@ -83,7 +83,7 @@ public class BuyOrderServiceTest {
         Assertions.assertFalse(service.apply(mockOrderId, mockOtherEod, mockPortfolioId));
         verify(mockPortfolioService, never()).buy(anyLong(), any(), anyInt(), anyInt());
         verify(mockOrder, never()).setPending(anyBoolean());
-        verify(mockRepository, never()).save(mockOrder);
+        verify(mockRepository, never()).saveAndFlush(mockOrder);
     }
 
     @Test
@@ -97,7 +97,7 @@ public class BuyOrderServiceTest {
         verify(mockPortfolioService, times(1)).buy(mockPortfolioId, mockTicker.getSymbol(), mockData.getClose(), mockOrder.getQuantity());
         verify(mockOrder, times(1)).setPending(false);
         verify(mockOrder, never()).setPending(true);
-        verify(mockRepository, atLeastOnce()).save(mockOrder);
+        verify(mockRepository, atLeastOnce()).saveAndFlush(mockOrder);
     }
 
     @Test
@@ -111,7 +111,7 @@ public class BuyOrderServiceTest {
         Assertions.assertFalse(service.apply(mockOrderId, mockData, mockPortfolioId));
         verify(mockPortfolioService, never()).buy(anyLong(), any(), anyInt(), anyInt());
         verify(mockOrder, never()).setPending(anyBoolean());
-        verify(mockRepository, never()).save(mockOrder);
+        verify(mockRepository, never()).saveAndFlush(mockOrder);
     }
 
     @Test
@@ -125,6 +125,6 @@ public class BuyOrderServiceTest {
         Assertions.assertFalse(service.apply(mockOrderId, mockData, mockPortfolioId));
         verify(mockPortfolioService, times(1)).buy(anyLong(), any(), anyInt(), anyInt());
         verify(mockOrder, never()).setPending(anyBoolean());
-        verify(mockRepository, never()).save(mockOrder);
+        verify(mockRepository, never()).saveAndFlush(mockOrder);
     }
 }

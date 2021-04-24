@@ -105,7 +105,7 @@ public class PortfolioServiceTest {
         Assertions.assertTrue(service.buy(mockPortfolioId, mockTickerMic, closePrice, quantity));
         verify(mockPortfolio, times(1)).setBalance(initialBalance-cost);
         verify(mockPortfolio, times(1)).setQuantity(mockTicker, quantity);
-        verify(mockRepository, times(1)).save(mockPortfolio);
+        verify(mockRepository, times(1)).saveAndFlush(mockPortfolio);
     }
 
     @Test
@@ -119,7 +119,7 @@ public class PortfolioServiceTest {
         Assertions.assertFalse(service.buy(mockPortfolioId, mockTickerMic, closePrice, quantity));
         verify(mockPortfolio, never()).setBalance(anyInt());
         verify(mockPortfolio, never()).setQuantity(any(), anyInt());
-        verify(mockRepository, never()).save(mockPortfolio);
+        verify(mockRepository, never()).saveAndFlush(mockPortfolio);
     }
 
     @Test
@@ -135,7 +135,7 @@ public class PortfolioServiceTest {
         Assertions.assertTrue(service.sell(mockPortfolioId, mockTickerMic, closePrice, sellQuantity));
         verify(mockPortfolio, times(1)).setQuantity(mockTicker, ownedQuantity-sellQuantity);
         verify(mockPortfolio, times(1)).setBalance(initialBalance+closePrice*sellQuantity);
-        verify(mockRepository, times(1)).save(mockPortfolio);
+        verify(mockRepository, times(1)).saveAndFlush(mockPortfolio);
     }
 
     @Test
@@ -151,6 +151,6 @@ public class PortfolioServiceTest {
         Assertions.assertFalse(service.sell(mockPortfolioId, mockTickerMic, closePrice, sellQuantity));
         verify(mockPortfolio, never()).setQuantity(any(), anyInt());
         verify(mockPortfolio, never()).setBalance(anyInt());
-        verify(mockRepository, never()).save(mockPortfolio);
+        verify(mockRepository, never()).saveAndFlush(mockPortfolio);
     }
 }

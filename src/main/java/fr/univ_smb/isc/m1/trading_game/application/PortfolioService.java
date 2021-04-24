@@ -28,7 +28,7 @@ public class PortfolioService {
 
     public Portfolio create(int initialBalance) {
         Portfolio portfolio = new Portfolio(initialBalance);
-        repository.save(portfolio);
+        repository.saveAndFlush(portfolio);
         return portfolio;
     }
 
@@ -67,7 +67,7 @@ public class PortfolioService {
         newQuantity+=port.getQuantity(ticker);
         port.setQuantity(ticker, newQuantity);
         port.setBalance(funds-totalCost);
-        repository.save(port);
+        repository.saveAndFlush(port);
         return true;
     }
 
@@ -85,7 +85,7 @@ public class PortfolioService {
         newQuantity-= quantity;
         port.setQuantity(ticker, newQuantity);
         port.setBalance(port.getBalance()+totalBenefits);
-        repository.save(port);
+        repository.saveAndFlush(port);
         return true;
     }
 }

@@ -45,7 +45,7 @@ public class PlayerServiceTest {
         for(int i=0 ;i<portfolioCount; i++){
             Assertions.assertEquals(initialBalance, createdPlayer.getPortfolios().get(i).getBalance());
         }
-        verify(mockRepository, times(1)).save(createdPlayer);
+        verify(mockRepository, times(1)).saveAndFlush(createdPlayer);
     }
 
     @Test

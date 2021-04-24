@@ -23,7 +23,7 @@ public class PlayerService {
             portfolios.add(portfolio);
         }
         Player player = new Player(user, portfolios);
-        repository.save(player);
+        repository.saveAndFlush(player);
         return player;
     }
 

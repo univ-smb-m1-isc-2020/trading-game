@@ -43,7 +43,7 @@ public class UserService implements UserDetailsService {
             return;
         }
         TradingGameUser user = new TradingGameUser(name, passwordEncoder.encode(password));
-        repository.save(user);
+        repository.saveAndFlush(user);
     }
 
     public boolean userExists(String username){

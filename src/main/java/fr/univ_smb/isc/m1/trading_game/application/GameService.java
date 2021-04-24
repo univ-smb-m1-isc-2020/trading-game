@@ -26,7 +26,7 @@ public class GameService {
 
     public Game createGame(int maxPortfolios, int initialBalance, int transactionFee, Date startDate, int totalDuration){
         Game game = new Game(maxPortfolios, initialBalance, transactionFee, startDate, totalDuration);
-        repository.save(game);
+        repository.saveAndFlush(game);
         return game;
     }
 
@@ -47,7 +47,7 @@ public class GameService {
         if(game==null) return;
         Player player = playerService.createPlayer(user, game.getMaxPortfolios(), game.getInitialBalance());
         game.getPlayers().add(player);
-        repository.save(game);
+        repository.saveAndFlush(game);
     }
 
     public void startGame(long gameId, int dayDurationInSeconds){
@@ -91,7 +91,7 @@ public class GameService {
             }
         }
         game.setCurrentDuration(game.getCurrentDuration()+1);
-        repository.save(game);
+        repository.saveAndFlush(game);
     }
 
     public Date getNeededDate(Game game){

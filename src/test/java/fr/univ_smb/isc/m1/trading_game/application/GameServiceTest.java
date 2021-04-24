@@ -80,7 +80,7 @@ public class GameServiceTest {
         int duration = 20;
         GameService service = new GameService(mockScheduler, mockRepository, mockPlayerService, mockEodService);
         Game g = service.createGame(ports, balance, fee, date, duration);
-        verify(mockRepository,times(1)).save(g);
+        verify(mockRepository,times(1)).saveAndFlush(g);
         Assertions.assertEquals(ports, g.getMaxPortfolios());
         Assertions.assertEquals(balance, g.getInitialBalance());
         Assertions.assertEquals(fee, g.getTransactionFee());
@@ -108,7 +108,7 @@ public class GameServiceTest {
         Assertions.assertEquals(1, players.size());
         Assertions.assertTrue(players.contains(mockPlayer));
 
-        verify(mockRepository, times(1)).save(mockGame);
+        verify(mockRepository, times(1)).saveAndFlush(mockGame);
     }
 
     @Test
@@ -165,7 +165,7 @@ public class GameServiceTest {
                 verify(mockPlayerService, times(1)).applyOrders(players.get(i).getId(), eods.get(j));
             }
         }
-        verify(mockRepository, times(1)).save(mockGame);
+        verify(mockRepository, times(1)).saveAndFlush(mockGame);
     }
 
 }

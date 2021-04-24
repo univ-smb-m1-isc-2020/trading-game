@@ -18,7 +18,7 @@ public class BuyOrderService {
 
     public BuyOrder create(Ticker ticker, int quantity){
         BuyOrder order = new BuyOrder(ticker, quantity);
-        repository.save(order);
+        repository.saveAndFlush(order);
         return order;
     }
 
@@ -34,7 +34,7 @@ public class BuyOrderService {
         boolean success = portfolioService.buy(portfolioId, symbol, buyingPrice, quantity);
         if (success) {
             order.setPending(false);
-            repository.save(order);
+            repository.saveAndFlush(order);
             return true;
         } else {
             return false;
