@@ -27,7 +27,7 @@ public class UserService implements UserDetailsService {//TODO test
     public TradingGameUser getCurrentUser(SecurityContext ctx){
         Authentication auth = ctx.getAuthentication();
         if(auth==null)return null;
-        long uid =  ((TradingGameUser) auth.getDetails()).getId();
+        long uid =  ((TradingGameUser) auth.getPrincipal()).getId();
         return repository.findById(uid).orElse(null);
     }
 
