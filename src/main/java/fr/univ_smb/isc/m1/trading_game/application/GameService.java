@@ -30,6 +30,18 @@ public class GameService {
         return game;
     }
 
+    public List<Game> getCurrentGames(){
+        return repository.findAll();
+    }
+
+    public List<Game> getGamesOf(Player player){
+        return repository.findAllByPlayersContains(player);
+    }
+
+    public List<Game> getAvailableGames(Player player){
+        return repository.findAllByCurrentDurationIsAndPlayersNotContaining(0, player);
+    }
+
     public void addPlayer(long gameId, TradingGameUser user){
         Game game = repository.findById(gameId).orElse(null);//TODO test game not existing
         if(game==null) return;
