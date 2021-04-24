@@ -12,10 +12,11 @@ import java.util.Objects;
 
 @Service
 public class UserService implements UserDetailsService {//TODO test
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository repository;
 
-    public UserService(UserRepository repository) {
+    public UserService(PasswordEncoder passwordEncoder, UserRepository repository) {
+        this.passwordEncoder = passwordEncoder;
         this.repository = repository;
     }
 
