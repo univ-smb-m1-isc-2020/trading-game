@@ -132,8 +132,7 @@ public class GameServiceTest {
         service.addPlayer(mockGameId, mockUser);
         Assertions.assertEquals(1, players.size());
         Assertions.assertTrue(players.contains(mockPlayer));
-
-        verify(mockRepository, times(1)).saveAndFlush(mockGame);
+        verify(mockRepository, never()).saveAndFlush(mockGame);
     }
 
     @Test

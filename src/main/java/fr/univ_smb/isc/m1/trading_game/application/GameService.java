@@ -45,6 +45,8 @@ public class GameService {
     public void addPlayer(long gameId, TradingGameUser user){
         Game game = repository.findById(gameId).orElse(null);//TODO test game not existing
         if(game==null) return;
+        // Avoiding a duplicate player in a game
+        if(game.getPlayers().stream().anyMatch(p -> p.getUser().getId()==user.getId())) return;
         Player player = playerService.createPlayer(user, game.getMaxPortfolios(), game.getInitialBalance());
         game.getPlayers().add(player);
         repository.saveAndFlush(game);
