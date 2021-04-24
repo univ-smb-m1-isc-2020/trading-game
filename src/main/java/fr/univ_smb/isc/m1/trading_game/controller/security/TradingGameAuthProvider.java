@@ -17,6 +17,7 @@ public class TradingGameAuthProvider extends DaoAuthenticationProvider {
 
     public TradingGameAuthProvider(UserService userDetailsService) {
         this.userDetailsService = userDetailsService;
+        this.setUserDetailsService(userDetailsService);
     }
 
     @Override
