@@ -2,6 +2,9 @@ package fr.univ_smb.isc.m1.trading_game.application;
 
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.TradingGameUser;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.UserRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,6 +22,13 @@ public class UserService implements UserDetailsService {//TODO test
     public UserService(PasswordEncoder passwordEncoder, UserRepository repository) {
         this.passwordEncoder = passwordEncoder;
         this.repository = repository;
+    }
+
+    public TradingGameUser getCurrentUser(SecurityContext ctx){
+        Authentication auth = ctx.getAuthentication();
+        if(auth==null)return null;
+        long uid =  ((TradingGameUser) auth.getDetails()).getId();
+        return repository.findById(uid).orElse(null);
     }
 
     @Override
