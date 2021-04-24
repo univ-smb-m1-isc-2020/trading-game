@@ -16,15 +16,15 @@ public class PlayerService {
         this.portfolioService = portfolioService;
     }
 
-    public Player createPlayer(TradingGameUser user, int portfolioCount, int initialBalance){//TODO test
+    public Player createPlayer(TradingGameUser user, int portfolioCount, int initialBalance){
         List<Portfolio> portfolios = new ArrayList<>();
         for(int i=0; i<portfolioCount; i++){
-            Portfolio p = portfolioService.create(initialBalance);
-            portfolios.add(p);
+            Portfolio portfolio = portfolioService.create(initialBalance);
+            portfolios.add(portfolio);
         }
-        Player p = new Player(user, portfolios);
-        repository.save(p);
-        return p;
+        Player player = new Player(user, portfolios);
+        repository.save(player);
+        return player;
     }
 
     public Player getPlayer(long playerId) {

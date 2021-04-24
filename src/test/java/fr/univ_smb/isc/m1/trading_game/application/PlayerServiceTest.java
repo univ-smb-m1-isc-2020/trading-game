@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.function.Function;
 
 import static org.mockito.Mockito.*;
 
@@ -24,6 +25,27 @@ public class PlayerServiceTest {
         mockRepository = mock(PlayerRepository.class);
         when(mockRepository.findById(mockPlayerId)).thenReturn(Optional.of(mockPlayer));
         mockPortfolioService = mock(PortfolioService.class);
+    }
+
+
+    @Test
+    public void createPlayer(){
+        int portfolioCount = 5;
+        int initialBalance = 100;
+        TradingGameUser mockUser = mock(TradingGameUser.class);
+        Portfolio port = mock(Portfolio.class);
+        when(port.getBalance()).thenReturn(initialBalance);
+        when(mockPortfolioService.create(initialBalance)).thenReturn(port);
+
+        PlayerService service = new PlayerService(mockRepository, mockPortfolioService);
+        Player createdPlayer = service.createPlayer(mockUser, portfolioCount, initialBalance);
+
+        Assertions.assertNotNull(createdPlayer.getPortfolios());
+        Assertions.assertEquals(createdPlayer.getPortfolios().size(), portfolioCount);
+        for(int i=0 ;i<portfolioCount; i++){
+            Assertions.assertEquals(initialBalance, createdPlayer.getPortfolios().get(i).getBalance());
+        }
+        verify(mockRepository, times(1)).save(createdPlayer);
     }
 
     @Test
