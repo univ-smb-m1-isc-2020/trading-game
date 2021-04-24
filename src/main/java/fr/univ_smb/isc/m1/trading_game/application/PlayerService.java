@@ -16,6 +16,17 @@ public class PlayerService {
         this.portfolioService = portfolioService;
     }
 
+    public Player createPlayer(TradingGameUser user, int portfolioCount, int initialBalance){
+        List<Portfolio> portfolios = new ArrayList<>();
+        for(int i=0; i<portfolioCount; i++){
+            Portfolio portfolio = portfolioService.create(initialBalance);
+            portfolios.add(portfolio);
+        }
+        Player player = new Player(user, portfolios);
+        repository.saveAndFlush(player);
+        return player;
+    }
+
     public Player getPlayer(long playerId) {
         return repository.findById(playerId).orElse(null);
     }

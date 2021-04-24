@@ -26,6 +26,12 @@ public class PortfolioService {
         orderService.setPortfolioService(this);
     }
 
+    public Portfolio create(int initialBalance) {
+        Portfolio portfolio = new Portfolio(initialBalance);
+        repository.saveAndFlush(portfolio);
+        return portfolio;
+    }
+
     public void applyOrders(long portfolioId, EOD dayData) {
         Portfolio portfolio = repository.findById(portfolioId).orElse(null);
         if(portfolio==null) return;//TODO test
@@ -61,7 +67,7 @@ public class PortfolioService {
         newQuantity+=port.getQuantity(ticker);
         port.setQuantity(ticker, newQuantity);
         port.setBalance(funds-totalCost);
-        repository.save(port);
+        repository.saveAndFlush(port);
         return true;
     }
 
@@ -79,7 +85,7 @@ public class PortfolioService {
         newQuantity-= quantity;
         port.setQuantity(ticker, newQuantity);
         port.setBalance(port.getBalance()+totalBenefits);
-        repository.save(port);
+        repository.saveAndFlush(port);
         return true;
     }
 }

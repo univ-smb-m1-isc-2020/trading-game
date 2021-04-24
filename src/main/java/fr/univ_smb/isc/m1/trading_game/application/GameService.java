@@ -1,9 +1,6 @@
 package fr.univ_smb.isc.m1.trading_game.application;
 
-import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.EOD;
-import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Game;
-import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.GameRepository;
-import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Player;
+import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.*;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Service;
 
@@ -29,20 +26,28 @@ public class GameService {
 
     public Game createGame(int maxPortfolios, int initialBalance, int transactionFee, Date startDate, int totalDuration){
         Game game = new Game(maxPortfolios, initialBalance, transactionFee, startDate, totalDuration);
-        repository.save(game);
+        repository.saveAndFlush(game);
         return game;
     }
 
-    public List<Game> getGames(){
+    public List<Game> getCurrentGames(){
         return repository.findAll();
     }
 
-    public void addPlayer(long gameId, long playerId){
+    public List<Game> getGamesOf(Player player){
+        return repository.findAllByPlayersContains(player);
+    }
+
+    public List<Game> getAvailableGames(Player player){
+        return repository.findAllByCurrentDurationIsAndPlayersNotContaining(0, player);
+    }
+
+    public void addPlayer(long gameId, TradingGameUser user){
         Game game = repository.findById(gameId).orElse(null);//TODO test game not existing
         if(game==null) return;
-        Player player = playerService.getPlayer(playerId);
+        Player player = playerService.createPlayer(user, game.getMaxPortfolios(), game.getInitialBalance());
         game.getPlayers().add(player);
-        repository.save(game);
+        repository.saveAndFlush(game);
     }
 
     public void startGame(long gameId, int dayDurationInSeconds){
@@ -86,7 +91,7 @@ public class GameService {
             }
         }
         game.setCurrentDuration(game.getCurrentDuration()+1);
-        repository.save(game);
+        repository.saveAndFlush(game);
     }
 
     public Date getNeededDate(Game game){

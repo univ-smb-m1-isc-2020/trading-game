@@ -15,7 +15,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-public class UserService implements UserDetailsService {//TODO test
+public class UserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository repository;
 
@@ -27,7 +27,7 @@ public class UserService implements UserDetailsService {//TODO test
     public TradingGameUser getCurrentUser(SecurityContext ctx){
         Authentication auth = ctx.getAuthentication();
         if(auth==null)return null;
-        long uid =  ((TradingGameUser) auth.getPrincipal()).getId();
+        long uid = ((TradingGameUser) auth.getPrincipal()).getId();
         return repository.findById(uid).orElse(null);
     }
 
@@ -43,16 +43,10 @@ public class UserService implements UserDetailsService {//TODO test
             return;
         }
         TradingGameUser user = new TradingGameUser(name, passwordEncoder.encode(password));
-        repository.save(user);
+        repository.saveAndFlush(user);
     }
 
-    public boolean isAdmin(long userId){
-        Optional<TradingGameUser> user = repository.findById(userId);
-        if(user.isEmpty()) return false;
-        return user.get().isAdmin();
-    }
-
-    private boolean userExists(String username){
+    public boolean userExists(String username){
         return repository.findTradingGameUserByUsername(username).isPresent();
     }
 }

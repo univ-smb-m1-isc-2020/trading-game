@@ -1,9 +1,6 @@
 package fr.univ_smb.isc.m1.trading_game.application;
 
-import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.EOD;
-import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Game;
-import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.GameRepository;
-import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Player;
+import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,6 +30,7 @@ public class GameServiceTest {
         GameService.reset();
         mockGame = mock(Game.class);
         when(mockGame.getId()).thenReturn(mockGameId);
+
 
         mockRepository = mock(GameRepository.class);
         when(mockRepository.findById(anyLong())).thenReturn(Optional.of(mockGame));
@@ -82,7 +80,7 @@ public class GameServiceTest {
         int duration = 20;
         GameService service = new GameService(mockScheduler, mockRepository, mockPlayerService, mockEodService);
         Game g = service.createGame(ports, balance, fee, date, duration);
-        verify(mockRepository,times(1)).save(g);
+        verify(mockRepository,times(1)).saveAndFlush(g);
         Assertions.assertEquals(ports, g.getMaxPortfolios());
         Assertions.assertEquals(balance, g.getInitialBalance());
         Assertions.assertEquals(fee, g.getTransactionFee());
@@ -93,17 +91,24 @@ public class GameServiceTest {
     @Test
     public void addPlayer(){
         long mockPlayerId = 0;
+        Integer initBalance = 150;
+        Integer portCount = 3;
         ArrayList<Player> players = new ArrayList<>();
         Player mockPlayer = mock(Player.class);
-        when(mockPlayer.getId()).thenReturn(mockPlayerId);
+        TradingGameUser mockUser = mock(TradingGameUser.class);
+        when(mockUser.getId()).thenReturn(mockPlayerId);
+        when(mockPlayer.getUser()).thenReturn(mockUser);
         when(mockGame.getPlayers()).thenReturn(players);
-        when(mockPlayerService.getPlayer(mockPlayerId)).thenReturn(mockPlayer);
+        when(mockGame.getInitialBalance()).thenReturn(initBalance);
+        when(mockGame.getMaxPortfolios()).thenReturn(portCount);
+        when(mockPlayerService.createPlayer(mockUser, mockGame.getMaxPortfolios(), mockGame.getInitialBalance())).thenReturn(mockPlayer);
 
         GameService service = new GameService(mockScheduler, mockRepository, mockPlayerService, mockEodService);
-        service.addPlayer(mockGameId, mockPlayer.getId());
-        Assertions.assertTrue(players.contains(mockPlayer));
+        service.addPlayer(mockGameId, mockUser);
         Assertions.assertEquals(1, players.size());
-        verify(mockRepository, times(1)).save(mockGame);
+        Assertions.assertTrue(players.contains(mockPlayer));
+
+        verify(mockRepository, times(1)).saveAndFlush(mockGame);
     }
 
     @Test
@@ -160,7 +165,7 @@ public class GameServiceTest {
                 verify(mockPlayerService, times(1)).applyOrders(players.get(i).getId(), eods.get(j));
             }
         }
-        verify(mockRepository, times(1)).save(mockGame);
+        verify(mockRepository, times(1)).saveAndFlush(mockGame);
     }
 
 }
