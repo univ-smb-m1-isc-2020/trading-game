@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {//TODO test
@@ -33,6 +34,12 @@ public class UserService implements UserDetailsService {//TODO test
         }
         TradingGameUser user = new TradingGameUser(name, passwordEncoder.encode(password));
         repository.save(user);
+    }
+
+    public boolean isAdmin(long userId){
+        Optional<TradingGameUser> user = repository.findById(userId);
+        if(user.isEmpty()) return false;
+        return user.get().isAdmin();
     }
 
     private boolean userExists(String username){

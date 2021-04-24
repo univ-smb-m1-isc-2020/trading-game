@@ -1,6 +1,7 @@
 package fr.univ_smb.isc.m1.trading_game.controller.security;
 
 import fr.univ_smb.isc.m1.trading_game.application.UserService;
+import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.TradingGameUser;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -30,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authenticationProvider(getProvider())
                 .authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/admin/**").hasRole(TradingGameUser.ADMIN_ROLE)
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
