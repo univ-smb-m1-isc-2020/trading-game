@@ -7,20 +7,20 @@
 </head>
 <body>
 <h1 class="pageMainTitle">S'enregistrer</h1>
-<div class="verticallyAligned" style="position: fixed; top: 20%; left: 35%;">
-    <!-- Pseudo -->
-    <div style="margin-top: 20px; margin-bottom: 20px;">
-        <label>Nom d'utilisateur :</label>
-        <input type="text">
+<form action="/performRegister" method="POST"> <!-- TODO : Ou homePageAdmin selon le compte -->
+    <div class="verticallyAligned" style="position: fixed; top: 20%; left: 35%;">
+        <!-- Pseudo -->
+        <div style="margin-top: 20px; margin-bottom: 20px;">
+            <label>Nom d'utilisateur :</label>
+            <input type="text" name="username">
+        </div>
+        <!-- Mot de passe -->
+        <div style="margin-top: 20px; margin-bottom: 20px;">
+            <label>Mot de passe :</label>
+            <input type="password" name="password">
+        </div>
     </div>
-    <!-- Mot de passe -->
-    <div style="margin-top: 20px; margin-bottom: 20px;">
-        <label>Mot de passe :</label>
-        <input type="password">
-    </div>
-</div>
-<form action="/homePagePlayer"> <!-- TODO : Ou homePageAdmin selon le compte -->
-    <button class="genericButton" style="position: fixed; bottom: 40%; left: 43%;" type="submit">Créer le compte</button>
+    <button class="genericButton" style="position: fixed; bottom: 40%; left: 43%;" type="submit" name="submit">Créer le compte</button>
 </form>
 </body>
 </html>
