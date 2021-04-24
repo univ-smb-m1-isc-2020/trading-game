@@ -112,6 +112,31 @@ public class GameServiceTest {
     }
 
     @Test
+    public void addPlayerAlreadyJoined(){
+        long mockPlayerId = 0;
+        Integer initBalance = 150;
+        Integer portCount = 3;
+        ArrayList<Player> players = new ArrayList<>();
+        Player mockPlayer = mock(Player.class);
+        players.add(mockPlayer);
+
+        TradingGameUser mockUser = mock(TradingGameUser.class);
+        when(mockUser.getId()).thenReturn(mockPlayerId);
+        when(mockPlayer.getUser()).thenReturn(mockUser);
+        when(mockGame.getPlayers()).thenReturn(players);
+        when(mockGame.getInitialBalance()).thenReturn(initBalance);
+        when(mockGame.getMaxPortfolios()).thenReturn(portCount);
+        when(mockPlayerService.createPlayer(mockUser, mockGame.getMaxPortfolios(), mockGame.getInitialBalance())).thenReturn(mockPlayer);
+
+        GameService service = new GameService(mockScheduler, mockRepository, mockPlayerService, mockEodService);
+        service.addPlayer(mockGameId, mockUser);
+        Assertions.assertEquals(1, players.size());
+        Assertions.assertTrue(players.contains(mockPlayer));
+
+        verify(mockRepository, times(1)).saveAndFlush(mockGame);
+    }
+
+    @Test
     public void startGame(){
         int duration = 5;
         GameService service = new GameService(mockScheduler, mockRepository, mockPlayerService, mockEodService);
