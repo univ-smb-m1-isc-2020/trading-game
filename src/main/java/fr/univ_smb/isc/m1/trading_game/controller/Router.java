@@ -2,6 +2,7 @@ package fr.univ_smb.isc.m1.trading_game.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -44,12 +45,12 @@ public class Router {
         return "gameSelected";
     }
 
-    @RequestMapping(value = "/logIn")
+    @GetMapping(value = "/logIn")
     public String logIn() {
         return "logIn";
     }
 
-    @RequestMapping(value = "/register")
+    @GetMapping(value = "/register")
     public String register() {
         return "register";
     }
