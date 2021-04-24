@@ -47,10 +47,10 @@ public class Router {
         int date = 10;
         int hour = 0;
         int min = 0;
-        int duration = 1;
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(timezone));
         calendar.set(year,month,date,hour,min);
         Game test = gs.createGame(3, 50, 2, calendar.getTime(), 5);
+        Player p1 = new Player();
         gs.startGame(test.getId(), 5);
     }
 
@@ -75,6 +75,7 @@ public class Router {
 
     @RequestMapping(value = "/createOrder")
     public String createOrder(Model model) {
+        model.addAttribute("tickers", ts.getTickers());
         return "createOrder";
     }
 

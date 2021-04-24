@@ -19,8 +19,7 @@
         <div class="cell verticallyAligned">
             <label for="tickerSelect">Ticker :</label>
             <select name="tickers" id="tickerSelect">
-                <option>GDF</option>
-                <option>Total</option>
+                <option th:each="ticker: ${tickers}" th:text="${ticker.name}"></option>
             </select>
         </div>
         <!-- Infos -->
