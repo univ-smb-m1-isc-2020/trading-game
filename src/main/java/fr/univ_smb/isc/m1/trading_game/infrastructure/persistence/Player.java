@@ -18,13 +18,9 @@ public class Player {
         //JPA
     }
 
-    public Player(TradingGameUser user, int portfolioCount, int initialBalance) {
+    public Player(TradingGameUser user, List<Portfolio> portfolios) {
         this.user = user;
-        this.portfolios = new ArrayList<>();
-        for(int i=0; i<portfolioCount; i++){
-            Portfolio port = new Portfolio(initialBalance);
-            portfolios.add(port);
-        }
+        this.portfolios = portfolios;
     }
 
     public long getId() {
