@@ -20,6 +20,7 @@ public class UserController {
     @GetMapping(value = { "/", "/index" })
     public String index(Model model) {
         TradingGameUser user = userService.getCurrentUser(SecurityContextHolder.getContext());
+        model.addAttribute("loginPage", URLMap.loginPage);
         if(user==null){
             return "homePageCommon";
         } else {
@@ -30,6 +31,10 @@ public class UserController {
     @GetMapping(value = URLMap.userHomepage)
     public String homePagePlayer(Model model) {
         TradingGameUser user = userService.getCurrentUser(SecurityContextHolder.getContext());
+        model.addAttribute("performLogout", URLMap.performLogout);
+        model.addAttribute("joinGame", URLMap.joinGame);
+        model.addAttribute("createGamePage", URLMap.createGamePage);
+
         model.addAttribute("admin",user.isAdmin());
         model.addAttribute("username",user.getUsername());
         return "homePageLogged";

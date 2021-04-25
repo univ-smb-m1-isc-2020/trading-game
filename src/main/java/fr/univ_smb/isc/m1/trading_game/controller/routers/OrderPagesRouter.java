@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class OrderPagesRouter {
     @RequestMapping(value = URLMap.createOrder)
     public String createOrder(Model model) {
+
         return "createOrder";
     }
 }

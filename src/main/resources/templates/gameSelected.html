@@ -17,7 +17,7 @@
   <form action="/index">
     <button class="genericButton topLeftButton" type="submit">Accueil</button>
   </form>
-  <form action="/gameManager">
+  <form th:action="${joinGame}">
     <button class="genericButton" style="position: fixed; bottom: 35%; left: 45%;" type="submit">Rejoindre</button>
   </form>
 </body>

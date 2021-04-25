@@ -24,6 +24,9 @@ public class AuthenticationController {
 
     @GetMapping(value = URLMap.loginPage)
     public String logIn(HttpServletRequest request, Model model) {
+        model.addAttribute("performLogin", URLMap.performLogin);
+        model.addAttribute("signupPage",URLMap.signupPage);
+
         HttpSession session = request.getSession(false);
         String errorMessage = null;
         if (session != null) {
@@ -33,6 +36,7 @@ public class AuthenticationController {
                 errorMessage = "Identifiants incorrects.";
             }
         }
+
         model.addAttribute("errorMessage", errorMessage);
         return "logIn";
     }

@@ -7,11 +7,14 @@
 </head>
 <body>
   <h1 class="pageMainTitle">Trading Game</h1>
-  <a class="logInOutLink" href="/performLogout" th:text="${username+' - se déconnecter'}"></a>
-  <form action="/user/joinGame">
+  <a class="logInOutLink"
+     th:href="${performLogout}"
+     th:text="${username+' - se déconnecter'}"></a>
+  <form th:action="${joinGame}">
     <button class="genericButton topLeftButton" type="submit">Rejoindre une partie</button>
   </form>
-  <form action="/admin/createGame" th:if="${admin}">
+  <form th:if="${admin}"
+        th:action="${createGamePage}">
     <button class="genericButton topLeftButton" style="left: 19%;" type="submit">Créer une partie</button>
   </form>
 </body>

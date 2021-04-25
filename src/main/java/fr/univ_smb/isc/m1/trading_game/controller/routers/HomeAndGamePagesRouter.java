@@ -19,10 +19,14 @@ public class HomeAndGamePagesRouter {
     }
 
     @RequestMapping(value = URLMap.gameManager)
-    public String gameManager() { return "gameManager"; }
+    public String gameManager(Model model) {
+        model.addAttribute("createOrder",URLMap.createOrder);
+        return "gameManager";
+    }
 
     @RequestMapping(value = URLMap.gameSelected)
-    public String gameSelected() {
+    public String gameSelected(Model model) {
+        model.addAttribute("joinGame",URLMap.joinGame);
         return "gameSelected";
     }
 }

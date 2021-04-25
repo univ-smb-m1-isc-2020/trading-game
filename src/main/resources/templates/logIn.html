@@ -7,7 +7,7 @@
 </head>
 <body>
   <h1 class="pageMainTitle">Se connecter</h1>
-  <form action="performLogin" method="POST">
+  <form th:action="${performLogin}" method="POST">
     <div class="verticallyAligned" style="position: fixed; top: 20%; left: 35%;">
       <!-- Pseudo -->
       <div style="margin-top: 20px; margin-bottom: 20px;">
@@ -21,7 +21,8 @@
           <input type="password" name="password"/>
         </label>
       </div>
-      <a class="registerLink" style="padding-top: 20px;" href="/register">Vous n'avez pas encore de compte ? Enregistrez vous</a>
+      <a class="registerLink" style="padding-top: 20px;"
+         th:href="${signupPage}">Vous n'avez pas encore de compte ? Enregistrez vous</a>
     </div>
     <button class="genericButton" style="position: fixed; bottom: 40%; left: 44%;" type="submit" name="submit">S'authentifier</button>
   </form>
