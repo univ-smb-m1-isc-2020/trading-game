@@ -1,6 +1,7 @@
 package fr.univ_smb.isc.m1.trading_game.controller.routers;
 
 import fr.univ_smb.isc.m1.trading_game.application.UserService;
+import fr.univ_smb.isc.m1.trading_game.controller.URLMap;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.TradingGameUser;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class UserController {
-    public final static String userPrefix = "/user";
     private final UserService userService;
 
     public UserController(UserService userService) {
@@ -23,11 +23,11 @@ public class UserController {
         if(user==null){
             return "homePageCommon";
         } else {
-            return String.format("redirect:%s/homePage", userPrefix);
+            return "redirect:"+ URLMap.userHomepage;
         }
     }
 
-    @GetMapping(value = userPrefix+"/homePage")
+    @GetMapping(value = URLMap.userHomepage)
     public String homePagePlayer(Model model) {
         TradingGameUser user = userService.getCurrentUser(SecurityContextHolder.getContext());
         model.addAttribute("admin",user.isAdmin());
@@ -35,7 +35,7 @@ public class UserController {
         return "homePageLogged";
     }
 
-    @RequestMapping(value = userPrefix+"/joinGame")
+    @RequestMapping(value = URLMap.joinGame)
     public String joinGame() {
         return "joinGame";
     }

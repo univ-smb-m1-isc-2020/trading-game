@@ -1,6 +1,7 @@
 package fr.univ_smb.isc.m1.trading_game.controller.routers;
 
 import fr.univ_smb.isc.m1.trading_game.application.UserService;
+import fr.univ_smb.isc.m1.trading_game.controller.URLMap;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
@@ -21,7 +22,7 @@ public class AuthenticationController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/logIn")
+    @GetMapping(value = URLMap.loginPage)
     public String logIn(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession(false);
         String errorMessage = null;
@@ -36,20 +37,20 @@ public class AuthenticationController {
         return "logIn";
     }
 
-    @GetMapping(value = "/register")
+    @GetMapping(value = URLMap.signupPage)
     public String register(Model model){
         return "register";
     }
 
-    @PostMapping(value ="/performRegister")
+    @PostMapping(value =URLMap.performSignup)
     public String performRegister(@RequestParam(name = "username")String username,
                                   @RequestParam(name = "password")String password,
                                   RedirectAttributes redirectAttrs){
         if(userService.register(username, password)){
-            return "redirect:/";//TODO login
+            return "redirect:"+URLMap.loginPage;
         } else {
             redirectAttrs.addFlashAttribute("error", "L'utilisateur existe déjà");
-            return "redirect:/register";
+            return "redirect:"+URLMap.signupPage;
         }
 
     }

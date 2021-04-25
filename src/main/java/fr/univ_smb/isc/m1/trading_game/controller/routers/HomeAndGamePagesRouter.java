@@ -2,6 +2,7 @@ package fr.univ_smb.isc.m1.trading_game.controller.routers;
 
 import fr.univ_smb.isc.m1.trading_game.application.GameService;
 import fr.univ_smb.isc.m1.trading_game.application.UserService;
+import fr.univ_smb.isc.m1.trading_game.controller.URLMap;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.TradingGameUser;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -17,10 +18,10 @@ public class HomeAndGamePagesRouter {
         this.gameService = gameService;
     }
 
-    @RequestMapping(value = "/gameManager")
+    @RequestMapping(value = URLMap.gameManager)
     public String gameManager() { return "gameManager"; }
 
-    @RequestMapping(value = "/gameSelected")
+    @RequestMapping(value = URLMap.gameSelected)
     public String gameSelected() {
         return "gameSelected";
     }

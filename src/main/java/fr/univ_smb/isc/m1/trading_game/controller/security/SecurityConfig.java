@@ -1,6 +1,7 @@
 package fr.univ_smb.isc.m1.trading_game.controller.security;
 
 import fr.univ_smb.isc.m1.trading_game.application.UserService;
+import fr.univ_smb.isc.m1.trading_game.controller.URLMap;
 import fr.univ_smb.isc.m1.trading_game.controller.routers.UserController;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.TradingGameUser;
 import org.springframework.context.annotation.Configuration;
@@ -32,18 +33,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authenticationProvider(getProvider())
                 .authorizeRequests()
-                .antMatchers("/admin/**").hasRole(TradingGameUser.ADMIN_ROLE)
+                .antMatchers(URLMap.adminPrefix+"/**").hasRole(TradingGameUser.ADMIN_ROLE)
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
-                .loginPage("/logIn")
-                .loginProcessingUrl("/performLogin")
-                .defaultSuccessUrl(UserController.userPrefix+"/homePage", false)
-                .failureUrl("/logIn")
+                .loginPage(URLMap.loginPage)
+                .loginProcessingUrl(URLMap.performLogin)
+                .defaultSuccessUrl(URLMap.userHomepage, false)
+                .failureUrl(URLMap.loginPage)
                 .and()
                 .logout()
-                .logoutUrl("/performLogout")
-                .logoutSuccessUrl("/logIn");
+                .logoutUrl(URLMap.performLogout)
+                .logoutSuccessUrl(URLMap.loginPage);
     }
 
     private AuthenticationProvider getProvider() {
