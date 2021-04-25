@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class AuthenticationPagesRouter {
-    private UserService userService;
+public class AuthenticationRouter {
+    private final UserService userService;
 
-    public AuthenticationPagesRouter(UserService userService) {
+    public AuthenticationRouter(UserService userService) {
         this.userService = userService;
     }
 
