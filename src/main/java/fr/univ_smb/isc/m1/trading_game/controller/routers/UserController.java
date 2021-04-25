@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -72,8 +73,10 @@ public class UserController {
     }
 
     @PostMapping(value = URLMap.performJoinGame)
-    public String performJoinGame(){
-        //TODO
+    public String performJoinGame(@RequestParam(name = "gameId") long gameId){
+        TradingGameUser user = userService.getCurrentUser(SecurityContextHolder.getContext());
+        gameService.addPlayer(gameId, user);
+        //TODO redirect to game page
         return "redirect:"+URLMap.userHomepage;
     }
 
