@@ -67,7 +67,7 @@ public class UserServiceTest {
         String name = "test_name";
         String pw = "test_pw";
         UserService service = new UserService(mockEncoder, mockRepository);
-        service.register(name, pw);
+        Assertions.assertTrue(service.register(name, pw));
         verify(mockRepository, times(1))
                 .saveAndFlush(argThat(user -> user.getUsername().equals(name)
                         && user.getPassword().equals(encryptedPw)));
@@ -79,7 +79,7 @@ public class UserServiceTest {
         String pw = "test_pw";
         when(mockRepository.findTradingGameUserByUsername(name)).thenReturn(Optional.of(mockUser));
         UserService service = new UserService(mockEncoder, mockRepository);
-        service.register(name, pw);
+        Assertions.assertFalse(service.register(name, pw));
         verify(mockRepository, never()).saveAndFlush(any());
     }
 

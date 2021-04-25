@@ -38,12 +38,13 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
-    public void register(String name, String password){
+    public boolean register(String name, String password){
         if (userExists(name)) {
-            return;
+            return false;
         }
         TradingGameUser user = new TradingGameUser(name, passwordEncoder.encode(password));
         repository.saveAndFlush(user);
+        return true;
     }
 
     public boolean userExists(String username){
