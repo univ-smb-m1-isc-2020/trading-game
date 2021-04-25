@@ -18,6 +18,7 @@ public class URLMap {
 
 
     public final static String createGamePage = adminPrefix+"/create_game";
+    public final static String performCreateGame = adminPrefix+"/perform_create_game";
 
     private URLMap(){};
 }

@@ -8,48 +8,43 @@
 <body>
     <h1 class="pageMainTitle">Créer une partie</h1>
     <div class="verticallyAligned">
-        <div class="cell">
-            <label>Durée :</label>
-            <label>
-                <input type="number">
-            </label>
-            <label class="importantInfo"> jours</label>
-        </div>
-        <div class="cell">
-            <label>Nombre de portefeuilles :</label>
-            <label>
-                <input type="number">
-            </label>
-        </div>
-        <div class="cell">
-            <label>Solde initial :</label>
-            <label>
-                <input type="number">
-            </label>
-            <label class="importantInfo"> k$</label>
-        </div>
-        <div class="cell">
-            <label>Frais de transaction :</label>
-            <label>
-                <input type="number"/>
-            </label>
-            <label class="importantInfo"> $</label>
-        </div>
-        <div class="cell">
-            <label>Date de départ :</label>
-            <label>
-                <input type="date"/>
-            </label>
-        </div>
-        <div class="cell">
-            <label>Durée d'une journée :</label>
-            <label>
-                <input type="number"/>
-            </label>
-            <label class="importantInfo"> minutes</label>
-        </div>
-        <!-- Confirmation -->
-        <button style="display: inline-block" class="genericButton">Confirmer</button>
+        <form th:action="${performCreateGame}">
+            <div class="cell">
+                <label>Durée :</label>
+                <label>
+                    <input name="duration" type="number">
+                </label>
+                <label class="importantInfo"> jours</label>
+            </div>
+            <div class="cell">
+                <label>Nombre de portefeuilles :</label>
+                <label>
+                    <input name="portfolioCount" type="number">
+                </label>
+            </div>
+            <div class="cell">
+                <label>Solde initial :</label>
+                <label>
+                    <input name="initialBalance" type="number">
+                </label>
+                <label class="importantInfo">$</label>
+            </div>
+            <div class="cell">
+                <label>Frais de transaction :</label>
+                <label>
+                    <input name="fee" type="number"/>
+                </label>
+                <label class="importantInfo">$</label>
+            </div>
+            <div class="cell">
+                <label>Date de départ :</label>
+                <label>
+                    <input name="startDate" type="date"/>
+                </label>
+            </div>
+            <!-- Confirmation -->
+            <input type="submit" name="submit" style="display: inline-block"/>
+        </form>
     </div>
 </body>
 </html>
