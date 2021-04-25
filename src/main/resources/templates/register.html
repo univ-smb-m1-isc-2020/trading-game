@@ -7,7 +7,7 @@
 </head>
 <body>
 <h1 class="pageMainTitle">S'enregistrer</h1>
-<form action="/performRegister" method="POST"> <!-- TODO : Ou homePageAdmin selon le compte -->
+<form action="/performRegister" method="POST">
     <div class="verticallyAligned" style="position: fixed; top: 20%; left: 35%;">
         <!-- Pseudo -->
         <div style="margin-top: 20px; margin-bottom: 20px;">
@@ -26,5 +26,6 @@
     </div>
     <button class="genericButton" style="position: fixed; bottom: 40%; left: 43%;" type="submit" name="submit">Créer le compte</button>
 </form>
+<div style="color:red" th:if="${error != null}" th:text="${error}"></div>
 </body>
 </html>
