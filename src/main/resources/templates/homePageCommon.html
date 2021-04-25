@@ -8,18 +8,11 @@
 <body>
     <h1 class="pageMainTitle">Trading Game ©</h1>
     <a class="logInOutLink" th:href="${loginPage}">Se connecter / S'enregistrer</a>
-    <!-- Liste des parties -->
-    <div th:each="game: ${currentGames}">
-        <div class="cell">
-            <label class="gameCellHeader">Partie n°<span class="importantInfo" th:text="${game.id}"></span></label>
-            <label class="gameCellHeader"><span class="importantInfo" th:text="${game.currentDuration}"></span> jours</label>
-            <label class="gameCellHeader">Depuis le <span class="importantInfo" th:text="${game.startDate}"></span></label>
-            <ol>
-                <li th:each="player: ${game.players}">
-                    <label class="playerInfos" th:text="${player.user.getUsername()}"></label>
-                </li>
-            </ol>
-        </div>
+    <div class="cell" th:each="game, iStat: ${currentGames}">
+        <label class="gameCellHeader">Partie n°<span class="importantInfo" th:text="${iStat.index+1}"></span></label>
+        <label class="gameCellHeader"><span class="importantInfo" th:text="${game.getCurrentDuration()+'/'+game.getTotalDuration()}"></span> jours</label>
+        <label class="gameCellHeader">Depuis le <span class="importantInfo" th:text="${dateFormat.format(game.getStartDate())}"></span></label>
+        <button class="genericButton inCellButton">Voir le jeu</button>
     </div>
 </body>
 </html>

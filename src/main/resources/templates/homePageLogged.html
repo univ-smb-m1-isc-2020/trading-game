@@ -17,5 +17,11 @@
         th:action="${createGamePage}">
     <button class="genericButton topLeftButton" style="left: 19%;" type="submit">Créer une partie</button>
   </form>
+  <div class="cell" th:each="game, iStat: ${joinableGames}">
+    <label class="gameCellHeader">Partie n°<span class="importantInfo" th:text="${iStat.index+1}"></span></label>
+    <label class="gameCellHeader"><span class="importantInfo" th:text="${game.getCurrentDuration()+'/'+game.getTotalDuration()}"></span> jours</label>
+    <label class="gameCellHeader">Depuis le <span class="importantInfo" th:text="${dateFormat.format(game.getStartDate())}"></span></label>
+    <button class="genericButton inCellButton">Voir le jeu</button>
+  </div>
 </body>
 </html>
