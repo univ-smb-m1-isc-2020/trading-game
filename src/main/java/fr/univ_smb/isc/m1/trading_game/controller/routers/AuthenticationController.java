@@ -14,10 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
-public class AuthenticationRouter {
+public class AuthenticationController {
     private final UserService userService;
 
-    public AuthenticationRouter(UserService userService) {
+    public AuthenticationController(UserService userService) {
         this.userService = userService;
     }
 
@@ -46,7 +46,7 @@ public class AuthenticationRouter {
                                   @RequestParam(name = "password")String password,
                                   RedirectAttributes redirectAttrs){
         if(userService.register(username, password)){
-            return "redirect:/homePagePlayer";
+            return "redirect:/";//TODO login
         } else {
             redirectAttrs.addFlashAttribute("error", "L'utilisateur existe déjà");
             return "redirect:/register";

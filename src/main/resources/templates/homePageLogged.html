@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Trading Game</title>
+  <link rel="stylesheet" href="/css/appTheme.css"/>
+</head>
+<body>
+  <h1 class="pageMainTitle">Trading Game</h1>
+  <a class="logInOutLink" href="/performLogout" th:text="${username+' - se déconnecter'}"></a>
+  <form action="/user/joinGame">
+    <button class="genericButton topLeftButton" type="submit">Rejoindre une partie</button>
+  </form>
+  <form action="/admin/createGame" th:if="${admin}">
+    <button class="genericButton topLeftButton" style="left: 19%;" type="submit">Créer une partie</button>
+  </form>
+</body>
+</html>

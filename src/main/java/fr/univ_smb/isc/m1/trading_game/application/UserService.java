@@ -2,6 +2,7 @@ package fr.univ_smb.isc.m1.trading_game.application;
 
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.TradingGameUser;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.UserRepository;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,7 +27,8 @@ public class UserService implements UserDetailsService {
 
     public TradingGameUser getCurrentUser(SecurityContext ctx){
         Authentication auth = ctx.getAuthentication();
-        if(auth==null)return null;
+        if(auth instanceof AnonymousAuthenticationToken)return null;
+        if(!auth.isAuthenticated()) return null;
         long uid = ((TradingGameUser) auth.getPrincipal()).getId();
         return repository.findById(uid).orElse(null);
     }
