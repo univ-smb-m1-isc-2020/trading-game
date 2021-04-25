@@ -53,7 +53,7 @@ public class GameService {
                         g.getCurrentDuration()==0 &&
                         g.getPlayers()
                         .stream()
-                        .anyMatch(player -> player.getUser().getId() == user.getId()))
+                        .noneMatch(player -> player.getUser().getId() == user.getId()))
                 .collect(Collectors.toList());
     }
 

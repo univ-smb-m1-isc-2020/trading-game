@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.text.DateFormat;
@@ -41,16 +42,6 @@ public class UserController {
         }
     }
 
-    /*@GetMapping(value = "/user/test")
-    public String test(){
-        TradingGameUser user = userService.getCurrentUser(SecurityContextHolder.getContext());
-        if(user==null)return "redirect:/";
-        gameService.addPlayer(24255, user);
-        gameService.addPlayer(24258, user);
-        gameService.addPlayer(24259, user);
-        return "redirect:/";
-    }*/
-
     @GetMapping(value = URLMap.userHomepage)
     public String homePagePlayer(Model model) {
         TradingGameUser user = userService.getCurrentUser(SecurityContextHolder.getContext());
@@ -62,15 +53,28 @@ public class UserController {
 
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         model.addAttribute("dateFormat", format);
-        model.addAttribute("joinableGames", onGoingGames);
+        model.addAttribute("joinedGames", onGoingGames);
         model.addAttribute("admin",user.isAdmin());
         model.addAttribute("username",user.getUsername());
         return "homePageLogged";
     }
 
-    @RequestMapping(value = URLMap.joinGame)
-    public String joinGame() {
+    @GetMapping(value = URLMap.joinGame)
+    public String joinGame(Model model) {
+        TradingGameUser user = userService.getCurrentUser(SecurityContextHolder.getContext());
+        List<Game> availableGames = gameService.getAvailableGames(user);
+
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        model.addAttribute("dateFormat", format);
+        model.addAttribute("performJoinGame", URLMap.performJoinGame);
+        model.addAttribute("availableGames",availableGames);
         return "joinGame";
+    }
+
+    @PostMapping(value = URLMap.performJoinGame)
+    public String performJoinGame(){
+        //TODO
+        return "redirect:"+URLMap.userHomepage;
     }
 
 }

@@ -6,46 +6,24 @@
   <link rel="stylesheet" href="/css/appTheme.css"/>
 </head>
 <body>
-  <h1 class="pageMainTitle">Trading Game ©</h1>
-  <a class="logInOutLink">xXxTr4d3rxXx - Se déconnecter</a>
-  <!-- Liste des parties -->
-  <div class="cell">
-    <label class="gameCellHeader">Partie de ADMIN</label>
-    <label class="gameCellHeader">Durée : <span class="importantInfo">1 an</span></label>
-    <label class="gameCellHeader">Depuis le <span class="importantInfo">05/03/1995</span></label>
-    <label class="gameCellHeader"><span class="importantInfo">10min/j</span></label>
+  <h1 class="pageMainTitle">Rejoindre une partie</h1>
+  <div class="cell" th:each="game, iStat: ${availableGames}">
+    <label class="gameCellHeader">Partie n°<span class="importantInfo" th:text="${iStat.index+1}"></span></label>
+    <label class="gameCellHeader"><span class="importantInfo" th:text="${game.getTotalDuration()}"></span> jours</label>
+    <label class="gameCellHeader">Depuis le <span class="importantInfo" th:text="${dateFormat.format(game.getStartDate())}"></span></label>
     <ol>
       <li>
-        <label class="gameCellHeader">Nombre de joueurs actuel : <span class="importantInfo">14</span></label>
+        <label class="gameCellHeader">Nombre de joueurs actuel : <span class="importantInfo" th:text="${game.getPlayerCount()}"></span></label>
       </li>
       <li>
-        <label class="gameCellHeader">Montant initial : <span class="importantInfo">3x1000$</span></label>
-        <label class="gameCellHeader">Frais de transaction : <span class="importantInfo">0.5$</span></label>
+        <label class="gameCellHeader">Montant initial : <span class="importantInfo" th:text="${game.getMaxPortfolios()+'x'+(game.getInitialBalance()/100)}"></span></label>
+        <label class="gameCellHeader">Frais de transaction : <span class="importantInfo" th:text="${(game.getTransactionFee()/100)}"></span></label>
       </li>
     </ol>
-    <form style="display: inline-block" action="/gameSelected">
+    <form style="display: inline-block" th:action="${performJoinGame}" method="post">
+      <input name="gameId" type="hidden" th:value="${game.getId()}">
       <button class="genericButton inCellButton" type="submit">Rejoindre</button>
     </form>
   </div>
-  <div class="cell">
-    <label class="gameCellHeader">Partie de ADMIN</label>
-    <label class="gameCellHeader">Durée : <span class="importantInfo">30 jours</span></label>
-    <label class="gameCellHeader"><span class="importantInfo">Temps réel</span></label>
-    <ol>
-      <li>
-        <label class="gameCellHeader">Nombre de joueurs actuel : <span class="importantInfo">14</span></label>
-      </li>
-      <li>
-        <label class="gameCellHeader">Montant initial : <span class="importantInfo">3x1000$</span></label>
-        <label class="gameCellHeader">Frais de transaction : <span class="importantInfo">0.5$</span></label>
-      </li>
-    </ol>
-    <form style="display: inline-block" action="/gameSelected">
-      <button class="genericButton inCellButton" type="submit">Rejoindre</button>
-    </form>
-  </div>
-  <form action="/homePagePlayer">
-    <button class="genericButton topLeftButton" type="submit">Accueil</button>
-  </form>
 </body>
 </html>
