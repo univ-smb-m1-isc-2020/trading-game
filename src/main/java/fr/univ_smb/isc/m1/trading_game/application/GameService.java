@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.ScheduledFuture;
+import java.util.stream.Collectors;
 
 @Service
 public class GameService {
@@ -34,12 +35,26 @@ public class GameService {
         return repository.findAll();
     }
 
-    public List<Game> getGamesOf(Player player){
-        return repository.findAllByPlayersContains(player);
+    public List<Game> getGamesOf(TradingGameUser user){
+        return repository
+                .findAll()
+                .stream()
+                .filter(g -> g.getPlayers()
+                        .stream()
+                        .anyMatch(player -> player.getUser().getId() == user.getId()))
+                .collect(Collectors.toList());
     }
 
-    public List<Game> getAvailableGames(Player player){
-        return repository.findAllByCurrentDurationIsAndPlayersNotContaining(0, player);
+    public List<Game> getAvailableGames(TradingGameUser user){
+        return repository
+                .findAll()
+                .stream()
+                .filter(g ->
+                        g.getCurrentDuration()==0 &&
+                        g.getPlayers()
+                        .stream()
+                        .anyMatch(player -> player.getUser().getId() == user.getId()))
+                .collect(Collectors.toList());
     }
 
     public void addPlayer(long gameId, TradingGameUser user){

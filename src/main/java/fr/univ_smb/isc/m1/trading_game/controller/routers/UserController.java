@@ -30,7 +30,7 @@ public class UserController {
         TradingGameUser user = userService.getCurrentUser(SecurityContextHolder.getContext());
         if(user==null){
             model.addAttribute("loginPage", URLMap.loginPage);
-            
+
             List<Game> onGoingGames = gameService.getCurrentGames();
             DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             model.addAttribute("dateFormat", format);
@@ -41,10 +41,20 @@ public class UserController {
         }
     }
 
+    /*@GetMapping(value = "/user/test")
+    public String test(){
+        TradingGameUser user = userService.getCurrentUser(SecurityContextHolder.getContext());
+        if(user==null)return "redirect:/";
+        gameService.addPlayer(24255, user);
+        gameService.addPlayer(24258, user);
+        gameService.addPlayer(24259, user);
+        return "redirect:/";
+    }*/
+
     @GetMapping(value = URLMap.userHomepage)
     public String homePagePlayer(Model model) {
         TradingGameUser user = userService.getCurrentUser(SecurityContextHolder.getContext());
-        List<Game> onGoingGames = gameService.getCurrentGames();
+        List<Game> onGoingGames = gameService.getGamesOf(user);
 
         model.addAttribute("performLogout", URLMap.performLogout);
         model.addAttribute("joinGame", URLMap.joinGame);
