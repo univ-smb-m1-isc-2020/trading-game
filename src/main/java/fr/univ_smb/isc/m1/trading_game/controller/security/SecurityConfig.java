@@ -36,12 +36,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/logIn")
-                .loginProcessingUrl("/perform_login")
-                .defaultSuccessUrl("/homePagePlayer", true)
-                .failureUrl("/logIn");
+                .loginProcessingUrl("/performLogin")
+                .defaultSuccessUrl("/homePagePlayer", false)
+                .failureUrl("/logIn")
+                .and()
+                .logout()
+                .logoutUrl("/performLogout")
+                .logoutSuccessUrl("/logIn");
     }
 
     private AuthenticationProvider getProvider() {
-        return new TradingGameAuthProvider(userService, encodingService.passwordEncoder());
+        return new TradingGameAuthProvider(userService, encodingService.passwordEncoder(), encodingService);
     }
 }

@@ -1,12 +1,17 @@
 package fr.univ_smb.isc.m1.trading_game.controller.routers;
 
 import fr.univ_smb.isc.m1.trading_game.application.UserService;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class AuthenticationRouter {
@@ -17,7 +22,17 @@ public class AuthenticationRouter {
     }
 
     @GetMapping(value = "/logIn")
-    public String logIn(Model model) {
+    public String logIn(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession(false);
+        String errorMessage = null;
+        if (session != null) {
+            AuthenticationException ex = (AuthenticationException) session
+                    .getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+            if (ex != null) {
+                errorMessage = "Identifiants incorrects.";
+            }
+        }
+        model.addAttribute("errorMessage", errorMessage);
         return "logIn";
     }
 
@@ -31,7 +46,7 @@ public class AuthenticationRouter {
                                   @RequestParam(name = "password")String password,
                                   RedirectAttributes redirectAttrs){
         if(userService.register(username, password)){
-            return "redirect:/homePagePlayer";//TODO
+            return "redirect:/homePagePlayer";
         } else {
             redirectAttrs.addFlashAttribute("error", "L'utilisateur existe déjà");
             return "redirect:/register";

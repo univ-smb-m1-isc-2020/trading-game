@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class TradingGameAuthProvider extends DaoAuthenticationProvider {
     private final UserService userDetailsService;
+    private final EncodingService encodingService;
 
-    public TradingGameAuthProvider(UserService userDetailsService, PasswordEncoder passwordEncoder) {
+    public TradingGameAuthProvider(UserService userDetailsService, PasswordEncoder passwordEncoder, EncodingService encodingService) {
         this.userDetailsService = userDetailsService;
+        this.encodingService = encodingService;
         this.setUserDetailsService(userDetailsService);
         this.setPasswordEncoder(passwordEncoder);
     }
@@ -24,15 +26,15 @@ public class TradingGameAuthProvider extends DaoAuthenticationProvider {
         String name = auth.getName();
         String password = auth.getCredentials().toString();
         UserDetails user = userDetailsService.loadUserByUsername(name);
-        if (user == null) {
+        if (user == null || !encodingService.passwordEncoder().matches(password, user.getPassword()) ) {
             return null;
         }
-        return new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(user, password, user.getAuthorities());
     }
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return true;
+        return authentication.equals(UsernamePasswordAuthenticationToken.class);
     }
 
 }
