@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Controller
@@ -30,10 +33,16 @@ public class AdminController {
                                     @RequestParam(name = "portfolioCount")int portfolioCount,
                                     @RequestParam(name = "initialBalance")int initialBalanceDollars,
                                     @RequestParam(name = "fee") int feeDollars,
-                                    @RequestParam(name = "startDate") Date startDate){
-        int initialBalance = initialBalanceDollars*100;
-        int fee = feeDollars * 100;
-        gameService.createGame(portfolioCount, initialBalance, fee, startDate, duration);
+                                    @RequestParam(name = "startDate") String startDateString){
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date startDate = format.parse(startDateString);
+            int initialBalance = initialBalanceDollars*100;
+            int fee = feeDollars * 100;
+            gameService.createGame(portfolioCount, initialBalance, fee, startDate, duration);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return "redirect:"+URLMap.userHomepage;
     }
 }

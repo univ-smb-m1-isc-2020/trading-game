@@ -80,7 +80,7 @@ public class TradingGameUser implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> list = new ArrayList<>();
-        list.add(new SimpleGrantedAuthority(isAdmin?ADMIN_ROLE:USER_ROLE));
+        list.add(new SimpleGrantedAuthority("ROLE_"+(isAdmin?ADMIN_ROLE:USER_ROLE)));
         return list;
     }
 
