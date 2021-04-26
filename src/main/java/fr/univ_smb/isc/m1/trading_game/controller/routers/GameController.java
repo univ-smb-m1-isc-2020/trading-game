@@ -2,6 +2,7 @@ package fr.univ_smb.isc.m1.trading_game.controller.routers;
 
 import fr.univ_smb.isc.m1.trading_game.application.GameService;
 import fr.univ_smb.isc.m1.trading_game.application.PlayerService;
+import fr.univ_smb.isc.m1.trading_game.application.TickerService;
 import fr.univ_smb.isc.m1.trading_game.application.UserService;
 import fr.univ_smb.isc.m1.trading_game.controller.URLMap;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.*;
@@ -20,11 +21,24 @@ public class GameController {
     private final GameService gameService;
     private final UserService userService;
     private final PlayerService playerService;
+    private final TickerService tickerService;
 
-    public GameController(GameService gameService, UserService userService, PlayerService playerService) {
+    public GameController(GameService gameService, UserService userService, PlayerService playerService, TickerService tickerService) {
         this.gameService = gameService;
         this.userService = userService;
         this.playerService = playerService;
+        this.tickerService = tickerService;
+    }
+
+    @GetMapping(value = URLMap.createOrder)
+    public String createOrder(Model model,
+                              @RequestParam(name = "playerId") long playerId,
+                              @RequestParam(name = "portfolioId") long portfolioId){
+        model.addAttribute("tickers", tickerService.getTickers());
+        model.addAttribute("performCreateOrder", URLMap.performCreateOrder);
+        model.addAttribute("playerId", playerId);
+        model.addAttribute("portfolioId", portfolioId);
+        return "createOrder";
     }
 
     @GetMapping(value = URLMap.viewGame)
@@ -60,9 +74,11 @@ public class GameController {
             model.addAttribute("currentPortfolioBalance", currentPortfolio.getBalance()/100f);
             model.addAttribute("portfolioOrders", portfolioOrders);
             model.addAttribute("currentPortfolioId", currentPortfolio.getId());
+            model.addAttribute("playerId", player.getId());
 
             model.addAttribute("viewPortfolio", URLMap.viewGame+"?gameId="+gameId+"&portfolioNumber=");
             model.addAttribute("createOrder",URLMap.createOrder);
+
             return "gameManager";
         } else {
             return "redirect:"+URLMap.userHomepage;

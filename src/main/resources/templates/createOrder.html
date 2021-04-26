@@ -6,34 +6,34 @@
     <link rel="stylesheet" href="/css/appTheme.css"/>
 </head>
 <body>
-    <!-- Choix type d'ordre -->
+    <h1>Créer une ordre</h1>
     <div class="verticallyAligned">
-        <div class="cell verticallyAligned">
-            <label for="orderTypeSelect">Type :</label>
-            <select name="types" id="orderTypeSelect">
-                <option value="buy">Achat</option>
-                <option value="sell">Vente</option>
-            </select>
-        </div>
-        <!-- Choix ticker -->
-        <div class="cell verticallyAligned">
-            <label for="tickerSelect">Ticker :</label>
-            <select name="tickers" id="tickerSelect">
-                <option th:each="ticker: ${tickers}" th:text="${ticker.name}"></option>
-            </select>
-        </div>
-        <!-- Infos -->
-        <div class="cell verticallyAligned">
-            <label>Coût à l'unité : <span class="importantInfo">50$</span></label>
-        </div>
-        <div class="cell verticallyAligned">
-            <label>Quantité :</label>
-            <label>
-                <input type="text"/>
-            </label>
-        </div>
-        <!-- Confirmation -->
-        <button class="genericButton">Confirmer</button>
+        <form th:action="${performCreateOrder}" method="post">
+            <input name="playerId" type="hidden" th:value="${playerId}"/>
+            <input name="portfolioId" type="hidden" th:value="${portfolioId}"/>
+            <div class="cell verticallyAligned">
+                <label for="orderTypeSelect">Type :</label>
+                <select name="orderType" id="orderTypeSelect">
+                    <option value="buy">Achat</option>
+                    <option value="sell">Vente</option>
+                </select>
+            </div>
+            <!-- Choix ticker -->
+            <div class="cell verticallyAligned">
+                <label for="tickerSelect">Ticker :</label>
+                <select name="orderTicker" id="tickerSelect">
+                    <option th:each="ticker: ${tickers}" th:text="${ticker.getSymbol()}"></option>
+                </select>
+            </div>
+            <!-- Infos -->
+            <div class="cell verticallyAligned">
+                <label>Quantité :</label>
+                <label>
+                    <input name="orderQuantity" type="number"/>
+                </label>
+            </div>
+            <input type="submit" name="submit" value="Créer l'ordre">
+        </form>
     </div>
 </body>
 </html>

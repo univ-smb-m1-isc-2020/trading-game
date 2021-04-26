@@ -15,6 +15,7 @@ public class URLMap {
     public final static String performJoinGame = userPrefix+"/perform_join_game";
     public final static String viewGame = userPrefix+"/game_manager";
     public final static String createOrder = userPrefix+"/create_order";
+    public final static String performCreateOrder = userPrefix+"/perform_create_order";
 
 
     public final static String createGamePage = adminPrefix+"/create_game";
