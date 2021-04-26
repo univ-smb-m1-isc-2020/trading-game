@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Trading Game - Création d'une partie</title>
+    <title>Trading Game - Gérer les parties</title>
     <link rel="stylesheet" href="/css/appTheme.css"/>
 </head>
 <body>
@@ -46,5 +46,32 @@
             <input type="submit" name="submit" style="display: inline-block"/>
         </form>
     </div>
+    <hr/>
+    <h1 class="pageMainTitle">Gérer les parties</h1>
+    <div>
+        <div class="cell" th:each="game, iStat: ${startableGames}">
+            <label class="gameCellHeader">Partie n°<span class="importantInfo" th:text="${iStat.index+1}"></span></label>
+            <label class="gameCellHeader"><span class="importantInfo" th:text="${game.getCurrentDuration()+'/'+game.getTotalDuration()}"></span> jours</label>
+            <label class="gameCellHeader">Depuis le <span class="importantInfo" th:text="${dateFormat.format(game.getStartDate())}"></span></label>
+            <ul>
+                <li>
+                    <label class="gameCellHeader">Nombre de joueurs actuel : <span class="importantInfo" th:text="${game.getPlayerCount()}"></span></label>
+                </li>
+                <li>
+                    <label class="gameCellHeader">Montant initial : <span class="importantInfo" th:text="${game.getMaxPortfolios()+'x'+(game.getInitialBalance()/100)}"></span></label>
+                    <label class="gameCellHeader">Frais de transaction : <span class="importantInfo" th:text="${(game.getTransactionFee()/100)}"></span></label>
+                </li>
+            </ul>
+            <form th:action="${performStartGame}">
+                <input name="gameId" type="hidden" th:value="${game.getId()}"/>
+                <label>Durée d'une journée (minutes)</label>
+                <label>
+                    <input name="duration" type="number" value="10"/>
+                </label>
+                <button type="submit" name="submit">Démarrer</button>
+            </form>
+        </div>
+    </div>
+
 </body>
 </html>

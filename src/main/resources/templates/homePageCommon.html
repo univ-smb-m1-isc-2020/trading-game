@@ -12,7 +12,7 @@
         <label class="gameCellHeader">Partie n°<span class="importantInfo" th:text="${iStat.index+1}"></span></label>
         <label class="gameCellHeader"><span class="importantInfo" th:text="${game.getCurrentDuration()+'/'+game.getTotalDuration()}"></span> jours</label>
         <label class="gameCellHeader">Depuis le <span class="importantInfo" th:text="${dateFormat.format(game.getStartDate())}"></span></label>
-        <ol>
+        <ul>
             <li>
                 <label class="gameCellHeader">Nombre de joueurs actuel : <span class="importantInfo" th:text="${game.getPlayerCount()}"></span></label>
             </li>
@@ -20,7 +20,7 @@
                 <label class="gameCellHeader">Montant initial : <span class="importantInfo" th:text="${game.getMaxPortfolios()+'x'+(game.getInitialBalance()/100)}"></span></label>
                 <label class="gameCellHeader">Frais de transaction : <span class="importantInfo" th:text="${(game.getTransactionFee()/100)}"></span></label>
             </li>
-        </ol>
+        </ul>
     </div>
 </body>
 </html>

@@ -24,7 +24,11 @@ public class AdminController {
 
     @GetMapping(value = URLMap.createGamePage)
     public String createGame(Model model) {
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        model.addAttribute("dateFormat",format);
         model.addAttribute("performCreateGame",URLMap.performCreateGame);
+        model.addAttribute("performStartGame","");//TODO
+        model.addAttribute("startableGames", gameService.getUnstartedGames());
         return "createGame";
     }
 

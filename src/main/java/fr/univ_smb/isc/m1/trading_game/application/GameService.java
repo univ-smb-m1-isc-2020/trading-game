@@ -35,7 +35,11 @@ public class GameService {
         return repository.findAll();
     }
 
-    public List<Game> getGamesOf(TradingGameUser user){
+    public List<Game> getUnstartedGames() { // TODO test
+        return getCurrentGames().stream().filter(g -> !RUNNING_GAMES.containsKey(g.getId())).collect(Collectors.toList());
+    }
+
+    public List<Game> getGamesOf(TradingGameUser user){// TODO test
         return repository
                 .findAll()
                 .stream()
@@ -45,7 +49,7 @@ public class GameService {
                 .collect(Collectors.toList());
     }
 
-    public List<Game> getAvailableGames(TradingGameUser user){
+    public List<Game> getAvailableGames(TradingGameUser user){// TODO test
         return repository
                 .findAll()
                 .stream()
