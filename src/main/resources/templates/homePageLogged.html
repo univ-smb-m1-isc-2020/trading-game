@@ -26,8 +26,8 @@
         <label class="gameCellHeader">Nombre de joueurs actuel : <span class="importantInfo" th:text="${game.getPlayerCount()}"></span></label>
       </li>
       <li>
-        <label class="gameCellHeader">Montant initial : <span class="importantInfo" th:text="${game.getMaxPortfolios()+'x'+(game.getInitialBalance()/100)}"></span></label>
-        <label class="gameCellHeader">Frais de transaction : <span class="importantInfo" th:text="${(game.getTransactionFee()/100)}"></span></label>
+        <label class="gameCellHeader">Montant initial : <span class="importantInfo" th:text="${game.getMaxPortfolios()+'x'+(game.getInitialBalance()/100)+'€'}"></span></label>
+        <label class="gameCellHeader">Frais de transaction : <span class="importantInfo" th:text="${(game.getTransactionFee()/100)+'€'}"></span></label>
       </li>
     </ul>
     <form style="display: inline-block" action="/">

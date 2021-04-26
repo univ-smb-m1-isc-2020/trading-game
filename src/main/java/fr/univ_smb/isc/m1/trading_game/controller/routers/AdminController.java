@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.DateFormat;
@@ -35,14 +34,14 @@ public class AdminController {
     @PostMapping(value=URLMap.performCreateGame)
     public String performCreateGame(@RequestParam(name = "duration")int duration,
                                     @RequestParam(name = "portfolioCount")int portfolioCount,
-                                    @RequestParam(name = "initialBalance")int initialBalanceDollars,
-                                    @RequestParam(name = "fee") int feeDollars,
+                                    @RequestParam(name = "initialBalanceEuros")int initialBalanceEuros,
+                                    @RequestParam(name = "feeEuros") int feeEuros,
                                     @RequestParam(name = "startDate") String startDateString){
         try {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Date startDate = format.parse(startDateString);
-            int initialBalance = initialBalanceDollars*100;
-            int fee = feeDollars * 100;
+            int initialBalance = initialBalanceEuros *100;
+            int fee = feeEuros * 100;
             gameService.createGame(portfolioCount, initialBalance, fee, startDate, duration);
         } catch (ParseException e) {
             e.printStackTrace();
