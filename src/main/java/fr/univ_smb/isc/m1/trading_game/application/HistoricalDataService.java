@@ -13,13 +13,22 @@ import org.springframework.web.client.RestTemplate;
 import javax.annotation.PostConstruct;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
 public class HistoricalDataService {//TODO test
+    private final static String API_TICKERS_URL = "http://api.marketstack.com/v1/exchanges/XPAR/tickers?";
+    private final static String API_KEY = "176434db214273ad3282785f999c7d42";
+    private final static int TICKER_LIMIT = 60;
+
+    private final static String API_EOD_URL = "http://api.marketstack.com/v1/eod?";
+    private final static String START_DATE="2020-05-27";
+    private final static String END_DATE="2021-04-22";
+    private final static int EOD_LIMIT = 1000;
+
+
     private final TickerRepository tickerRepository;
     private final EODRepository eodRepository;
 
@@ -39,9 +48,9 @@ public class HistoricalDataService {//TODO test
         // Tickers initialization
         if (tickers().isEmpty()) {
             JsonNode jTickers;
-            uri = new StringBuilder("http://api.marketstack.com/v1/exchanges/XPAR/tickers?" +
-                    "access_key=176434db214273ad3282785f999c7d42" +
-                    "&limit=60");
+            uri = new StringBuilder(API_TICKERS_URL +
+                    "access_key="+API_KEY +
+                    "&limit="+TICKER_LIMIT);
 
             try {
                 // Getting 60 tickers
@@ -66,11 +75,11 @@ public class HistoricalDataService {//TODO test
             EOD eod;
 
             for (int i=0; i < tickers.size(); i+=3) {
-                uri = new StringBuilder("http://api.marketstack.com/v1/eod?" +
-                        "access_key=176434db214273ad3282785f999c7d42" +
-                        "&limit=1000" +
-                        "&date_from=2020-05-27" +
-                        "&date_to=2021-04-22" +
+                uri = new StringBuilder(API_EOD_URL +
+                        "access_key="+API_KEY +
+                        "&limit="+ EOD_LIMIT +
+                        "&date_from=" + START_DATE+
+                        "&date_to=" + END_DATE +
                         "&symbols=");
                 //Working on three tickers at the same time to limit the number of queries
                 currentTickers.clear();
