@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.DateFormat;
@@ -33,7 +32,7 @@ public class UserController {
         if(user==null){
             model.addAttribute("loginPage", URLMap.loginPage);
 
-            List<Game> onGoingGames = gameService.getCurrentGames();
+            List<Game> onGoingGames = gameService.getCurrentlyActiveGames();
             DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             model.addAttribute("dateFormat", format);
             model.addAttribute("currentGames", onGoingGames);
@@ -46,7 +45,7 @@ public class UserController {
     @GetMapping(value = URLMap.userHomepage)
     public String homePagePlayer(Model model) {
         TradingGameUser user = userService.getCurrentUser(SecurityContextHolder.getContext());
-        List<Game> onGoingGames = gameService.getGamesOf(user);
+        List<Game> onGoingGames = gameService.getActiveGamesOf(user);
 
         model.addAttribute("performLogout", URLMap.performLogout);
         model.addAttribute("joinGame", URLMap.joinGame);

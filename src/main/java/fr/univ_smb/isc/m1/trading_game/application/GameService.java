@@ -32,17 +32,16 @@ public class GameService {
         return game;
     }
 
-    public List<Game> getCurrentGames(){
-        return repository.findAll();
+    public List<Game> getCurrentlyActiveGames(){
+        return repository.findAllActive();
     }
 
     public List<Game> getUnstartedGames() { // TODO test
-        return getCurrentGames().stream().filter(g -> !RUNNING_GAMES.containsKey(g.getId())).collect(Collectors.toList());
+        return getCurrentlyActiveGames().stream().filter(g -> !RUNNING_GAMES.containsKey(g.getId())).collect(Collectors.toList());
     }
 
-    public List<Game> getGamesOf(TradingGameUser user){// TODO test
-        return repository
-                .findAll()
+    public List<Game> getActiveGamesOf(TradingGameUser user){// TODO test
+        return getCurrentlyActiveGames()
                 .stream()
                 .filter(g -> g.getPlayers()
                         .stream()
@@ -51,8 +50,7 @@ public class GameService {
     }
 
     public List<Game> getAvailableGames(TradingGameUser user){// TODO test
-        return repository
-                .findAll()
+        return getCurrentlyActiveGames()
                 .stream()
                 .filter(g ->
                         g.getCurrentDuration()==0 &&

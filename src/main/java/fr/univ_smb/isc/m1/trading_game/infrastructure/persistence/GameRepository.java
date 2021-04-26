@@ -8,4 +8,6 @@ import java.util.List;
 
 @Repository
 public interface GameRepository extends JpaRepository<Game, Long> {
+    @Query("select g from Game g where g.currentDuration<g.totalDuration")
+    public List<Game> findAllActive();
 }
