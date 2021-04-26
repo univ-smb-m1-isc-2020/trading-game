@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -49,6 +50,7 @@ public class UserController {
 
         model.addAttribute("performLogout", URLMap.performLogout);
         model.addAttribute("joinGame", URLMap.joinGame);
+        model.addAttribute("viewGame", URLMap.viewGame);
         model.addAttribute("createGamePage", URLMap.createGamePage);
 
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -72,11 +74,26 @@ public class UserController {
     }
 
     @PostMapping(value = URLMap.performJoinGame)
-    public String performJoinGame(@RequestParam(name = "gameId") long gameId){
+    public String performJoinGame(@RequestParam(name = "gameId") long gameId,
+                                  RedirectAttributes redirectAttrs){
         TradingGameUser user = userService.getCurrentUser(SecurityContextHolder.getContext());
         gameService.addPlayer(gameId, user);
-        //TODO redirect to game page
-        return "redirect:"+URLMap.userHomepage;
+        redirectAttrs.addFlashAttribute("gameId",gameId);
+        return "redirect:"+URLMap.viewGame;
+    }
+
+    @GetMapping(value = URLMap.viewGame)
+    public String gameManager(Model model, @RequestParam(name="gameId") int gameId) {
+        Game g = gameService.getGame(gameId);
+        TradingGameUser user = userService.getCurrentUser(SecurityContextHolder.getContext());
+        if(g != null
+            && user!=null
+            && g.getPlayers().stream().anyMatch(p -> p.getUser().getId()==user.getId())){
+            model.addAttribute("createOrder",URLMap.createOrder);
+            return "gameManager";
+        } else {
+            return "redirect:"+URLMap.userHomepage;
+        }
     }
 
 }

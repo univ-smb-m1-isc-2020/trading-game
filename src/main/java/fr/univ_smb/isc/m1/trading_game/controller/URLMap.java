@@ -13,8 +13,7 @@ public class URLMap {
     public final static String userHomepage = userPrefix+"/home";
     public final static String joinGame = userPrefix+"/join_game";
     public final static String performJoinGame = userPrefix+"/perform_join_game";
-    public final static String gameManager = userPrefix+"/game_manager";
-    public final static String gameSelected = userPrefix+"/game_selected";
+    public final static String viewGame = userPrefix+"/game_manager";
     public final static String createOrder = userPrefix+"/create_order";
 
 

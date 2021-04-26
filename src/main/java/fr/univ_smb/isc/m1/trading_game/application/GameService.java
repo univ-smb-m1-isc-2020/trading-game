@@ -26,6 +26,10 @@ public class GameService {
         this.eodService = eodService;
     }
 
+    public Game getGame(long gameId) {
+        return repository.findById(gameId).orElse(null);
+    }
+
     public Game createGame(int maxPortfolios, int initialBalance, int transactionFee, Date startDate, int totalDuration){
         Game game = new Game(maxPortfolios, initialBalance, transactionFee, startDate, totalDuration);
         repository.saveAndFlush(game);
