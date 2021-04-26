@@ -23,10 +23,4 @@ public class HomeAndGamePagesRouter {
         model.addAttribute("createOrder",URLMap.createOrder);
         return "gameManager";
     }
-
-    @RequestMapping(value = URLMap.gameSelected)
-    public String gameSelected(Model model) {
-        model.addAttribute("joinGame",URLMap.joinGame);
-        return "gameSelected";
-    }
 }
