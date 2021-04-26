@@ -45,6 +45,7 @@
             </tbody>
         </table>
         <form th:action="${createOrder}">
+            <input type="hidden" name="gameId" th:value="${gameId}"/>
             <input type="hidden" name="portfolioId" th:value="${currentPortfolioId}"/>
             <input type="hidden" name="playerId" th:value="${playerId}"/>
             <button class="genericButton" type="submit">Créer un ordre</button>

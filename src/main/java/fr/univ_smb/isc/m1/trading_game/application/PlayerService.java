@@ -37,6 +37,14 @@ public class PlayerService {
         return player.getPortfolios();
     }
 
+    public int getPortfolioNumber(long playerId, long portfolioId) {
+        Player player = repository.findById(playerId).orElse(null);//TODO test
+        if(player==null) return 0;
+        Portfolio port = player.getPortfolios().stream().filter(p -> p.getId()==portfolioId).findFirst().orElse(null);
+        if(port==null) return 0;
+        return player.getPortfolios().indexOf(port)+1;
+    }
+
     public int getTotalBalance(long playerId){
         Player player = repository.findById(playerId).orElse(null);
         if(player==null) return 0;

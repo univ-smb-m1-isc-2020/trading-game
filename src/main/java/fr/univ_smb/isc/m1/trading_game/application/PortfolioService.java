@@ -88,4 +88,11 @@ public class PortfolioService {
         repository.saveAndFlush(port);
         return true;
     }
+
+    public void addOrder(long portfolioId, Order order) {
+        Portfolio port = repository.findById(portfolioId).orElse(null);
+        if(port==null || order==null)return;
+        port.getOrders().add(order);
+        repository.saveAndFlush(port);
+    }
 }

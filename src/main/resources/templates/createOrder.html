@@ -9,6 +9,7 @@
     <h1>Créer une ordre</h1>
     <div class="verticallyAligned">
         <form th:action="${performCreateOrder}" method="post">
+            <input name="gameId" type="hidden" th:value="${gameId}"/>
             <input name="playerId" type="hidden" th:value="${playerId}"/>
             <input name="portfolioId" type="hidden" th:value="${portfolioId}"/>
             <div class="cell verticallyAligned">
