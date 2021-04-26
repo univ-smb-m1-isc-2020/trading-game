@@ -4,10 +4,8 @@ import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.*;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class PortfolioService {
@@ -43,7 +41,7 @@ public class PortfolioService {
     public List<Order> getOrders(long portfolioId){
         Portfolio port = repository.findById(portfolioId).orElse(null);
         if(port==null) return new ArrayList<>();//TODO test
-        return port.getOrders();
+        return port.getOrders().stream().sorted(Comparator.comparingLong(Order::getId)).collect(Collectors.toList());
     }
 
     public Map<Ticker, Integer> getParts(long portfolioId){

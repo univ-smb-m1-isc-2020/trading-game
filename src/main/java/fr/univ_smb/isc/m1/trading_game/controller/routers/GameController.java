@@ -88,7 +88,7 @@ public class GameController {
                 && user!=null
                 && player != null){
 
-            Portfolio currentPortfolio = player.getPortfolios().get(portfolioNumber.orElse(1)-1);
+            Portfolio currentPortfolio = playerService.getPortfolios(player.getId()).get(portfolioNumber.orElse(1)-1);
             List<TickerInfo> portfolioTickers = currentPortfolio.getParts()
                     .keySet()
                     .stream()

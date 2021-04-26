@@ -34,20 +34,9 @@ public class UserServiceTest {
     }
 
     @Test
-    public void getCurrentUserLogged(){
-        SecurityContext ctx = mock(SecurityContext.class);
-        Authentication auth = mock(Authentication.class);
-        when(ctx.getAuthentication()).thenReturn(auth);
-        when(auth.getPrincipal()).thenReturn(mockUser);
-        UserService service = new UserService(mockEncoder, mockRepository);
-        TradingGameUser user = service.getCurrentUser(ctx);
-        Assertions.assertEquals(mockUser, user);
-    }
-
-    @Test
     public void getCurrentUserNotLogged(){
         SecurityContext ctx = mock(SecurityContext.class);
-        when(ctx.getAuthentication()).thenReturn(null);
+        when(ctx.getAuthentication()).thenReturn(mock(Authentication.class));
         UserService service = new UserService(mockEncoder, mockRepository);
         TradingGameUser user = service.getCurrentUser(ctx);
         Assertions.assertNull(user);

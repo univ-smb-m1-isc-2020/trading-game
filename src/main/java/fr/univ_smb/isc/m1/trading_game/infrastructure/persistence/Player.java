@@ -2,7 +2,10 @@ package fr.univ_smb.isc.m1.trading_game.infrastructure.persistence;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 public class Player {
@@ -12,13 +15,13 @@ public class Player {
     @ManyToOne
     protected TradingGameUser user;
     @OneToMany(fetch = FetchType.EAGER)
-    protected List<Portfolio> portfolios;
+    protected Set<Portfolio> portfolios;
 
     public Player(){
         //JPA
     }
 
-    public Player(TradingGameUser user, List<Portfolio> portfolios) {
+    public Player(TradingGameUser user, Set<Portfolio> portfolios) {
         this.user = user;
         this.portfolios = portfolios;
     }
@@ -27,8 +30,12 @@ public class Player {
         return id;
     }
 
-    public List<Portfolio> getPortfolios() {
+    public Set<Portfolio> getPortfolios() {
         return portfolios;
+    }
+
+    public void setPortfolios(Set<Portfolio> portfolios) {
+        this.portfolios = portfolios;
     }
 
     public TradingGameUser getUser() {

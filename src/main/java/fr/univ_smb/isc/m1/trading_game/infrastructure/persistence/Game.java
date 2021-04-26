@@ -2,6 +2,7 @@ package fr.univ_smb.isc.m1.trading_game.infrastructure.persistence;
 
 import javax.persistence.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 public class Game {
@@ -15,7 +16,7 @@ public class Game {
     protected int totalDuration; // days
     protected int currentDuration; // days
     @OneToMany(fetch = FetchType.EAGER)
-    protected List<Player> players;
+    protected Set<Player> players;
 
     public Game(){
         //JPA
@@ -29,7 +30,7 @@ public class Game {
         this.totalDuration = totalDuration;
 
         currentDuration = 0;
-        players = new ArrayList<>();
+        players = new HashSet<>();
     }
 
     public long getId() {
@@ -72,7 +73,7 @@ public class Game {
         return players.size();
     }
 
-    public List<Player> getPlayers() {
+    public Set<Player> getPlayers() {
         return players;
     }
 }

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -51,14 +52,14 @@ public class PortfolioServiceTest {
     @Test
     public void getOrders(){
         int orderCount = 3;
-        List<Order> orders = new ArrayList<>();
+        Set<Order> orders = new HashSet<>();
         for(int i=0; i<orderCount; i++){
             orders.add(mock(Order.class));
         }
         when(mockPortfolio.getOrders()).thenReturn(orders);
 
         PortfolioService service = new PortfolioService(mockRepository, mockOrderService, mockTickerService);
-        Assertions.assertEquals(orders, service.getOrders(mockPortfolioId));
+        Assertions.assertEquals(orders, new HashSet<>(service.getOrders(mockPortfolioId)));
     }
 
     @Test
@@ -79,7 +80,7 @@ public class PortfolioServiceTest {
         int orderCount = 3;
 
         EOD mockData = mock(EOD.class);
-        List<Order> orders = new ArrayList<Order>();
+        Set<Order> orders = new HashSet<>();
         for(int i=0; i<orderCount; i++){
             orders.add(mock(Order.class));
         }
@@ -89,8 +90,8 @@ public class PortfolioServiceTest {
         PortfolioService service = new PortfolioService(mockRepository, mockOrderService, mockTickerService);
         service.applyOrders(mockPortfolioId, mockData);
 
-        for(int i=0; i<orderCount; i++){
-            verify(mockOrderService, times(1)).apply(orders.get(i), mockData, mockPortfolioId);
+        for(Order o : orders){
+            verify(mockOrderService, times(1)).apply(o, mockData, mockPortfolioId);
         }
     }
 

@@ -5,10 +5,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static org.mockito.Mockito.*;
 
@@ -30,20 +29,22 @@ public class PlayerServiceTest {
 
     @Test
     public void createPlayer(){
-        int portfolioCount = 5;
+        int portfolioCount = 2;
         int initialBalance = 100;
         TradingGameUser mockUser = mock(TradingGameUser.class);
         Portfolio port = mock(Portfolio.class);
+        Portfolio port2 = mock(Portfolio.class);
         when(port.getBalance()).thenReturn(initialBalance);
-        when(mockPortfolioService.create(initialBalance)).thenReturn(port);
+        when(port2.getBalance()).thenReturn(initialBalance);
+        when(mockPortfolioService.create(initialBalance)).thenReturn(port).thenReturn(port2);
 
         PlayerService service = new PlayerService(mockRepository, mockPortfolioService);
         Player createdPlayer = service.createPlayer(mockUser, portfolioCount, initialBalance);
 
         Assertions.assertNotNull(createdPlayer.getPortfolios());
         Assertions.assertEquals(createdPlayer.getPortfolios().size(), portfolioCount);
-        for(int i=0 ;i<portfolioCount; i++){
-            Assertions.assertEquals(initialBalance, createdPlayer.getPortfolios().get(i).getBalance());
+        for(Portfolio p : createdPlayer.getPortfolios()){
+            Assertions.assertEquals(initialBalance, p.getBalance());
         }
         verify(mockRepository, times(1)).saveAndFlush(createdPlayer);
     }
@@ -58,7 +59,7 @@ public class PlayerServiceTest {
     public void applyOrders(){
         int portfolioCount = 3;
 
-        ArrayList<Portfolio> ports = new ArrayList<>();
+        Set<Portfolio> ports = new HashSet<>();
         for(int i=0; i<portfolioCount; i++){
             Portfolio p = mock(Portfolio.class);
             when(p.getId()).thenReturn((long)i);
@@ -70,8 +71,7 @@ public class PlayerServiceTest {
         PlayerService service = new PlayerService(mockRepository, mockPortfolioService);
         service.applyOrders(mockPlayerId, mockData);
 
-        for(int i=0; i<portfolioCount; i++){
-            Portfolio p = ports.get(i);
+        for(Portfolio p : ports){
             verify(mockPortfolioService, times(1)).applyOrders(p.getId(), mockData);
         }
     }
@@ -79,7 +79,7 @@ public class PlayerServiceTest {
     @Test
     public void getPortfolios(){
         int portfolioCount = 3;
-        ArrayList<Portfolio> ports = new ArrayList<>();
+        Set<Portfolio> ports = new HashSet<>();
         for(int i=0; i<portfolioCount; i++){
             Portfolio p = mock(Portfolio.class);
             when(p.getId()).thenReturn((long)i);
@@ -87,14 +87,14 @@ public class PlayerServiceTest {
         }
         when(mockPlayer.getPortfolios()).thenReturn(ports);
         PlayerService service = new PlayerService(mockRepository, mockPortfolioService);
-        Assertions.assertEquals(ports, service.getPortfolios(mockPlayerId));
+        Assertions.assertEquals(ports, new HashSet<>(service.getPortfolios(mockPlayerId)));
     }
 
     @Test
     public void getTotalBalance(){
         int portfolioCount = 3;
         int[] portfolioAmounts = new int[]{10,50,78};
-        ArrayList<Portfolio> ports = new ArrayList<>();
+        HashSet<Portfolio> ports = new HashSet<>();
         for(int i=0; i<portfolioCount; i++){
             Portfolio p = mock(Portfolio.class);
             when(p.getId()).thenReturn((long)i);

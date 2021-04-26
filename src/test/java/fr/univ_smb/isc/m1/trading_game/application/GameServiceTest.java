@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.springframework.scheduling.TaskScheduler;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.ScheduledFuture;
 
@@ -93,7 +94,7 @@ public class GameServiceTest {
         long mockPlayerId = 0;
         Integer initBalance = 150;
         Integer portCount = 3;
-        ArrayList<Player> players = new ArrayList<>();
+        HashSet<Player> players = new HashSet<>();
         Player mockPlayer = mock(Player.class);
         TradingGameUser mockUser = mock(TradingGameUser.class);
         when(mockUser.getId()).thenReturn(mockPlayerId);
@@ -116,7 +117,7 @@ public class GameServiceTest {
         long mockPlayerId = 0;
         Integer initBalance = 150;
         Integer portCount = 3;
-        ArrayList<Player> players = new ArrayList<>();
+        HashSet<Player> players = new HashSet<>();
         Player mockPlayer = mock(Player.class);
         players.add(mockPlayer);
 
@@ -140,7 +141,7 @@ public class GameServiceTest {
         int duration = 5;
         GameService service = new GameService(mockScheduler, mockRepository, mockPlayerService, mockEodService);
         service.startGame(mockGameId, duration);
-        verify(mockScheduler, times(1)).scheduleAtFixedRate(any(), argThat((Duration d) -> d.toSeconds()==duration));
+        verify(mockScheduler, times(1)).scheduleAtFixedRate(any(), any(), argThat((Duration d) -> d.toSeconds()==duration));
     }
 
     @Test
@@ -159,7 +160,7 @@ public class GameServiceTest {
         int playerCount = 4;
         int EODCount = 10;
 
-        ArrayList<Player> players = new ArrayList<>();
+        HashSet<Player> players = new HashSet<>();
         ArrayList<EOD> eods = new ArrayList<>();
 
         for(int i=0; i<playerCount; i++){
@@ -184,9 +185,9 @@ public class GameServiceTest {
         service.applyDayData(mockGameId);
 
         verify(mockGame, times(1)).setCurrentDuration(duration+1);
-        for(int i=0; i<playerCount; i++){
+        for(Player p : players){
             for(int j=0; j<EODCount; j++){
-                verify(mockPlayerService, times(1)).applyOrders(players.get(i).getId(), eods.get(j));
+                verify(mockPlayerService, times(1)).applyOrders(p.getId(), eods.get(j));
             }
         }
         verify(mockRepository, times(1)).saveAndFlush(mockGame);

@@ -3,10 +3,8 @@ package fr.univ_smb.isc.m1.trading_game.infrastructure.persistence;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Ticker;
 
 import javax.persistence.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 public class Portfolio {
@@ -17,7 +15,7 @@ public class Portfolio {
     @ElementCollection
     protected Map<Ticker, Integer> parts;
     @OneToMany(fetch = FetchType.EAGER)
-    protected List<Order> orders;
+    protected Set<Order> orders;
 
     public Portfolio(){
         //JPA
@@ -52,11 +50,11 @@ public class Portfolio {
         return parts;
     }
 
-    public List<Order> getOrders() {
+    public Set<Order> getOrders() {
         return orders;
     }
 
-    public void setOrders(List<Order> orders) {
+    public void setOrders(Set<Order> orders) {
         this.orders = orders;
     }
 }

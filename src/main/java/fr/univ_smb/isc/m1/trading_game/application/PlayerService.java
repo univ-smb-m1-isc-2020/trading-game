@@ -3,8 +3,8 @@ package fr.univ_smb.isc.m1.trading_game.application;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.*;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class PlayerService {
@@ -17,7 +17,7 @@ public class PlayerService {
     }
 
     public Player createPlayer(TradingGameUser user, int portfolioCount, int initialBalance){
-        List<Portfolio> portfolios = new ArrayList<>();
+        Set<Portfolio> portfolios = new HashSet<>();
         for(int i=0; i<portfolioCount; i++){
             Portfolio portfolio = portfolioService.create(initialBalance);
             portfolios.add(portfolio);
@@ -34,7 +34,7 @@ public class PlayerService {
     public List<Portfolio> getPortfolios(long playerId){
         Player player = repository.findById(playerId).orElse(null);//TODO test
         if(player==null) return new ArrayList<>();
-        return player.getPortfolios();
+        return player.getPortfolios().stream().sorted(Comparator.comparingLong(Portfolio::getId)).collect(Collectors.toList());
     }
 
     public int getPortfolioNumber(long playerId, long portfolioId) {
@@ -42,7 +42,7 @@ public class PlayerService {
         if(player==null) return 0;
         Portfolio port = player.getPortfolios().stream().filter(p -> p.getId()==portfolioId).findFirst().orElse(null);
         if(port==null) return 0;
-        return player.getPortfolios().indexOf(port)+1;
+        return getPortfolios(playerId).indexOf(port)+1;
     }
 
     public int getTotalBalance(long playerId){
@@ -58,7 +58,7 @@ public class PlayerService {
     public void applyOrders(long playerId, EOD dayData){
         Player player = repository.findById(playerId).orElse(null);
         if(player==null) return;
-        List<Portfolio> portfolios = player.getPortfolios();
+        Set<Portfolio> portfolios = player.getPortfolios();
         for(Portfolio p : portfolios){
             portfolioService.applyOrders(p.getId(), dayData);
         }
