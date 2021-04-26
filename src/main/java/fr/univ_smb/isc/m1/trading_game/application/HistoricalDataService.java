@@ -11,16 +11,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+@Transactional
 @Service
 public class HistoricalDataService {//TODO test
     private final static String API_TICKERS_URL = "http://api.marketstack.com/v1/exchanges/XPAR/tickers?";
-    private final static String API_KEY = "176434db214273ad3282785f999c7d42";
+    private final static String API_KEY = "95f0474bf969b42aad6612791285e16b";
     private final static int TICKER_LIMIT = 60;
 
     private final static String API_EOD_URL = "http://api.marketstack.com/v1/eod?";
