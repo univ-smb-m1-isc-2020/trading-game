@@ -11,7 +11,7 @@ public class Player {
     protected long id;
     @ManyToOne
     protected TradingGameUser user;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     protected List<Portfolio> portfolios;
 
     public Player(){

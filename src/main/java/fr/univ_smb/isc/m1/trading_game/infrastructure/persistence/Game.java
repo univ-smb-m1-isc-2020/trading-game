@@ -14,7 +14,7 @@ public class Game {
     protected Date startDate;
     protected int totalDuration; // days
     protected int currentDuration; // days
-    @ManyToMany
+    @OneToMany(fetch = FetchType.EAGER)
     protected List<Player> players;
 
     public Game(){

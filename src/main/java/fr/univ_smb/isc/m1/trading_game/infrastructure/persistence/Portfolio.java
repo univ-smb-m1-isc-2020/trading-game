@@ -16,7 +16,7 @@ public class Portfolio {
     protected int balance; //cents
     @ElementCollection
     protected Map<Ticker, Integer> parts;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     protected List<Order> orders;
 
     public Portfolio(){
