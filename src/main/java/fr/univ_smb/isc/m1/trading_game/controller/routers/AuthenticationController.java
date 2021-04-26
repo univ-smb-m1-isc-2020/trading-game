@@ -28,21 +28,21 @@ public class AuthenticationController {
         model.addAttribute("signupPage",URLMap.signupPage);
 
         HttpSession session = request.getSession(false);
-        String errorMessage = null;
         if (session != null) {
             AuthenticationException ex = (AuthenticationException) session
                     .getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
             if (ex != null) {
-                errorMessage = "Identifiants incorrects.";
+                model.addAttribute("errorMessage", "Identifiants incorrects");
+                session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
             }
         }
 
-        model.addAttribute("errorMessage", errorMessage);
         return "logIn";
     }
 
     @GetMapping(value = URLMap.signupPage)
     public String register(Model model){
+        model.addAttribute("performRegister",URLMap.performSignup);
         return "register";
     }
 

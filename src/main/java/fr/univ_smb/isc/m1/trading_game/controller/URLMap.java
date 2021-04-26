@@ -7,7 +7,7 @@ public class URLMap {
     public final static String loginPage = "/login";
     public final static String signupPage = "/signup";
     public final static String performLogin = "/perform_login";
-    public final static String performSignup = "/perform_login";
+    public final static String performSignup = "/perform_signup";
     public final static String performLogout = "/perform_logout";
 
     public final static String userHomepage = userPrefix+"/home";
