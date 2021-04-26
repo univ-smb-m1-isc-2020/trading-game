@@ -5,6 +5,7 @@ import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.ScheduledFuture;
 import java.util.stream.Collectors;
@@ -79,7 +80,8 @@ public class GameService {
             this.applyDayData(gameId);
             this.endGameTaskIfNecessary(gameId);
         };
-        ScheduledFuture<?> task = scheduler.scheduleAtFixedRate(gameRunnable, Duration.ofSeconds(dayDurationInSeconds));
+        Instant instant = Instant.now().plusSeconds(dayDurationInSeconds);
+        ScheduledFuture<?> task = scheduler.scheduleAtFixedRate(gameRunnable, instant, Duration.ofSeconds(dayDurationInSeconds));
         addScheduledTask(gameId, task);
     }
 

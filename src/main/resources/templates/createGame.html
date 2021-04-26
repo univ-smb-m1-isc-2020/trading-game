@@ -62,7 +62,7 @@
                     <label class="gameCellHeader">Frais de transaction : <span class="importantInfo" th:text="${(game.getTransactionFee()/100)+'€'}"></span></label>
                 </li>
             </ul>
-            <form th:action="${performStartGame}">
+            <form th:action="${performStartGame}" method="post">
                 <input name="gameId" type="hidden" th:value="${game.getId()}"/>
                 <label>Durée d'une journée (minutes)</label>
                 <label>
