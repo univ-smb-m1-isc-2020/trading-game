@@ -74,6 +74,16 @@ public class GameService {
         repository.saveAndFlush(game);
     }
 
+    public Player getPlayer(long gameId, TradingGameUser user) {//TODO test
+        Game game = repository.findById(gameId).orElse(null);
+        if(game==null) return null;
+        return game.getPlayers()
+                .stream()
+                .filter(p -> p.getUser().getId()==user.getId())
+                .findFirst()
+                .orElse(null);
+    }
+
     public void startGame(long gameId, int dayDurationInSeconds){
         Game game = repository.findById(gameId).orElse(null);//TODO test game not existing
         if(game==null) return;

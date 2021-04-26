@@ -8,22 +8,27 @@
 <body>
     <!-- Side navigation bars -->
     <div class="sidenavLeft">
-        <a class="walletLink">Portefeuille 1</a>
-        <a class="walletLink">Portefeuille 2</a>
+        <label th:text="${'Total:'+totalBalance+'€'}"></label>
+        <a th:each="portfolio, iStat:${playerPortfolios}"
+            class="walletLink"
+            th:text="${'Portfolio '+(iStat.index+1)+' ('+portfolio.getBalance()/100.0+'€)'}"
+            th:href="${viewPortfolio+(iStat.index+1)}"></a>
     </div>
     <div class="sidenavRight">
         <h3 class="action">Mes parts</h3>
         <ul>
-            <li class="action">gdf - <span class="importantInfo">78</span> - <span class="importantInfo">52$</span></li>
+            <li class="action" th:each="ticker:${portfolioTickers}">
+                <span class="importantInfo" th:text="${ticker.getSymbol()}"></span> - <span class="importantInfo" th:text="${ticker.getQuantity()}"></span>
+            </li>
         </ul>
     </div>
     <!-- Page content -->
     <div class="main">
-        <h3>Total : <span class="importantInfo">~</span></h3>
+        <h3 th:text="${'Solde portefeuille '+ currentPortfolioNumber + ':' + currentPortfolioBalance+'€' }"></h3>
         <table>
             <thead>
             <tr>
-                <th colspan="2">Mes ordres</th>
+                <th colspan="2" th:text="${'Ordres portefeuille '+currentPortfolioNumber}"></th>
             </tr>
             </thead>
             <tbody>
@@ -32,19 +37,15 @@
                 <td>Type</td>
                 <td>Statut</td>
             </tr>
-            <tr>
-                <td>GDF</td>
-                <td>Achat seuil <span class="importantInfo">48</span></td>
-                <td>En attente</td>
-            </tr>
-            <tr>
-                <td>GDF</td>
-                <td>Achat seuil <span class="importantInfo">48</span></td>
-                <td>Effectué <span class="importantInfo">(-50$)</span></td>
+            <tr th:each="order: ${portfolioOrders}">
+                <td th:text="${order.getSymbol()}"></td>
+                <td th:text="${order.getType()}"></td>
+                <td th:text="${order.getStatus()}"></td>
             </tr>
             </tbody>
         </table>
         <form th:action="${createOrder}">
+            <input type="hidden" name="portfolioId" th:value="${currentPortfolioId}"/>
             <button class="genericButton" type="submit">Créer un ordre</button>
         </form>
     </div>
