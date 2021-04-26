@@ -30,9 +30,7 @@ public class SellOrderService {
         int sellingPrice = dayData.getClose();
         int quantity = order.getQuantity();
         String symbol = dayData.getSymbol().getSymbol();
-
         boolean success = portfolioService.sell(portfolioId, symbol, sellingPrice, quantity);
-
         if (success) {
             order.setPending(false);
             repository.saveAndFlush(order);
@@ -43,6 +41,6 @@ public class SellOrderService {
     }
 
     private boolean isNotApplicable(Order order, EOD dayData) {
-        return !order.isPending() || dayData.getSymbol() != order.getTicker();
+        return !order.isPending() || !dayData.getSymbol().getSymbol().equals(order.getTicker().getSymbol());
     }
 }

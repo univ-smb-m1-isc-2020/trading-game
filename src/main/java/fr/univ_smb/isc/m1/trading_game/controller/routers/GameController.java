@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -92,15 +93,16 @@ public class GameController {
             List<TickerInfo> portfolioTickers = currentPortfolio.getParts()
                     .keySet()
                     .stream()
-                    .map(t -> new TickerInfo(t, currentPortfolio.getQuantity(t)))
+                    .map(t -> new TickerInfo(tickerService.get(t), currentPortfolio.getQuantity(t)))
                     .collect(Collectors.toList());
             List<OrderInfo> portfolioOrders = currentPortfolio.getOrders()
                     .stream()
+                    .sorted(Comparator.comparingLong(Order::getId))
                     .map(OrderInfo::new)
                     .collect(Collectors.toList());
 
             model.addAttribute("totalBalance", playerService.getTotalBalance(player.getId())/100f);
-            model.addAttribute("playerPortfolios", player.getPortfolios());
+            model.addAttribute("playerPortfolios", playerService.getPortfolios(player.getId()));
             if(portfolioNumber.isPresent()){
                 model.addAttribute("currentPortfolioNumber", portfolioNumber.get());
             } else {

@@ -19,7 +19,7 @@ public class OrderService {
 
     public void setPortfolioService(PortfolioService service){
         buyOrderService.setPortfolioService(service);
-        buyOrderService.setPortfolioService(service);
+        sellOrderService.setPortfolioService(service);
     }
 
     public boolean apply(Order order, EOD dayData, long portfolioId) {
@@ -34,6 +34,6 @@ public class OrderService {
     }
 
     private boolean isNotApplicable(Order order, EOD dayData) {
-        return !order.isPending() || dayData.getSymbol() != order.getTicker();
+        return !order.isPending() || !dayData.getSymbol().getSymbol().equals(order.getTicker().getSymbol());
     }
 }

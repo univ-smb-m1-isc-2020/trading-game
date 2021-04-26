@@ -35,7 +35,7 @@ public class PortfolioServiceTest {
         // Mock portfolio
         mockPortfolio = mock(Portfolio.class);
         when(mockPortfolio.getId()).thenReturn(mockPortfolioId);
-        when(mockPortfolio.getQuantity(mockTicker)).thenReturn(0);
+        when(mockPortfolio.getQuantity(mockTicker.getSymbol())).thenReturn(0);
 
         // Mock portfolio repository
         mockRepository = mock(PortfolioRepository.class);
@@ -60,19 +60,6 @@ public class PortfolioServiceTest {
 
         PortfolioService service = new PortfolioService(mockRepository, mockOrderService, mockTickerService);
         Assertions.assertEquals(orders, new HashSet<>(service.getOrders(mockPortfolioId)));
-    }
-
-    @Test
-    public void getParts(){
-        int[] partCounts = new int[]{5,17,20};
-        Map<Ticker, Integer> parts = new HashMap<>();
-        for (int partCount : partCounts) {
-            parts.put(mock(Ticker.class), partCount);
-        }
-        when(mockPortfolio.getParts()).thenReturn(parts);
-
-        PortfolioService service = new PortfolioService(mockRepository, mockOrderService, mockTickerService);
-        Assertions.assertEquals(parts, service.getParts(mockPortfolioId));
     }
 
     @Test
@@ -129,7 +116,7 @@ public class PortfolioServiceTest {
         int initialBalance = 100;
         int sellQuantity = 10;
         int ownedQuantity = sellQuantity+1;
-        when(mockPortfolio.getQuantity(mockTicker)).thenReturn(ownedQuantity);
+        when(mockPortfolio.getQuantity(mockTicker.getSymbol())).thenReturn(ownedQuantity);
         when(mockPortfolio.getBalance()).thenReturn(initialBalance);
 
         PortfolioService service = new PortfolioService(mockRepository, mockOrderService, mockTickerService);
@@ -145,7 +132,7 @@ public class PortfolioServiceTest {
         int initialBalance = 100;
         int sellQuantity = 10;
         int ownedQuantity = sellQuantity-1;
-        when(mockPortfolio.getQuantity(mockTicker)).thenReturn(ownedQuantity);
+        when(mockPortfolio.getQuantity(mockTicker.getSymbol())).thenReturn(ownedQuantity);
         when(mockPortfolio.getBalance()).thenReturn(initialBalance);
 
         PortfolioService service = new PortfolioService(mockRepository, mockOrderService, mockTickerService);

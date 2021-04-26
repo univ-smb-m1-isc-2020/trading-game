@@ -12,8 +12,8 @@ public class Portfolio {
     @GeneratedValue
     protected long id;
     protected int balance; //cents
-    @ElementCollection
-    protected Map<Ticker, Integer> parts;
+    @ElementCollection(fetch = FetchType.EAGER)
+    protected Map<String, Integer> parts;
     @OneToMany(fetch = FetchType.EAGER)
     protected Set<Order> orders;
 
@@ -38,15 +38,15 @@ public class Portfolio {
         return id;
     }
 
-    public int getQuantity(Ticker ticker){
+    public int getQuantity(String ticker){
         return parts.getOrDefault(ticker, 0);
     }
 
     public void setQuantity(Ticker ticker, int value){
-        parts.put(ticker, value);
+        parts.put(ticker.getSymbol(), value);
     }
 
-    public Map<Ticker, Integer> getParts() {
+    public Map<String, Integer> getParts() {
         return parts;
     }
 

@@ -37,11 +37,16 @@ public class GameService {
     }
 
     public List<Game> getCurrentlyActiveGames(){
-        return repository.findAllActive();
+        return repository.findAllActive()
+                .stream()
+                .sorted(Comparator.comparingLong(Game::getId))
+                .collect(Collectors.toList());
     }
 
     public List<Game> getUnstartedGames() { // TODO test
-        return getCurrentlyActiveGames().stream().filter(g -> !RUNNING_GAMES.containsKey(g.getId())).collect(Collectors.toList());
+        return getCurrentlyActiveGames().stream()
+                .filter(g -> !RUNNING_GAMES.containsKey(g.getId()))
+                .collect(Collectors.toList());
     }
 
     public List<Game> getActiveGamesOf(TradingGameUser user){// TODO test

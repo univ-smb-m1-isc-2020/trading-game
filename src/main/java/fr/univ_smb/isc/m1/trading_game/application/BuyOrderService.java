@@ -25,6 +25,7 @@ public class BuyOrderService {
     public boolean apply(long orderId, EOD dayData, long portfolioId) {
         BuyOrder order = repository.findById(orderId).orElse(null);//TODO order not existing test
         if(order==null) return false;
+
         if(isNotApplicable(order, dayData)) return false;
 
         int buyingPrice = dayData.getClose();
@@ -42,6 +43,6 @@ public class BuyOrderService {
     }
 
     private boolean isNotApplicable(Order order, EOD dayData) {
-        return !order.isPending() || dayData.getSymbol() != order.getTicker();
+        return !order.isPending() || !dayData.getSymbol().getSymbol().equals(order.getTicker().getSymbol());
     }
 }

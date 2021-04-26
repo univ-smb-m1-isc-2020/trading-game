@@ -33,7 +33,7 @@ public class PortfolioService {
     public void applyOrders(long portfolioId, EOD dayData) {
         Portfolio portfolio = repository.findById(portfolioId).orElse(null);
         if(portfolio==null) return;//TODO test
-        for(Order o : portfolio.getOrders()){
+        for(Order o : portfolio.getOrders().stream().sorted(Comparator.comparingLong(Order::getId)).collect(Collectors.toList())){
             orderService.apply(o, dayData, portfolioId);
         }
     }
@@ -46,8 +46,13 @@ public class PortfolioService {
 
     public Map<Ticker, Integer> getParts(long portfolioId){
         Portfolio port = repository.findById(portfolioId).orElse(null);
-        if(port==null) return new HashMap<>();//TODO test
-        return port.getParts();
+        Map<Ticker, Integer> res = new HashMap<>();
+        if(port==null) return res;//TODO test
+        Map<String, Integer> parts = port.getParts();
+        for(String mic : parts.keySet()){
+            res.put(tickerService.get(mic), parts.get(mic));
+        }
+        return res;
     }
 
     public boolean buy(long portfolioId, String tickerMic, int unitPrice, int quantity)
@@ -62,7 +67,7 @@ public class PortfolioService {
         if(funds < totalCost) return false;
 
         int newQuantity = quantity;
-        newQuantity+=port.getQuantity(ticker);
+        newQuantity+=port.getQuantity(ticker.getSymbol());
         port.setQuantity(ticker, newQuantity);
         port.setBalance(funds-totalCost);
         repository.saveAndFlush(port);
@@ -75,11 +80,9 @@ public class PortfolioService {
         if(port==null)return false;//TODO test
         Ticker ticker = tickerService.get(tickerMic);
         if(ticker==null)return false;//TODO test
-
-        if(quantity > port.getQuantity(ticker)) return false;
-
+        if(quantity > port.getQuantity(ticker.getSymbol())) return false;
         int totalBenefits = unitPrice*quantity;
-        int newQuantity = port.getQuantity(ticker);
+        int newQuantity = port.getQuantity(ticker.getSymbol());
         newQuantity-= quantity;
         port.setQuantity(ticker, newQuantity);
         port.setBalance(port.getBalance()+totalBenefits);
