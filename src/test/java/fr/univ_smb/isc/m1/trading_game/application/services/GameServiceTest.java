@@ -1,15 +1,15 @@
-package fr.univ_smb.isc.m1.trading_game.application;
+package fr.univ_smb.isc.m1.trading_game.application.services;
 
+import fr.univ_smb.isc.m1.trading_game.application.EODService;
+import fr.univ_smb.isc.m1.trading_game.application.GameService;
+import fr.univ_smb.isc.m1.trading_game.application.PlayerService;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
-import org.mockito.Mock;
 import org.springframework.scheduling.TaskScheduler;
 
 import java.time.Duration;
-import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.ScheduledFuture;
 

@@ -1,13 +1,13 @@
-package fr.univ_smb.isc.m1.trading_game.application;
+package fr.univ_smb.isc.m1.trading_game.application.services;
 
+import fr.univ_smb.isc.m1.trading_game.application.PlayerService;
+import fr.univ_smb.isc.m1.trading_game.application.PortfolioService;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static org.mockito.Mockito.*;
 

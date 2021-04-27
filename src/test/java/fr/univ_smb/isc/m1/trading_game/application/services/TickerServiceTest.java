@@ -1,5 +1,6 @@
-package fr.univ_smb.isc.m1.trading_game.application;
+package fr.univ_smb.isc.m1.trading_game.application.services;
 
+import fr.univ_smb.isc.m1.trading_game.application.TickerService;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Ticker;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.TickerRepository;
 import org.junit.jupiter.api.Assertions;
