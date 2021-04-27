@@ -70,7 +70,7 @@ public class GameService {
     }
 
     public void addPlayer(long gameId, TradingGameUser user){
-        Game game = repository.findById(gameId).orElse(null);//TODO test game not existing
+        Game game = repository.findById(gameId).orElse(null);
         if(game==null) return;
         // Avoiding a duplicate player in a game
         if(game.getPlayers().stream().anyMatch(p -> p.getUser().getId()==user.getId())) return;
@@ -79,7 +79,7 @@ public class GameService {
         repository.saveAndFlush(game);
     }
 
-    public Player getPlayer(long gameId, TradingGameUser user) {//TODO test
+    public Player getPlayer(long gameId, TradingGameUser user) {
         Game game = repository.findById(gameId).orElse(null);
         if(game==null) return null;
         return game.getPlayers()

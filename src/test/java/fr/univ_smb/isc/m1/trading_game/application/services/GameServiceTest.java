@@ -155,10 +155,58 @@ public class GameServiceTest {
         when(mockRepository.findById(anyLong())).thenReturn(Optional.empty());
         GameService gameService = new GameService(mockScheduler, mockRepository, mockPlayerService, mockEodService);
         gameService.addPlayer(mockGameId, mockUser);
-        // TODO : voir test du joueur non présent dans la liste peut-être inutile
+        // TODO : voir : test du joueur non présent dans la liste peut être inutile
         Assertions.assertEquals(0, players.size());
         Assertions.assertFalse(players.contains(mockPlayer));
         verify(mockRepository, never()).saveAndFlush(mockGame);
+    }
+
+    @Test
+    public void getPlayer(){
+        long mockGameID = 12345L;
+        long mockPlayerId = 12345L;
+        TradingGameUser mockUser = mock(TradingGameUser.class);
+        Player mockPlayer = mock(Player.class);
+        HashSet<Player> players = new HashSet<>();
+        players.add(mockPlayer);
+
+        when(mockUser.getId()).thenReturn(mockPlayerId);
+        when(mockPlayer.getUser()).thenReturn(mockUser);
+        when(mockRepository.findById(mockGameID)).thenReturn(Optional.ofNullable(mockGame));
+        when(mockGame.getPlayers()).thenReturn(players);
+
+        GameService gameService = new GameService(mockScheduler, mockRepository, mockPlayerService, mockEodService);
+
+        Assertions.assertEquals(mockPlayer, gameService.getPlayer(mockGameID, mockUser));
+    }
+
+    @Test
+    public void getPlayerNotExistingGame(){
+        long mockGameID = 12345L;
+        TradingGameUser mockUser = mock(TradingGameUser.class);
+        when(mockRepository.findById(mockGameID)).thenReturn(Optional.empty());
+        GameService gameService = new GameService(mockScheduler, mockRepository, mockPlayerService, mockEodService);
+        Assertions.assertNull(gameService.getPlayer(mockGameID, mockUser));
+        verify(mockGame, never()).getPlayers();
+    }
+
+    @Test
+    public void getPlayerNotExistingPlayer(){
+        long mockGameID = 12345L;
+        long mockPlayerId = 12345L;
+        TradingGameUser mockUserIn = mock(TradingGameUser.class);
+        TradingGameUser mockUserOut = mock(TradingGameUser.class);
+        Player mockPlayerIn = mock(Player.class);
+        HashSet<Player> players = new HashSet<>();
+        players.add(mockPlayerIn);
+
+        when(mockUserIn.getId()).thenReturn(mockPlayerId);
+        when(mockPlayerIn.getUser()).thenReturn(mockUserIn);
+        when(mockRepository.findById(mockGameID)).thenReturn(Optional.ofNullable(mockGame));
+        when(mockGame.getPlayers()).thenReturn(players);
+        GameService gameService = new GameService(mockScheduler, mockRepository, mockPlayerService, mockEodService);
+        Assertions.assertNull(gameService.getPlayer(mockGameID, mockUserOut));
+        verify(mockGame).getPlayers();
     }
 
     @Test
