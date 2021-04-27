@@ -25,7 +25,7 @@ public class AuthenticationController {
     @GetMapping(value = URLMap.loginPage)
     public String logIn(HttpServletRequest request, Model model) {
         model.addAttribute("performLogin", URLMap.performLogin);
-        model.addAttribute("signupPage",URLMap.signupPage);
+        model.addAttribute("signupPage", URLMap.signupPage);
 
         HttpSession session = request.getSession(false);
         if (session != null) {
