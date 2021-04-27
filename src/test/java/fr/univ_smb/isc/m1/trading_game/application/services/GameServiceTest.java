@@ -218,6 +218,18 @@ public class GameServiceTest {
     }
 
     @Test
+    public void startGameNotExistingGame(){
+        int duration = 5;
+        long mockGameID = 12345L;
+        ScheduledFuture<?> mockScheduledTask = mock(ScheduledFuture.class);
+        when(mockRepository.findById(mockGameID)).thenReturn(Optional.empty());
+        when(mockScheduler.scheduleAtFixedRate());
+        GameService service = new GameService(mockScheduler, mockRepository, mockPlayerService, mockEodService);
+        service.startGame(mockGameId, duration);
+        verify(service, never()).addScheduledTask(mockGameID, mockScheduledTask);
+    }
+
+    @Test
     public void endGameTaskIfNecessary(){
         when(mockRepository.findById(anyLong())).thenReturn(Optional.of(mockGame));
         when(mockGame.hasEnded()).thenReturn(true);
