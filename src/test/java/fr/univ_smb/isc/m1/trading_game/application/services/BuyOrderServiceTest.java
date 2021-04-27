@@ -128,4 +128,11 @@ public class BuyOrderServiceTest {
         verify(mockOrder, never()).setPending(anyBoolean());
         verify(mockRepository, never()).saveAndFlush(mockOrder);
     }
+
+    @Test
+    public void applyOrderNotExisting(){
+        when(mockRepository.findById(anyLong())).thenReturn(Optional.empty());
+        BuyOrderService buyOrderService = new BuyOrderService(mockRepository);
+        Assertions.assertFalse(buyOrderService.apply(mockOrderId, mockData, mockPortfolioId));
+    }
 }
