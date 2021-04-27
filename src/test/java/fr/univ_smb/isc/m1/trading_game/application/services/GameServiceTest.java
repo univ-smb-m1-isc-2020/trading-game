@@ -137,6 +137,31 @@ public class GameServiceTest {
     }
 
     @Test
+    public void addPlayerGameNotExisting(){
+        long mockPlayerId = 0;
+        Integer initBalance = 150;
+        Integer portCount = 3;
+        HashSet<Player> players = new HashSet<>();
+        Player mockPlayer = mock(Player.class);
+
+        TradingGameUser mockUser = mock(TradingGameUser.class);
+        when(mockUser.getId()).thenReturn(mockPlayerId);
+        when(mockPlayer.getUser()).thenReturn(mockUser);
+        when(mockGame.getPlayers()).thenReturn(players);
+        when(mockGame.getInitialBalance()).thenReturn(initBalance);
+        when(mockGame.getMaxPortfolios()).thenReturn(portCount);
+        when(mockPlayerService.createPlayer(mockUser, mockGame.getMaxPortfolios(), mockGame.getInitialBalance())).thenReturn(mockPlayer);
+
+        when(mockRepository.findById(anyLong())).thenReturn(Optional.empty());
+        GameService gameService = new GameService(mockScheduler, mockRepository, mockPlayerService, mockEodService);
+        gameService.addPlayer(mockGameId, mockUser);
+        // TODO : voir test du joueur non présent dans la liste peut-être inutile
+        Assertions.assertEquals(0, players.size());
+        Assertions.assertFalse(players.contains(mockPlayer));
+        verify(mockRepository, never()).saveAndFlush(mockGame);
+    }
+
+    @Test
     public void startGame(){
         int duration = 5;
         GameService service = new GameService(mockScheduler, mockRepository, mockPlayerService, mockEodService);
