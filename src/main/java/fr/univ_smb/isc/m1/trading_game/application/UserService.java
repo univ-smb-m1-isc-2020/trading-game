@@ -40,11 +40,11 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
-    public boolean register(String name, String password){
+    public boolean register(String name, String password, boolean isAdmin){
         if (userExists(name)) {
             return false;
         }
-        TradingGameUser user = new TradingGameUser(name, passwordEncoder.encode(password));
+        TradingGameUser user = new TradingGameUser(name, passwordEncoder.encode(password), isAdmin);
         repository.saveAndFlush(user);
         return true;
     }

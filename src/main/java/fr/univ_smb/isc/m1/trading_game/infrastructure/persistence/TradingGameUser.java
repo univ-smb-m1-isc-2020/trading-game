@@ -27,10 +27,10 @@ public class TradingGameUser implements UserDetails {
         // JPA
     }
 
-    public TradingGameUser(String username, String password) {
+    public TradingGameUser(String username, String password, boolean isAdmin) {
         this.username = username;
         this.password = password;
-        this.isAdmin = false;
+        this.isAdmin = isAdmin;
     }
 
     public long getId() {
