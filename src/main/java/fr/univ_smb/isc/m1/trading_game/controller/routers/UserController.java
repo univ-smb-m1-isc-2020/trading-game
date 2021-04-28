@@ -49,11 +49,12 @@ public class UserController {
         headerController.loadHeaderParameters(model);
         TradingGameUser user = userService.getCurrentUser(SecurityContextHolder.getContext());
         List<Game> onGoingGames = gameService.getActiveGamesOf(user);
+        List<Game> endedGames = gameService.getEndedGamesOf(user);
         model.addAttribute("viewGame", URLMap.viewGame);
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         model.addAttribute("dateFormat", format);
         model.addAttribute("joinedGames", onGoingGames);
-
+        model.addAttribute("endedGames", endedGames);
         return "homePageLogged";
     }
 
