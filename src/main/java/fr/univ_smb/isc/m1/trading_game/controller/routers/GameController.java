@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Comparator;
 import java.util.List;
@@ -49,6 +51,11 @@ public class GameController {
         model.addAttribute("playerId", playerId);
         model.addAttribute("portfolioId", portfolioId);
         model.addAttribute("gameId", gameId);
+
+        String cancelUrl = UriComponentsBuilder.fromUriString(URLMap.viewGame)
+                .queryParam("gameId",gameId)
+                .queryParam("portfolioNumber",playerService.getPortfolioNumber(playerId, portfolioId)).toUriString();
+        model.addAttribute("gameManagement", cancelUrl);
         return "createOrder";
     }
 
