@@ -12,4 +12,5 @@ import org.springframework.stereotype.Repository;
 public interface EODRepository extends JpaRepository<EOD, Long> {
     List<EOD> findAllByDate(Date date);
     Optional<EOD> findTopBySymbolOrderByDate(Ticker ticker);
+    List<EOD> findAllBySymbol(Ticker symbol);
 }

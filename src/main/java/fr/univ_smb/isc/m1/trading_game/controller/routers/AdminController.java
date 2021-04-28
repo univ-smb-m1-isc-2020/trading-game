@@ -23,26 +23,26 @@ public class AdminController {
         this.gameService = gameService;
     }
 
-    @GetMapping(value = URLMap.createGamePage)
+    @GetMapping(value = URLMap.CREATE_GAME_PAGE)
     public String createGame(Model model) {
         headerController.loadHeaderParameters(model);
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         model.addAttribute("dateFormat",format);
-        model.addAttribute("performCreateGame",URLMap.performCreateGame);
-        model.addAttribute("performStartGame",URLMap.performStartGame);
+        model.addAttribute("performCreateGame",URLMap.PERFORM_CREATE_GAME);
+        model.addAttribute("performStartGame",URLMap.PERFORM_START_GAME);
         model.addAttribute("startableGames", gameService.getUnstartedGames());
         return "createGame";
     }
 
-    @PostMapping(value=URLMap.performStartGame)
+    @PostMapping(value=URLMap.PERFORM_START_GAME)
     public String performCreateGame(@RequestParam(name = "duration")int duration,
                                     @RequestParam(name = "gameId") int gameId){
         int durationSeconds = duration * 60;
         gameService.startGame(gameId, durationSeconds);
-        return "redirect:"+URLMap.createGamePage;
+        return "redirect:"+URLMap.CREATE_GAME_PAGE;
     }
 
-    @PostMapping(value=URLMap.performCreateGame)
+    @PostMapping(value=URLMap.PERFORM_CREATE_GAME)
     public String performCreateGame(@RequestParam(name = "duration")int duration,
                                     @RequestParam(name = "portfolioCount")int portfolioCount,
                                     @RequestParam(name = "initialBalance")int initialBalanceEuros,
@@ -57,6 +57,6 @@ public class AdminController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return "redirect:"+URLMap.userHomepage;
+        return "redirect:"+URLMap.USER_HOMEPAGE;
     }
 }

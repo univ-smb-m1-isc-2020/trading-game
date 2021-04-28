@@ -53,7 +53,7 @@ public class GameController {
         portfolioService = service;
     }
 
-    @GetMapping(value = URLMap.createOrder)
+    @GetMapping(value = URLMap.CREATE_ORDER)
     public String createOrder(Model model,
                               @RequestParam(name = "gameId") long gameId,
                               @RequestParam(name = "playerId") long playerId,
@@ -72,20 +72,20 @@ public class GameController {
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList())
         );
-        model.addAttribute("performCreateOrder", URLMap.performCreateOrder);
+        model.addAttribute("performCreateOrder", URLMap.PERFORM_CREATE_ORDER);
         model.addAttribute("playerId", playerId);
         model.addAttribute("portfolioId", portfolioId);
         model.addAttribute("portfolioBalance", portfolioService.getBalance(portfolioId)/100.0);
         model.addAttribute("gameId", gameId);
 
-        String cancelUrl = UriComponentsBuilder.fromUriString(URLMap.viewGame)
+        String cancelUrl = UriComponentsBuilder.fromUriString(URLMap.VIEW_GAME)
                 .queryParam("gameId",gameId)
                 .queryParam("portfolioNumber",playerService.getPortfolioNumber(playerId, portfolioId)).toUriString();
         model.addAttribute("gameManagement", cancelUrl);
         return "createOrder";
     }
 
-    @PostMapping(value = URLMap.performCreateOrder)
+    @PostMapping(value = URLMap.PERFORM_CREATE_ORDER)
     public String performCreateOrder(RedirectAttributes redirectAttr,
                                      @RequestParam(name="orderType") String type,
                                      @RequestParam(name="orderTicker") String tickerMic,
@@ -109,10 +109,10 @@ public class GameController {
 
         redirectAttr.addAttribute("gameId",gameId);
         redirectAttr.addAttribute("portfolioNumber", portfolioNumber);
-        return "redirect:"+URLMap.viewGame;
+        return "redirect:"+URLMap.VIEW_GAME;
     }
 
-    @GetMapping(value = URLMap.viewGame)
+    @GetMapping(value = URLMap.VIEW_GAME)
     public String gameManager(Model model,
                               @RequestParam(name="gameId") long gameId,
                               @RequestParam(name= "portfolioNumber", required = false) Optional<Integer> portfolioNumber) {
@@ -142,12 +142,13 @@ public class GameController {
             model.addAttribute("playerId", player.getId());
             model.addAttribute("gameId", gameId);
 
-            model.addAttribute("viewPortfolio", URLMap.viewGame+"?gameId="+gameId+"&portfolioNumber=");
-            model.addAttribute("createOrder",URLMap.createOrder);
+            model.addAttribute("viewPortfolio", URLMap.VIEW_GAME +"?gameId="+gameId+"&portfolioNumber=");
+            model.addAttribute("createOrder",URLMap.CREATE_ORDER);
+            model.addAttribute("headerGameManager", true);
 
             return "gameManager";
         } else {
-            return "redirect:"+URLMap.userHomepage;
+            return "redirect:"+URLMap.USER_HOMEPAGE;
         }
     }
 

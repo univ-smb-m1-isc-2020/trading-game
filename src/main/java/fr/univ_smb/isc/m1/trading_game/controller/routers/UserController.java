@@ -7,6 +7,8 @@ import fr.univ_smb.isc.m1.trading_game.controller.URLMap;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.*;
 import fr.univ_smb.isc.m1.trading_game.view_objects.GameInfo;
 import fr.univ_smb.isc.m1.trading_game.view_objects.PlayerRankingInfo;
+import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Game;
+import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.TradingGameUser;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +40,7 @@ public class UserController {
     public String index(Model model) {
         TradingGameUser user = userService.getCurrentUser(SecurityContextHolder.getContext());
         if(user==null){
-            model.addAttribute("loginPage", URLMap.loginPage);
+            model.addAttribute("loginPage", URLMap.LOGIN_PAGE);
 
             List<GameInfo> onGoingGames = gamesToGameInfo(gameService.getCurrentlyActiveGames());
 
@@ -47,17 +49,17 @@ public class UserController {
             model.addAttribute("currentGames", onGoingGames);
             return "homePageCommon";
         } else {
-            return "redirect:"+ URLMap.userHomepage;
+            return "redirect:"+ URLMap.USER_HOMEPAGE;
         }
     }
 
-    @GetMapping(value = URLMap.userHomepage)
+    @GetMapping(value = URLMap.USER_HOMEPAGE)
     public String homePagePlayer(Model model) {
         headerController.loadHeaderParameters(model);
         TradingGameUser user = userService.getCurrentUser(SecurityContextHolder.getContext());
         List<GameInfo> onGoingGames = gamesToGameInfo(gameService.getActiveGamesOf(user));
         List<GameInfo> endedGames = gamesToGameInfo(gameService.getEndedGamesOf(user));
-        model.addAttribute("viewGame", URLMap.viewGame);
+        model.addAttribute("viewGame", URLMap.VIEW_GAME);
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         model.addAttribute("dateFormat", format);
         model.addAttribute("joinedGames", onGoingGames);
@@ -76,7 +78,7 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping(value = URLMap.joinGame)
+    @GetMapping(value = URLMap.JOIN_GAME)
     public String joinGame(Model model) {
         headerController.loadHeaderParameters(model);
         TradingGameUser user = userService.getCurrentUser(SecurityContextHolder.getContext());
@@ -84,18 +86,18 @@ public class UserController {
 
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         model.addAttribute("dateFormat", format);
-        model.addAttribute("performJoinGame", URLMap.performJoinGame);
+        model.addAttribute("performJoinGame", URLMap.PERFORM_JOIN_GAME);
         model.addAttribute("availableGames",availableGames);
         return "joinGame";
     }
 
-    @PostMapping(value = URLMap.performJoinGame)
+    @PostMapping(value = URLMap.PERFORM_JOIN_GAME)
     public String performJoinGame(@RequestParam(name = "gameId") long gameId,
                                   RedirectAttributes redirectAttrs){
         TradingGameUser user = userService.getCurrentUser(SecurityContextHolder.getContext());
         gameService.addPlayer(gameId, user);
         redirectAttrs.addAttribute("gameId",gameId);
-        return "redirect:"+URLMap.viewGame;
+        return "redirect:"+URLMap.VIEW_GAME;
     }
 
 

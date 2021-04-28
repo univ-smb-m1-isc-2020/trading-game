@@ -7,13 +7,15 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import static org.mockito.Mockito.*;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class AuthenticationControllerTest {
     private final String USER_NAME = "TEST";
     private final String USER_PASSWORD = "12345";
-    private final String REGISTER_NON_EXISTING_USER = "redirect:"+ URLMap.loginPage;
-    private final String REGISTER_EXISTING_USER = "redirect:"+ URLMap.signupPage;
+    private final String REGISTER_NON_EXISTING_USER = "redirect:"+ URLMap.LOGIN_PAGE;
+    private final String REGISTER_EXISTING_USER = "redirect:"+ URLMap.SIGNUP_PAGE;
     private UserService mockUserService;
     private RedirectAttributes mockRedirectAttributes;
 
