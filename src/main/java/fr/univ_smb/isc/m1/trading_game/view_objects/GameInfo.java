@@ -14,7 +14,11 @@ public class GameInfo {
         this.rankingInfos = rankingInfos;
     }
 
-    public List<PlayerRankingInfo> getRankingInfos() {
+    public long getId(){
+        return game.getId();
+    }
+
+    public List<PlayerRankingInfo> getRankings() {
         return rankingInfos;
     }
 
@@ -26,6 +30,10 @@ public class GameInfo {
         return game.getTotalDuration();
     }
 
+    public Date getStartDate(){
+        return game.getStartDate();
+    }
+
     public int getPlayerCount(){
         return game.getPlayerCount();
     }
@@ -34,15 +42,10 @@ public class GameInfo {
         return game.getMaxPortfolios();
     }
 
-    public int getInitialBalance(){
-        return game.getInitialBalance();
-    }
+    public int getInitialBalance(){return game.getInitialBalance(); }
 
     public int getTransactionFee(){
         return game.getTransactionFee();
     }
 
-    public Date getStartDate(){
-        return game.getStartDate();
-    }
 }

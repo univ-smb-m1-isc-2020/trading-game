@@ -35,9 +35,12 @@ public class GameService {
         if(game==null) return new ArrayList<>();
         return game.getPlayers()
                 .stream()
-                .sorted(Comparator.comparingInt(
-                        p->playerService.getTotalBalance(p.getId())
-                ))
+                .sorted(
+                        (p1,p2)-> Integer.compare(
+                                playerService.getTotalBalance(p2.getId()),
+                                playerService.getTotalBalance(p1.getId())
+                                )
+                )
                 .collect(Collectors.toList());
     }
 

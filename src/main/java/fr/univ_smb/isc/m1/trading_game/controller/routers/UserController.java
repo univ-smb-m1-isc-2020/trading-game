@@ -1,9 +1,12 @@
 package fr.univ_smb.isc.m1.trading_game.controller.routers;
 
 import fr.univ_smb.isc.m1.trading_game.application.GameService;
+import fr.univ_smb.isc.m1.trading_game.application.PlayerService;
 import fr.univ_smb.isc.m1.trading_game.application.UserService;
 import fr.univ_smb.isc.m1.trading_game.controller.URLMap;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.*;
+import fr.univ_smb.isc.m1.trading_game.view_objects.GameInfo;
+import fr.univ_smb.isc.m1.trading_game.view_objects.PlayerRankingInfo;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,16 +18,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class UserController {
     private final HeaderController headerController;
     private final GameService gameService;
+    private final PlayerService playerService;
     private final UserService userService;
 
-    public UserController(HeaderController headerController, GameService gameService, UserService userService) {
+    public UserController(HeaderController headerController, GameService gameService, PlayerService playerService, UserService userService) {
         this.headerController = headerController;
         this.gameService = gameService;
+        this.playerService = playerService;
         this.userService = userService;
     }
 
@@ -34,7 +40,17 @@ public class UserController {
         if(user==null){
             model.addAttribute("loginPage", URLMap.loginPage);
 
-            List<Game> onGoingGames = gameService.getCurrentlyActiveGames();
+            List<GameInfo> onGoingGames =
+                    gameService.getCurrentlyActiveGames()
+                    .stream()
+                    .map(g -> new GameInfo(g,
+                            gameService.getRankings(g.getId())
+                            .stream()
+                            .map(p -> new PlayerRankingInfo(p.getUser().getUsername(),
+                                    playerService.getTotalBalance(p.getId())))
+                            .collect(Collectors.toList())))
+                    .collect(Collectors.toList());
+
             DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             model.addAttribute("dateFormat", format);
             model.addAttribute("currentGames", onGoingGames);
@@ -48,7 +64,16 @@ public class UserController {
     public String homePagePlayer(Model model) {
         headerController.loadHeaderParameters(model);
         TradingGameUser user = userService.getCurrentUser(SecurityContextHolder.getContext());
-        List<Game> onGoingGames = gameService.getActiveGamesOf(user);
+        List<GameInfo> onGoingGames =
+                gameService.getActiveGamesOf(user)
+                        .stream()
+                        .map(g -> new GameInfo(g,
+                                gameService.getRankings(g.getId())
+                                        .stream()
+                                        .map(p -> new PlayerRankingInfo(p.getUser().getUsername(),
+                                                playerService.getTotalBalance(p.getId())))
+                                        .collect(Collectors.toList())))
+                        .collect(Collectors.toList());
         List<Game> endedGames = gameService.getEndedGamesOf(user);
         model.addAttribute("viewGame", URLMap.viewGame);
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
