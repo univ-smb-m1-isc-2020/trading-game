@@ -15,7 +15,7 @@ public class AdminInitializerTest {
     public void setUp(){
         mockUserService = mock(UserService.class);
     }
-    
+
     @Test
     public void initialize(){
         when(mockUserService.userExists("admin")).thenReturn(false);

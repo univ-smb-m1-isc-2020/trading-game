@@ -18,7 +18,7 @@ import java.util.List;
 
 @Transactional
 @Service
-public class HistoricalDataService {//TODO test
+public class HistoricalDataService {
     private final static String API_TICKERS_URL = "http://api.marketstack.com/v1/exchanges/XPAR/tickers?";
     private final static String API_KEY = "b12558fc063d7b8d1245b972fe227316";
     private final static int TICKER_LIMIT = 3;

@@ -59,13 +59,13 @@ public class GameService {
                 .collect(Collectors.toList());
     }
 
-    public List<Game> getUnstartedGames() { // TODO test
+    public List<Game> getUnstartedGames() {
         return getCurrentlyActiveGames().stream()
                 .filter(g -> !RUNNING_GAMES.containsKey(g.getId()))
                 .collect(Collectors.toList());
     }
 
-    public List<Game> getActiveGamesOf(TradingGameUser user){// TODO test
+    public List<Game> getActiveGamesOf(TradingGameUser user){
         return getCurrentlyActiveGames()
                 .stream()
                 .filter(g -> g.getPlayers()
@@ -74,7 +74,7 @@ public class GameService {
                 .collect(Collectors.toList());
     }
 
-    public List<Game> getAvailableGames(TradingGameUser user){// TODO test
+    public List<Game> getAvailableGames(TradingGameUser user){
         return getCurrentlyActiveGames()
                 .stream()
                 .filter(g ->

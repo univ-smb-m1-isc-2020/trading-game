@@ -293,7 +293,6 @@ public class GameServiceTest {
         when(mockRepository.findById(anyLong())).thenReturn(Optional.empty());
         GameService gameService = new GameService(mockScheduler, mockRepository, mockPlayerService, mockEodService);
         gameService.addPlayer(mockGameId, mockUser);
-        // TODO : voir : test du joueur non présent dans la liste peut être inutile
         Assertions.assertEquals(0, players.size());
         Assertions.assertFalse(players.contains(mockPlayer));
         verify(mockRepository, never()).saveAndFlush(mockGame);

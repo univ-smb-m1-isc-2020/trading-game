@@ -24,7 +24,7 @@ public class SellOrderService {
 
     public boolean apply(long orderId, EOD dayData, long portfolioId) {
         SellOrder order = repository.findById(orderId).orElse(null);
-        if(order==null) return false;//TODO test
+        if(order==null) return false;
         if(isNotApplicable(order,dayData)) return false;
 
         int sellingPrice = dayData.getClose();
