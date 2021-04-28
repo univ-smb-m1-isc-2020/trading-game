@@ -76,7 +76,7 @@ public class UserController {
                                   RedirectAttributes redirectAttrs){
         TradingGameUser user = userService.getCurrentUser(SecurityContextHolder.getContext());
         gameService.addPlayer(gameId, user);
-        redirectAttrs.addFlashAttribute("gameId",gameId);
+        redirectAttrs.addAttribute("gameId",gameId);
         return "redirect:"+URLMap.viewGame;
     }
 
