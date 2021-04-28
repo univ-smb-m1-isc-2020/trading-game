@@ -55,6 +55,7 @@ public class GameController {
                               @RequestParam(name = "gameId") long gameId,
                               @RequestParam(name = "playerId") long playerId,
                               @RequestParam(name = "portfolioId") long portfolioId){
+        String gameIdAttributeName = "gameId";
         headerController.loadHeaderParameters(model);
         model.addAttribute("tickers", tickerService.getTickers()
                 .stream()
@@ -73,10 +74,10 @@ public class GameController {
         model.addAttribute("playerId", playerId);
         model.addAttribute("portfolioId", portfolioId);
         model.addAttribute("portfolioBalance", portfolioService.getBalance(portfolioId)/100.0);
-        model.addAttribute("gameId", gameId);
+        model.addAttribute(gameIdAttributeName, gameId);
 
         String cancelUrl = UriComponentsBuilder.fromUriString(URLMap.VIEW_GAME)
-                .queryParam("gameId",gameId)
+                .queryParam(gameIdAttributeName,gameId)
                 .queryParam("portfolioNumber",playerService.getPortfolioNumber(playerId, portfolioId)).toUriString();
         model.addAttribute("gameManagement", cancelUrl);
         return "createOrder";

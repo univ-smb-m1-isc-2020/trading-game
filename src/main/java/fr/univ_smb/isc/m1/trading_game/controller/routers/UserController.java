@@ -19,6 +19,7 @@ import java.util.List;
 
 @Controller
 public class UserController {
+    private final static String DATE_FORMAT = "dd/MM/yyyy";
     private final HeaderController headerController;
     private final GameService gameService;
     private final UserService userService;
@@ -36,7 +37,7 @@ public class UserController {
             model.addAttribute("loginPage", URLMap.LOGIN_PAGE);
 
             List<Game> onGoingGames = gameService.getCurrentlyActiveGames();
-            DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            DateFormat format = new SimpleDateFormat(DATE_FORMAT);
             model.addAttribute("dateFormat", format);
             model.addAttribute("currentGames", onGoingGames);
             return "homePageCommon";
@@ -52,7 +53,7 @@ public class UserController {
         List<Game> onGoingGames = gameService.getActiveGamesOf(user);
         List<Game> endedGames = gameService.getEndedGamesOf(user);
         model.addAttribute("viewGame", URLMap.VIEW_GAME);
-        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat format = new SimpleDateFormat(DATE_FORMAT);
         model.addAttribute("dateFormat", format);
         model.addAttribute("joinedGames", onGoingGames);
         model.addAttribute("endedGames", endedGames);
@@ -65,7 +66,7 @@ public class UserController {
         TradingGameUser user = userService.getCurrentUser(SecurityContextHolder.getContext());
         List<Game> availableGames = gameService.getAvailableGames(user);
 
-        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat format = new SimpleDateFormat(DATE_FORMAT);
         model.addAttribute("dateFormat", format);
         model.addAttribute("performJoinGame", URLMap.PERFORM_JOIN_GAME);
         model.addAttribute("availableGames",availableGames);

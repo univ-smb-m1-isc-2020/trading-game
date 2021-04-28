@@ -15,8 +15,9 @@ public class AdminInitializer {
 
     @PostConstruct
     public void createDefaultAdmin(){
-        if(!userService.userExists("admin")){
-            userService.register("admin", "admin", true);
+        String defaultAdminUsernameAndPassword= "admin";
+        if(!userService.userExists(defaultAdminUsernameAndPassword)){
+            userService.register(defaultAdminUsernameAndPassword, defaultAdminUsernameAndPassword, true);
         }
     }
 
