@@ -102,6 +102,45 @@ public class GameServiceTest {
     }
 
     @Test
+    public void getAvailableGamesOf(){
+        int availableGameCount = 5;
+        int unavailableGameCount = 2;
+        int startedGameCount = 2;
+        TradingGameUser mockUser = mock(TradingGameUser.class);
+        List<Game> mockUserGames = new ArrayList<>();
+        //Init unrelated games
+        for(int i=0;i<availableGameCount;i++){
+            Game mockGame = mock(Game.class);
+            when(mockGame.getCurrentDuration()).thenReturn(0);
+            mockUserGames.add(mockGame);
+        }
+        //Init unrelated games
+        for(int i=0;i<startedGameCount;i++){
+            Game mockGame = mock(Game.class);
+            when(mockGame.getCurrentDuration()).thenReturn(1);
+            mockUserGames.add(mockGame);
+        }
+        //Init games
+        for(int i=0;i<unavailableGameCount;i++){
+            Game mockGame = mock(Game.class);
+            when(mockGame.getCurrentDuration()).thenReturn(0);
+            Player mockPlayer = mock(Player.class);
+            when(mockPlayer.getUser()).thenReturn(mockUser);
+            Set<Player> players = new HashSet<>();
+            players.add(mockPlayer);
+            when(mockGame.getPlayers()).thenReturn(players);
+            mockUserGames.add(mockGame);
+        }
+        when(mockRepository.findAllActive()).thenReturn(mockUserGames);
+
+        GameService service = new GameService(mockScheduler, mockRepository, mockPlayerService, mockEodService);
+        List<Game> res = service.getAvailableGames(mockUser);
+        Assertions.assertTrue(res.stream().noneMatch(game -> game.getPlayers().stream().anyMatch(p -> p.getUser()==mockUser)));
+        Assertions.assertTrue(res.stream().noneMatch(game -> game.getCurrentDuration() > 0));
+        Assertions.assertEquals(availableGameCount,res.size());
+    }
+
+    @Test
     public void getEndedGames(){
         int endedGameCount = 5;
         List<Game> mockEndedGames = new ArrayList<>();
