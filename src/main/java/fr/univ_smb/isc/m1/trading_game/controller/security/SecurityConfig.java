@@ -2,7 +2,6 @@ package fr.univ_smb.isc.m1.trading_game.controller.security;
 
 import fr.univ_smb.isc.m1.trading_game.application.UserService;
 import fr.univ_smb.isc.m1.trading_game.controller.URLMap;
-import fr.univ_smb.isc.m1.trading_game.controller.routers.UserController;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.TradingGameUser;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -14,7 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
     private final UserService userService;
     private final EncodingService encodingService;
 

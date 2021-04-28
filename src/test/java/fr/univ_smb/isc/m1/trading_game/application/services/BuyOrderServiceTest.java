@@ -1,11 +1,12 @@
-package fr.univ_smb.isc.m1.trading_game.application;
+package fr.univ_smb.isc.m1.trading_game.application.services;
 
+import fr.univ_smb.isc.m1.trading_game.application.BuyOrderService;
+import fr.univ_smb.isc.m1.trading_game.application.PortfolioService;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 
-import java.util.Date;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -126,5 +127,12 @@ public class BuyOrderServiceTest {
         verify(mockPortfolioService, times(1)).buy(anyLong(), any(), anyInt(), anyInt());
         verify(mockOrder, never()).setPending(anyBoolean());
         verify(mockRepository, never()).saveAndFlush(mockOrder);
+    }
+
+    @Test
+    public void applyOrderNotExisting(){
+        when(mockRepository.findById(anyLong())).thenReturn(Optional.empty());
+        BuyOrderService buyOrderService = new BuyOrderService(mockRepository);
+        Assertions.assertFalse(buyOrderService.apply(mockOrderId, mockData, mockPortfolioId));
     }
 }
