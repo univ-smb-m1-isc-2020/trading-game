@@ -44,6 +44,48 @@ public class GameServiceTest {
     }
 
     @Test
+    public void getEndedGames(){
+        int endedGameCount = 5;
+        List<Game> mockEndedGames = new ArrayList<>();
+        for(int i=0;i<endedGameCount;i++){
+            mockEndedGames.add(mock(Game.class));
+        }
+        when(mockRepository.findAllInactive()).thenReturn(mockEndedGames);
+        GameService service = new GameService(mockScheduler, mockRepository, mockPlayerService, mockEodService);
+
+        Assertions.assertEquals(mockEndedGames,service.getEndedGames());
+    }
+
+    @Test
+    public void getEndedGamesOf(){
+        int endedGameCount = 5;
+        int playerGamesCount = 2;
+        TradingGameUser mockUser = mock(TradingGameUser.class);
+        List<Game> mockEndedGames = new ArrayList<>();
+        //Init unrelated games
+        for(int i=0;i<endedGameCount;i++){
+            mockEndedGames.add(mock(Game.class));
+        }
+        //Init games containing user
+        for(int i=0;i<playerGamesCount;i++){
+            Game mockGame = mock(Game.class);
+            Player mockPlayer = mock(Player.class);
+            when(mockPlayer.getUser()).thenReturn(mockUser);
+            Set<Player> players = new HashSet<>();
+            players.add(mockPlayer);
+            when(mockGame.getPlayers()).thenReturn(players);
+            mockEndedGames.add(mockGame);
+        }
+        when(mockRepository.findAllInactive()).thenReturn(mockEndedGames);
+
+        GameService service = new GameService(mockScheduler, mockRepository, mockPlayerService, mockEodService);
+        List<Game> res = service.getEndedGamesOf(mockUser);
+        Assertions.assertTrue(res.stream().allMatch(game -> game.getPlayers().stream().anyMatch(p -> p.getUser()==mockUser)));
+        Assertions.assertEquals(playerGamesCount,res.size());
+        Assertions.assertEquals(mockEndedGames,service.getEndedGames());
+    }
+
+    @Test
     public void getNeededDateHourMinute(){
         String timezone = "GMT";
         int year = 2000;

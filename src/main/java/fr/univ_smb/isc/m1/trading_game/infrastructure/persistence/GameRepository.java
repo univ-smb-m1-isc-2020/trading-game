@@ -10,4 +10,7 @@ import java.util.List;
 public interface GameRepository extends JpaRepository<Game, Long> {
     @Query("select g from Game g where g.currentDuration<g.totalDuration")
     public List<Game> findAllActive();
+
+    @Query("select g from Game g where g.currentDuration>=g.totalDuration")
+    List<Game> findAllInactive();
 }
