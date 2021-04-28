@@ -42,6 +42,7 @@ public class HistoricalDataService {
     public void initialize() {
         initializeTickers();
         initializeEODs();
+        deleteNonEODUsers();
     }
 
     public void initializeEODs(){
@@ -124,5 +125,13 @@ public class HistoricalDataService {
 
     public List<EOD> eods() {
         return eodRepository.findAll();
+    }
+
+    public void deleteNonEODUsers(){
+        for (Ticker ticker : tickers()){
+            if(eodRepository.findAllBySymbol(ticker).isEmpty()){
+                tickerRepository.delete(ticker);
+            }
+        }
     }
 }
