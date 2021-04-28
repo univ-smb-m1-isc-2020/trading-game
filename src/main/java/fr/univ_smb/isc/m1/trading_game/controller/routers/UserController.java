@@ -1,7 +1,6 @@
 package fr.univ_smb.isc.m1.trading_game.controller.routers;
 
 import fr.univ_smb.isc.m1.trading_game.application.GameService;
-import fr.univ_smb.isc.m1.trading_game.application.PlayerService;
 import fr.univ_smb.isc.m1.trading_game.application.UserService;
 import fr.univ_smb.isc.m1.trading_game.controller.URLMap;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.*;
@@ -16,15 +15,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Controller
 public class UserController {
+    private final HeaderController headerController;
     private final GameService gameService;
     private final UserService userService;
 
-    public UserController(GameService gameService, UserService userService) {
+    public UserController(HeaderController headerController, GameService gameService, UserService userService) {
+        this.headerController = headerController;
         this.gameService = gameService;
         this.userService = userService;
     }
@@ -47,24 +46,21 @@ public class UserController {
 
     @GetMapping(value = URLMap.userHomepage)
     public String homePagePlayer(Model model) {
+        headerController.loadHeaderParameters(model);
         TradingGameUser user = userService.getCurrentUser(SecurityContextHolder.getContext());
         List<Game> onGoingGames = gameService.getActiveGamesOf(user);
-
-        model.addAttribute("performLogout", URLMap.performLogout);
-        model.addAttribute("joinGame", URLMap.joinGame);
+        List<Game> endedGames = gameService.getEndedGamesOf(user);
         model.addAttribute("viewGame", URLMap.viewGame);
-        model.addAttribute("createGamePage", URLMap.createGamePage);
-
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         model.addAttribute("dateFormat", format);
         model.addAttribute("joinedGames", onGoingGames);
-        model.addAttribute("admin",user.isAdmin());
-        model.addAttribute("username",user.getUsername());
+        model.addAttribute("endedGames", endedGames);
         return "homePageLogged";
     }
 
     @GetMapping(value = URLMap.joinGame)
     public String joinGame(Model model) {
+        headerController.loadHeaderParameters(model);
         TradingGameUser user = userService.getCurrentUser(SecurityContextHolder.getContext());
         List<Game> availableGames = gameService.getAvailableGames(user);
 
@@ -80,7 +76,9 @@ public class UserController {
                                   RedirectAttributes redirectAttrs){
         TradingGameUser user = userService.getCurrentUser(SecurityContextHolder.getContext());
         gameService.addPlayer(gameId, user);
-        redirectAttrs.addFlashAttribute("gameId",gameId);
+        redirectAttrs.addAttribute("gameId",gameId);
         return "redirect:"+URLMap.viewGame;
     }
+
+
 }

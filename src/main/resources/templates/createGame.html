@@ -6,7 +6,8 @@
     <link rel="stylesheet" href="/css/appTheme.css"/>
 </head>
 <body>
-    <h1 class="pageMainTitle">Créer une partie</h1>
+    <div th:replace="fragment/header :: header"></div>
+    <h2 class="pageMainTitle">Créer une partie</h2>
     <div class="verticallyAligned">
         <form th:action="${performCreateGame}" method="post">
             <div class="cell">
@@ -43,11 +44,10 @@
                 </label>
             </div>
             <!-- Confirmation -->
-            <input type="submit" name="submit" style="display: inline-block"/>
+            <input type="submit" name="submit" style="display: inline-block" value="Créer la partie"/>
         </form>
     </div>
-    <hr/>
-    <h1 class="pageMainTitle">Gérer les parties</h1>
+    <h2 class="pageMainTitle">Gérer les parties</h2>
     <div>
         <div class="cell" th:each="game, iStat: ${startableGames}">
             <label class="gameCellHeader">Partie n°<span class="importantInfo" th:text="${iStat.index+1}"></span></label>

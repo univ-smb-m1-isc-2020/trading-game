@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @Service
 public class HistoricalDataService {//TODO test
     private final static String API_TICKERS_URL = "http://api.marketstack.com/v1/exchanges/XPAR/tickers?";
-    private final static String API_KEY = "b12558fc063d7b8d1245b972fe227316";
+    private final static String API_KEY = "fcf3ec4f0f3991176231b03c30188779";
     private final static int TICKER_LIMIT = 60;
 
     private final static String API_EOD_URL = "http://api.marketstack.com/v1/eod?";
@@ -58,7 +58,6 @@ public class HistoricalDataService {//TODO test
             try {
                 // Getting 60 tickers
                 restResult = restTemplate.getForEntity(new URI(uri.toString()), String.class).getBody();
-                System.out.println("1er restResult");
                 jTickers = mapper.readTree(restResult).get("data").get("tickers");
 
                 // Adding the tickers to db
@@ -99,7 +98,6 @@ public class HistoricalDataService {//TODO test
                 // Getting 330 latest eods for the 3 current tickers
                 try {
                     restResult = restTemplate.getForEntity(new URI(uri.toString()), String.class).getBody();
-                    System.out.println("2eme restResult");
                     jEODs = mapper.readTree(restResult).get("data");
                     for (final JsonNode jEOD : jEODs) {
                         eod = mapper.treeToValue(jEOD, EOD.class);

@@ -6,7 +6,8 @@
   <link rel="stylesheet" href="/css/appTheme.css"/>
 </head>
 <body>
-  <h1 class="pageMainTitle">Rejoindre une partie</h1>
+  <div th:replace="fragment/header :: header"></div>
+  <h2 class="pageMainTitle">Rejoindre une partie</h2>
   <div class="cell" th:each="game, iStat: ${availableGames}">
     <label class="gameCellHeader">Partie n°<span class="importantInfo" th:text="${iStat.index+1}"></span></label>
     <label class="gameCellHeader"><span class="importantInfo" th:text="${game.getTotalDuration()}"></span> jours</label>

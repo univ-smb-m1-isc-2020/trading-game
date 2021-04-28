@@ -6,7 +6,8 @@
     <link rel="stylesheet" href="/css/appTheme.css"/>
 </head>
 <body>
-    <h1>Créer une ordre</h1>
+    <div th:replace="fragment/header :: header"></div>
+    <h2>Créer une ordre</h2>
     <div class="verticallyAligned">
         <form th:action="${performCreateOrder}" method="post">
             <input name="gameId" type="hidden" th:value="${gameId}"/>
@@ -23,7 +24,7 @@
             <div class="cell verticallyAligned">
                 <label for="tickerSelect">Ticker :</label>
                 <select name="orderTicker" id="tickerSelect">
-                    <option th:each="ticker: ${tickers}" th:text="${ticker.getSymbol()}"></option>
+                    <option th:each="ticker: ${tickers}" th:value="${ticker.getSymbol()}" th:label="${ticker.getSymbol()+'('+ticker.getUnitPrice()+'€)'}"></option>
                 </select>
             </div>
             <!-- Infos -->
@@ -34,6 +35,7 @@
                 </label>
             </div>
             <input type="submit" name="submit" value="Créer l'ordre">
+            <a th:href="${gameManagement}">Annuler </a>
         </form>
     </div>
 </body>

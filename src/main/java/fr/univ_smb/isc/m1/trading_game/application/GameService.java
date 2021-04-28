@@ -43,6 +43,22 @@ public class GameService {
                 .collect(Collectors.toList());
     }
 
+    public List<Game> getEndedGames(){
+        return repository.findAllInactive()
+                .stream()
+                .sorted(Comparator.comparingLong(Game::getId))
+                .collect(Collectors.toList());
+    }
+
+    public List<Game> getEndedGamesOf(TradingGameUser user){
+        return getEndedGames()
+                .stream()
+                .filter(g -> g.getPlayers()
+                        .stream()
+                        .anyMatch(player -> player.getUser().getId() == user.getId()))
+                .collect(Collectors.toList());
+    }
+
     public List<Game> getUnstartedGames() { // TODO test
         return getCurrentlyActiveGames().stream()
                 .filter(g -> !RUNNING_GAMES.containsKey(g.getId()))

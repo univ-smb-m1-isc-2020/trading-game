@@ -7,6 +7,7 @@
 </head>
 <body>
     <!-- Side navigation bars -->
+    <div th:replace="fragment/header :: header"></div>
     <div class="sidenavLeft">
         <label th:text="${'Total:'+totalBalance+'€'}"></label>
         <a th:each="portfolio, iStat:${playerPortfolios}"
@@ -18,7 +19,7 @@
         <h3 class="action">Mes parts</h3>
         <ul>
             <li class="action" th:each="ticker:${portfolioTickers}">
-                <span class="importantInfo" th:text="${ticker.getSymbol()}"></span> - <span class="importantInfo" th:text="${ticker.getQuantity()}"></span>
+                <span class="importantInfo" th:text="${'('+ticker.getUnitPrice()+'€)' + ticker.getSymbol()}"></span> - <span class="importantInfo" th:text="${ticker.getQuantity()}"></span>
             </li>
         </ul>
     </div>

@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/css/appTheme.css"/>
 </head>
 <body>
-    <h1 class="pageMainTitle">Trading Game ©</h1>
+    <h1 class="pageMainTitle">Trading Game</h1>
     <a class="logInOutLink" th:href="${loginPage}">Se connecter / S'enregistrer</a>
     <div class="cell" th:each="game, iStat: ${currentGames}">
         <label class="gameCellHeader">Partie n°<span class="importantInfo" th:text="${iStat.index+1}"></span></label>

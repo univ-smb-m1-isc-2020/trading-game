@@ -15,14 +15,17 @@ import java.util.Date;
 
 @Controller
 public class AdminController {
+    private final HeaderController headerController;
     private final GameService gameService;
 
-    public AdminController(GameService gameService) {
+    public AdminController(HeaderController headerController, GameService gameService) {
+        this.headerController = headerController;
         this.gameService = gameService;
     }
 
     @GetMapping(value = URLMap.createGamePage)
     public String createGame(Model model) {
+        headerController.loadHeaderParameters(model);
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         model.addAttribute("dateFormat",format);
         model.addAttribute("performCreateGame",URLMap.performCreateGame);
