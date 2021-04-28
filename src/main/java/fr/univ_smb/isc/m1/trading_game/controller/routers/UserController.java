@@ -48,18 +48,13 @@ public class UserController {
     @GetMapping(value = URLMap.userHomepage)
     public String homePagePlayer(Model model) {
         TradingGameUser user = userService.getCurrentUser(SecurityContextHolder.getContext());
+        loadHeaderParameters(model, user);
         List<Game> onGoingGames = gameService.getActiveGamesOf(user);
-
-        model.addAttribute("performLogout", URLMap.performLogout);
-        model.addAttribute("joinGame", URLMap.joinGame);
         model.addAttribute("viewGame", URLMap.viewGame);
-        model.addAttribute("createGamePage", URLMap.createGamePage);
-
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         model.addAttribute("dateFormat", format);
         model.addAttribute("joinedGames", onGoingGames);
-        model.addAttribute("admin",user.isAdmin());
-        model.addAttribute("username",user.getUsername());
+
         return "homePageLogged";
     }
 
@@ -82,5 +77,13 @@ public class UserController {
         gameService.addPlayer(gameId, user);
         redirectAttrs.addFlashAttribute("gameId",gameId);
         return "redirect:"+URLMap.viewGame;
+    }
+
+    public static void loadHeaderParameters(Model model, TradingGameUser user){
+        model.addAttribute("performLogout", URLMap.performLogout);
+        model.addAttribute("joinGame", URLMap.joinGame);
+        model.addAttribute("createGamePage", URLMap.createGamePage);
+        model.addAttribute("admin",user.isAdmin());
+        model.addAttribute("username",user.getUsername());
     }
 }

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="header">
+    <h1 class="pageMainTitle">Trading Game</h1>
+    <a class="logInOutLink"
+       th:href="${performLogout}"
+       th:text="${username+' - se déconnecter'}"></a>
+    <form th:action="${joinGame}">
+        <button class="genericButton topLeftButton" type="submit">Rejoindre une partie</button>
+    </form>
+    <form th:if="${admin}"
+          th:action="${createGamePage}">
+        <button class="genericButton topLeftButton" style="left: 19%;" type="submit">Gérer les parties</button>
+    </form>
+</div>
+</body>
+</html>

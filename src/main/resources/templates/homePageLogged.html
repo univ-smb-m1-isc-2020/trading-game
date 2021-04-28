@@ -6,17 +6,7 @@
   <link rel="stylesheet" href="/css/appTheme.css"/>
 </head>
 <body>
-  <h1 class="pageMainTitle">Trading Game</h1>
-  <a class="logInOutLink"
-     th:href="${performLogout}"
-     th:text="${username+' - se déconnecter'}"></a>
-  <form th:action="${joinGame}">
-    <button class="genericButton topLeftButton" type="submit">Rejoindre une partie</button>
-  </form>
-  <form th:if="${admin}"
-        th:action="${createGamePage}">
-    <button class="genericButton topLeftButton" style="left: 19%;" type="submit">Gérer les parties</button>
-  </form>
+  <div th:replace="fragment/header :: header"></div>
   <div class="cell" th:each="game, iStat: ${joinedGames}">
     <label class="gameCellHeader">Partie n°<span class="importantInfo" th:text="${iStat.index+1}"></span></label>
     <label class="gameCellHeader"><span class="importantInfo" th:text="${game.getCurrentDuration()+'/'+game.getTotalDuration()}"></span> jours</label>
