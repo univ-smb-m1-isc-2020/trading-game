@@ -22,4 +22,9 @@ public class EODService {
     public List<EOD> getEODs(Date date){
         return repository.findAllByDate(date);
     }
+
+    // TODO : voir si on supprime ou non
+    public List<EOD> getEODsByTicker(Ticker ticker){
+        return repository.findAllBySymbol(ticker);
+    }
 }

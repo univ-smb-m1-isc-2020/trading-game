@@ -4,12 +4,6 @@ body {
     font-family: Carlito, sans-serif; /* Ou Calibri si problème */
 }
 
-/* Titres */
-.pageMainTitle {
-    width: 100%;
-    text-align: center;
-}
-
 /* Section dont les champs sont affichés verticalement */
 .verticallyAligned {
     padding: 12px 20px;
@@ -17,6 +11,11 @@ body {
     display: block;
 }
 
+/* Titres */
+.pageMainTitle{
+    width: 100%;
+    text-align: center;
+}
 
 /* Barres de navigation */
 .sidenavLeft {
@@ -104,6 +103,12 @@ body {
     left: 20px;
 }
 
+.topLeftButton1 {}
+
+.topLeftButton2 {}
+
+.topLeftButton3 {}
+
 /* Cellules (ensemble de champs fermé par un bord) */
 .cell {
     margin-top: 10px;
@@ -180,6 +185,67 @@ td{
 .registerLink:hover {
     color: royalblue;
     cursor: pointer;
+}
+
+/* Header */
+/* Header Commun */
+.headerCommon h1{
+    width: 100%;
+    text-align: center;
+}
+
+.headerCommon .logInOutLink{
+    position: fixed;
+    top: 0;
+    right: 20px;
+}
+
+.headerCommon .topLeftButton1{
+    position: fixed;
+    top: 0;
+    left: 20px;
+}
+
+.headerCommon .topLeftButton2{
+    position: fixed;
+    top: 0;
+    left: 10%;
+}
+
+.headerCommon .topLeftButton3{
+    position: fixed;
+    top: 0;
+    left: 25%;
+}
+
+/* Header Gestion de partie */
+.headerGameManager h1{
+    width: 100%;
+    text-align: center;
+}
+
+.headerGameManager .logInOutLink{
+    position: fixed;
+    top: 0;
+    right: 260px;
+}
+
+.headerGameManager .topLeftButton1{
+    position: fixed;
+    top: 0;
+    left: 260px;
+}
+
+.headerGameManager .topLeftButton2{
+    position: fixed;
+    top: 0;
+    left: 25%;
+}
+
+.headerGameManager .topLeftButton3{
+    position: fixed;
+    top: 0;
+    left: 60%;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */

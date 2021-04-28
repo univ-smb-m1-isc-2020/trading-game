@@ -131,9 +131,11 @@ public class GameController {
 
             model.addAttribute("viewPortfolio", URLMap.viewGame+"?gameId="+gameId+"&portfolioNumber=");
             model.addAttribute("createOrder",URLMap.createOrder);
+            model.addAttribute("headerGameManager", true);
 
             return "gameManager";
         } else {
+            //model.addAttribute("headerGameManager", true);
             return "redirect:"+URLMap.userHomepage;
         }
     }

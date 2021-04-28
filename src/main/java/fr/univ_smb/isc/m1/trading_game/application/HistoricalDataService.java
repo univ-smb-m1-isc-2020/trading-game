@@ -109,6 +109,15 @@ public class HistoricalDataService {//TODO test
                 }
             }
         }
+        deleteNonEODUsers();
+    }
+
+    public void deleteNonEODUsers(){
+        for (Ticker ticker : tickers()){
+            if(eodRepository.findAllBySymbol(ticker).isEmpty()){
+                tickerRepository.delete(ticker);
+            }
+        }
     }
 
     public List<Ticker> tickers() {
