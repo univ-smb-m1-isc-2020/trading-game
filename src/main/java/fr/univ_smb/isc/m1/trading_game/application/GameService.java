@@ -106,7 +106,7 @@ public class GameService {
     }
 
     public void startGame(long gameId, int dayDurationInSeconds){
-        Game game = repository.findById(gameId).orElse(null);//TODO test game not existing
+        Game game = repository.findById(gameId).orElse(null);
         if(game==null) return;
         if(RUNNING_GAMES.get(gameId) != null) return;
         Runnable gameRunnable = () -> {

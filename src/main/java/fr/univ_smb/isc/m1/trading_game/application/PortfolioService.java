@@ -44,17 +44,6 @@ public class PortfolioService {
         return port.getOrders().stream().sorted(Comparator.comparingLong(Order::getId)).collect(Collectors.toList());
     }
 
-    public Map<Ticker, Integer> getParts(long portfolioId){
-        Portfolio port = repository.findById(portfolioId).orElse(null);
-        Map<Ticker, Integer> res = new HashMap<>();
-        if(port==null) return res;//TODO test
-        Map<String, Integer> parts = port.getParts();
-        for(String mic : parts.keySet()){
-            res.put(tickerService.get(mic), parts.get(mic));
-        }
-        return res;
-    }
-
     public boolean buy(long portfolioId, String tickerMic, int unitPrice, int quantity)
     {
         Portfolio port = repository.findById(portfolioId).orElse(null);

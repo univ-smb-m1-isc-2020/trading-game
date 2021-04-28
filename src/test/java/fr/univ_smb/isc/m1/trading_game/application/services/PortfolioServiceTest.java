@@ -63,7 +63,7 @@ public class PortfolioServiceTest {
         PortfolioService service = new PortfolioService(mockRepository, mockOrderService, mockTickerService);
         Assertions.assertEquals(orders, new HashSet<>(service.getOrders(mockPortfolioId)));
     }
-
+    
     @Test
     public void applyOrders(){
         int orderCount = 3;
