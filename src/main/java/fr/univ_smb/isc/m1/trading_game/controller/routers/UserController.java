@@ -40,16 +40,7 @@ public class UserController {
         if(user==null){
             model.addAttribute("loginPage", URLMap.loginPage);
 
-            List<GameInfo> onGoingGames =
-                    gameService.getCurrentlyActiveGames()
-                    .stream()
-                    .map(g -> new GameInfo(g,
-                            gameService.getRankings(g.getId())
-                            .stream()
-                            .map(p -> new PlayerRankingInfo(p.getUser().getUsername(),
-                                    playerService.getTotalBalance(p.getId())))
-                            .collect(Collectors.toList())))
-                    .collect(Collectors.toList());
+            List<GameInfo> onGoingGames = gamesToGameInfo(gameService.getCurrentlyActiveGames());
 
             DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             model.addAttribute("dateFormat", format);
@@ -64,23 +55,25 @@ public class UserController {
     public String homePagePlayer(Model model) {
         headerController.loadHeaderParameters(model);
         TradingGameUser user = userService.getCurrentUser(SecurityContextHolder.getContext());
-        List<GameInfo> onGoingGames =
-                gameService.getActiveGamesOf(user)
-                        .stream()
-                        .map(g -> new GameInfo(g,
-                                gameService.getRankings(g.getId())
-                                        .stream()
-                                        .map(p -> new PlayerRankingInfo(p.getUser().getUsername(),
-                                                playerService.getTotalBalance(p.getId())))
-                                        .collect(Collectors.toList())))
-                        .collect(Collectors.toList());
-        List<Game> endedGames = gameService.getEndedGamesOf(user);
+        List<GameInfo> onGoingGames = gamesToGameInfo(gameService.getActiveGamesOf(user));
+        List<GameInfo> endedGames = gamesToGameInfo(gameService.getEndedGamesOf(user));
         model.addAttribute("viewGame", URLMap.viewGame);
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         model.addAttribute("dateFormat", format);
         model.addAttribute("joinedGames", onGoingGames);
         model.addAttribute("endedGames", endedGames);
         return "homePageLogged";
+    }
+
+    private List<GameInfo> gamesToGameInfo(List<Game> games){
+        return games.stream()
+                .map(g -> new GameInfo(g,
+                        gameService.getRankings(g.getId())
+                                .stream()
+                                .map(p -> new PlayerRankingInfo(p.getUser().getUsername(),
+                                        playerService.getTotalBalance(p.getId())))
+                                .collect(Collectors.toList())))
+                .collect(Collectors.toList());
     }
 
     @GetMapping(value = URLMap.joinGame)

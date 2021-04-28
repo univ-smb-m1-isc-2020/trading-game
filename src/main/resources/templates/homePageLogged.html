@@ -45,6 +45,11 @@
         <label class="gameCellHeader">Frais de transaction : <span class="importantInfo" th:text="${(game.getTransactionFee()/100)+'€'}"></span></label>
       </li>
     </ul>
+    <ol>
+      <li th:each="player, iStat: ${game.getRankings()}">
+        <div th:text="${player.getPlayerName()+' ('+player.getTotalBalance()/100.0+'€)'}"></div>
+      </li>
+    </ol>
     <form style="display: inline-block" th:action="${viewGame}" method="get">
       <input name="gameId" type="hidden" th:value="${game.getId()}">
       <button class="genericButton inCellButton" type="submit">Voir le jeu</button>
