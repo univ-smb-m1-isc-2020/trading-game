@@ -85,4 +85,10 @@ public class PortfolioService {
         port.getOrders().add(order);
         repository.saveAndFlush(port);
     }
+
+    public int getBalance(long portfolioId) {
+        Portfolio port = repository.findById(portfolioId).orElse(null);
+        if(port==null)return 0;
+        return port.getBalance();
+    }
 }

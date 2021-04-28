@@ -63,6 +63,7 @@ public class GameController {
         model.addAttribute("performCreateOrder", URLMap.performCreateOrder);
         model.addAttribute("playerId", playerId);
         model.addAttribute("portfolioId", portfolioId);
+        model.addAttribute("portfolioBalance", portfolioService.getBalance(portfolioId)/100.0);
         model.addAttribute("gameId", gameId);
 
         String cancelUrl = UriComponentsBuilder.fromUriString(URLMap.viewGame)

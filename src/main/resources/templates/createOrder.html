@@ -8,6 +8,7 @@
 <body>
     <div th:replace="fragment/header :: header"></div>
     <h2>Créer une ordre</h2>
+    <h4 th:text="${'Solde du portefeuille : '+portfolioBalance+'€'}"></h4>
     <div class="verticallyAligned">
         <form th:action="${performCreateOrder}" method="post">
             <input name="gameId" type="hidden" th:value="${gameId}"/>
