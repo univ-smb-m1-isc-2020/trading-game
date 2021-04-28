@@ -59,6 +59,7 @@ public class UserController {
 
     @GetMapping(value = URLMap.joinGame)
     public String joinGame(Model model) {
+        headerController.loadHeaderParameters(model);
         TradingGameUser user = userService.getCurrentUser(SecurityContextHolder.getContext());
         List<Game> availableGames = gameService.getAvailableGames(user);
 
