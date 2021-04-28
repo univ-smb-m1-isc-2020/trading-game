@@ -20,12 +20,12 @@ import java.util.List;
 public class HistoricalDataService {
     private final static String API_TICKERS_URL = "http://api.marketstack.com/v1/exchanges/XPAR/tickers?";
     private final static String API_KEY = "b12558fc063d7b8d1245b972fe227316";
-    private final static int TICKER_LIMIT = 60;
+    private final static int TICKER_LIMIT = 3;
 
     private final static String API_EOD_URL = "http://api.marketstack.com/v1/eod?";
     private final static String START_DATE="2020-05-27";
     private final static String END_DATE="2021-04-22";
-    private final static int EOD_LIMIT = 1000;
+    private final static int EOD_LIMIT = 10;
 
     private final TickerRepository tickerRepository;
     private final EODRepository eodRepository;

@@ -9,7 +9,6 @@ import java.net.URI;
 public class HTTPRequestService {
     public String getRequestResponse(URI uri){
         RestTemplate restTemplate = new RestTemplate();
-        System.out.println(restTemplate.getForEntity(uri, String.class).getBody());
         return restTemplate.getForEntity(uri, String.class).getBody();
     }
 }

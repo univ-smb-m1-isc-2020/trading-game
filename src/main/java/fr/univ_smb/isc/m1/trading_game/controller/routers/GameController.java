@@ -3,6 +3,9 @@ package fr.univ_smb.isc.m1.trading_game.controller.routers;
 import fr.univ_smb.isc.m1.trading_game.application.*;
 import fr.univ_smb.isc.m1.trading_game.controller.URLMap;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.*;
+import fr.univ_smb.isc.m1.trading_game.view_objects.EODTickerInfo;
+import fr.univ_smb.isc.m1.trading_game.view_objects.OrderInfo;
+import fr.univ_smb.isc.m1.trading_game.view_objects.PortfolioTickerInfo;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -175,85 +178,5 @@ public class GameController {
                 })
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
-    }
-
-    private static class OrderInfo{
-        private final String symbol;
-        private final String type;
-        private final String status;
-
-        public OrderInfo(Order order) {
-            this.symbol = order.getTicker().getSymbol();
-            this.type = getType(order);
-            this.status = order.isPending()?"en attente":"effectué";
-        }
-
-        public String getSymbol() {
-            return symbol;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public String getStatus() {
-            return status;
-        }
-
-        private String getType(Order o){
-            if(o instanceof BuyOrder){
-                return "Achat ("+o.getQuantity()+")";
-            } else if (o instanceof SellOrder){
-                return "Vente ("+o.getQuantity()+")";
-            } else {
-                return "Inconnu";
-            }
-        }
-    }
-
-    private static class EODTickerInfo {
-        private final String symbol;
-        private final double unitPrice;
-
-        public EODTickerInfo(Ticker t, int unitPrice){
-            this.symbol = t.getSymbol();
-            this.unitPrice = unitPrice/100.0;
-        }
-
-        public String getSymbol() {
-            return symbol;
-        }
-
-        public double getUnitPrice() {
-            return unitPrice;
-        }
-    }
-
-    private static class PortfolioTickerInfo {
-        private final String symbol;
-        private final int quantity;
-        private final double unitPrice;
-
-        public PortfolioTickerInfo(Ticker t, int quantity, int unitPrice){
-            this.symbol = t.getSymbol();
-            this.quantity = quantity;
-            this.unitPrice = unitPrice/100.0;
-        }
-
-        public String getSymbol() {
-            return symbol;
-        }
-
-        public int getQuantity() {
-            return quantity;
-        }
-
-        public double getUnitPrice() {
-            return unitPrice;
-        }
-
-        public double getTotalPrice() {
-            return getUnitPrice()*getQuantity();
-        }
     }
 }
