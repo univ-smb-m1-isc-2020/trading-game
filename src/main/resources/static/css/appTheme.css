@@ -161,17 +161,22 @@ td{
 /* Connexion / Déconnexion */
 .logInOutLink {
     position: fixed;
-    top: 0;
+    top: 25px;
     right: 20px;
     padding: 6px 8px 6px 16px;
     text-decoration: none;
     font-size: 20px;
-    color: dodgerblue;
+    color: dimgrey;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    background-color: white;
+    transition-duration: 0.4s;
     display: block;
 }
 
 .logInOutLink:hover {
-    color: royalblue;
+    color: white;
+    background-color: dimgrey;
     cursor: pointer;
 }
 
@@ -196,7 +201,7 @@ td{
 
 .headerCommon .logInOutLink{
     position: fixed;
-    top: 0;
+    top: 25px;
     right: 20px;
 }
 
@@ -226,7 +231,7 @@ td{
 
 .headerGameManager .logInOutLink{
     position: fixed;
-    top: 0;
+    top: 25px;
     right: 260px;
 }
 
