@@ -55,7 +55,11 @@ public class GameController {
                               @RequestParam(name = "playerId") long playerId,
                               @RequestParam(name = "portfolioId") long portfolioId){
         headerController.loadHeaderParameters(model);
-        model.addAttribute("tickers", tickerService.getTickers());
+        model.addAttribute("tickers", tickerService.getTickers()
+                .stream()
+                .map(t -> t.getSymbol()+" ("+eodService.getLast(t).getClose()/100.0+"€)")
+                .collect(Collectors.toList())
+        );
         model.addAttribute("performCreateOrder", URLMap.performCreateOrder);
         model.addAttribute("playerId", playerId);
         model.addAttribute("portfolioId", portfolioId);

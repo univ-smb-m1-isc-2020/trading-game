@@ -24,7 +24,7 @@
             <div class="cell verticallyAligned">
                 <label for="tickerSelect">Ticker :</label>
                 <select name="orderTicker" id="tickerSelect">
-                    <option th:each="ticker: ${tickers}" th:text="${ticker.getSymbol()}"></option>
+                    <option th:each="ticker: ${tickers}" th:text="${ticker}"></option>
                 </select>
             </div>
             <!-- Infos -->
