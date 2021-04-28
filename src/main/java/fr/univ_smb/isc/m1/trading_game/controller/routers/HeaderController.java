@@ -17,10 +17,10 @@ public class HeaderController {
 
     public void loadHeaderParameters(Model model){
         TradingGameUser user = userService.getCurrentUser(SecurityContextHolder.getContext());
-        model.addAttribute("header_home", URLMap.userHomepage);
-        model.addAttribute("header_performLogout", URLMap.performLogout);
-        model.addAttribute("header_joinGame", URLMap.joinGame);
-        model.addAttribute("header_createGamePage", URLMap.createGamePage);
+        model.addAttribute("header_home", URLMap.USER_HOMEPAGE);
+        model.addAttribute("header_performLogout", URLMap.PERFORM_LOGOUT);
+        model.addAttribute("header_joinGame", URLMap.JOIN_GAME);
+        model.addAttribute("header_createGamePage", URLMap.CREATE_GAME_PAGE);
         model.addAttribute("header_admin",user.isAdmin());
         model.addAttribute("header_username",user.getUsername());
     }
