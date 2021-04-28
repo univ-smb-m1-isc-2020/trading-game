@@ -8,7 +8,6 @@ import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.EODRepository;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Ticker;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.TickerRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.annotation.PostConstruct;
@@ -31,10 +30,12 @@ public class HistoricalDataService {//TODO test
 
     private final TickerRepository tickerRepository;
     private final EODRepository eodRepository;
+    private final HTTPRequestService httpService;
 
-    public HistoricalDataService(TickerRepository tickerRepository, EODRepository eodRepository) {
+    public HistoricalDataService(TickerRepository tickerRepository, EODRepository eodRepository, HTTPRequestService httpService) {
         this.tickerRepository = tickerRepository;
         this.eodRepository = eodRepository;
+        this.httpService = httpService;
     }
 
     @PostConstruct
@@ -57,10 +58,9 @@ public class HistoricalDataService {//TODO test
 
     public void fetchEODof(List<Ticker> requestTickers){
         ObjectMapper mapper = new ObjectMapper();
-        RestTemplate restTemplate = new RestTemplate();
         String symbols = getTickerRequestParameter(requestTickers);
         URI uri = getEODsURI(symbols);
-        String restResult = restTemplate.getForEntity(uri, String.class).getBody();
+        String restResult = httpService.getRequestResponse(uri);
         try{
             JsonNode jEODs = mapper.readTree(restResult).get("data");
             for (final JsonNode jEOD : jEODs) {
@@ -88,11 +88,10 @@ public class HistoricalDataService {//TODO test
     public void initializeTickers(){
         // Tickers initialization
         ObjectMapper mapper = new ObjectMapper();
-        RestTemplate restTemplate = new RestTemplate();
         if (tickers().isEmpty()) {
             try {
                 // Getting tickers
-                String restResult = restTemplate.getForEntity(getTickerURI(), String.class).getBody();
+                String restResult = httpService.getRequestResponse(getTickerURI());
                 JsonNode jTickers = mapper.readTree(restResult).get("data").get("tickers");
                 // Adding the tickers to db
                 for (final JsonNode jTicker : jTickers) {
