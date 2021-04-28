@@ -52,6 +52,22 @@ public class PortfolioServiceTest {
     }
 
     @Test
+    public void init(){
+        PortfolioService service = new PortfolioService(mockRepository, mockOrderService, mockTickerService);
+        service.init();
+        verify(mockOrderService, times(1)).setPortfolioService(service);
+    }
+
+    @Test
+    public void create(){
+        int initialBalance = 100;
+        PortfolioService service = new PortfolioService(mockRepository, mockOrderService, mockTickerService);
+        Portfolio port = service.create(initialBalance);
+        Assertions.assertEquals(initialBalance, port.getBalance());
+        verify(mockRepository, times(1)).saveAndFlush(port);
+    }
+
+    @Test
     public void getOrders(){
         int orderCount = 3;
         Set<Order> orders = new HashSet<>();
@@ -62,6 +78,56 @@ public class PortfolioServiceTest {
 
         PortfolioService service = new PortfolioService(mockRepository, mockOrderService, mockTickerService);
         Assertions.assertEquals(orders, new HashSet<>(service.getOrders(mockPortfolioId)));
+    }
+
+    @Test
+    public void getBalance(){
+        int exampleBalance = 500;
+        when(mockPortfolio.getId()).thenReturn(mockPortfolioId);
+        when(mockPortfolio.getBalance()).thenReturn(exampleBalance);
+        when(mockRepository.findById(mockPortfolioId)).thenReturn(Optional.of(mockPortfolio));
+
+        PortfolioService service = new PortfolioService(mockRepository, mockOrderService, mockTickerService);
+        Assertions.assertEquals(exampleBalance,service.getBalance(mockPortfolioId));
+
+    }
+
+    @Test
+    public void getBalanceNotExisting(){
+        when(mockRepository.findById(mockPortfolioId)).thenReturn(Optional.empty());
+        PortfolioService service = new PortfolioService(mockRepository, mockOrderService, mockTickerService);
+        Assertions.assertEquals(0,service.getBalance(mockPortfolioId));
+
+    }
+
+    @Test
+    public void addOrder(){
+        Set<Order> orders = new HashSet<>();
+        Order mockOrder = mock(Order.class);
+        when(mockRepository.findById(mockPortfolioId)).thenReturn(Optional.of(mockPortfolio));
+        when(mockPortfolio.getOrders()).thenReturn(orders);
+
+        PortfolioService service = new PortfolioService(mockRepository, mockOrderService, mockTickerService);
+        service.addOrder(mockPortfolioId, mockOrder);
+        Assertions.assertTrue(orders.contains(mockOrder));
+        verify(mockRepository, times(1)).saveAndFlush(mockPortfolio);
+    }
+
+    @Test
+    public void addNullOrder(){
+        when(mockRepository.findById(mockPortfolioId)).thenReturn(Optional.of(mockPortfolio));
+        PortfolioService service = new PortfolioService(mockRepository, mockOrderService, mockTickerService);
+        service.addOrder(mockPortfolioId, null);
+        verify(mockRepository, never()).saveAndFlush(any());
+    }
+
+    @Test
+    public void addOrderNullPortfolio(){
+        long nullId = 1;
+        when(mockRepository.findById(nullId)).thenReturn(Optional.empty());
+        PortfolioService service = new PortfolioService(mockRepository, mockOrderService, mockTickerService);
+        service.addOrder(nullId, mock(Order.class));
+        verify(mockRepository, never()).saveAndFlush(any());
     }
 
     @Test

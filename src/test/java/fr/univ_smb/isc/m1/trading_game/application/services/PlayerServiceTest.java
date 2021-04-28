@@ -91,6 +91,49 @@ public class PlayerServiceTest {
     }
 
     @Test
+    public void getPortfolioNumberPlayerNull(){
+        long mockPortfolioId = 0;
+        Portfolio mockPortfolio = mock(Portfolio.class);
+        when(mockPortfolio.getId()).thenReturn(mockPortfolioId);
+        Set<Portfolio> mockPortfolioSet = new HashSet<>();
+        mockPortfolioSet.add(mockPortfolio);
+        when(mockRepository.findById(mockPlayerId)).thenReturn(Optional.empty());
+        when(mockPlayer.getPortfolios()).thenReturn(mockPortfolioSet);
+
+        PlayerService service = new PlayerService(mockRepository, mockPortfolioService);
+        Assertions.assertEquals(0, service.getPortfolioNumber(mockPlayerId, mockPortfolioId));
+    }
+
+    @Test
+    public void getPortfolioNumberWrongPortfolioId(){
+        long mockPortfolioId = 0;
+        long wrongId = 1;
+        Portfolio mockPortfolio = mock(Portfolio.class);
+        when(mockPortfolio.getId()).thenReturn(mockPortfolioId);
+        Set<Portfolio> mockPortfolioSet = new HashSet<>();
+        mockPortfolioSet.add(mockPortfolio);
+        when(mockRepository.findById(mockPlayerId)).thenReturn(Optional.empty());
+        when(mockPlayer.getPortfolios()).thenReturn(mockPortfolioSet);
+
+        PlayerService service = new PlayerService(mockRepository, mockPortfolioService);
+        Assertions.assertEquals(0, service.getPortfolioNumber(mockPlayerId, wrongId));
+    }
+
+    @Test
+    public void getPortfolioNumber(){
+        long mockPortfolioId = 0;
+        Portfolio mockPortfolio = mock(Portfolio.class);
+        when(mockPortfolio.getId()).thenReturn(mockPortfolioId);
+        Set<Portfolio> mockPortfolioSet = new HashSet<>();
+        mockPortfolioSet.add(mockPortfolio);
+        when(mockRepository.findById(mockPlayerId)).thenReturn(Optional.of(mockPlayer));
+        when(mockPlayer.getPortfolios()).thenReturn(mockPortfolioSet);
+
+        PlayerService service = new PlayerService(mockRepository, mockPortfolioService);
+        Assertions.assertNotEquals(0, service.getPortfolioNumber(mockPlayerId, mockPortfolioId));
+    }
+
+    @Test
     public void getTotalBalance(){
         int portfolioCount = 3;
         int[] portfolioAmounts = new int[]{10,50,78};

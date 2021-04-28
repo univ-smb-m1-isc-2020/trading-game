@@ -59,13 +59,13 @@ public class GameService {
                 .collect(Collectors.toList());
     }
 
-    public List<Game> getUnstartedGames() { // TODO test
+    public List<Game> getUnstartedGames() {
         return getCurrentlyActiveGames().stream()
                 .filter(g -> !RUNNING_GAMES.containsKey(g.getId()))
                 .collect(Collectors.toList());
     }
 
-    public List<Game> getActiveGamesOf(TradingGameUser user){// TODO test
+    public List<Game> getActiveGamesOf(TradingGameUser user){
         return getCurrentlyActiveGames()
                 .stream()
                 .filter(g -> g.getPlayers()
@@ -74,7 +74,7 @@ public class GameService {
                 .collect(Collectors.toList());
     }
 
-    public List<Game> getAvailableGames(TradingGameUser user){// TODO test
+    public List<Game> getAvailableGames(TradingGameUser user){
         return getCurrentlyActiveGames()
                 .stream()
                 .filter(g ->
@@ -106,7 +106,7 @@ public class GameService {
     }
 
     public void startGame(long gameId, int dayDurationInSeconds){
-        Game game = repository.findById(gameId).orElse(null);//TODO test game not existing
+        Game game = repository.findById(gameId).orElse(null);
         if(game==null) return;
         if(RUNNING_GAMES.get(gameId) != null) return;
         Runnable gameRunnable = () -> {

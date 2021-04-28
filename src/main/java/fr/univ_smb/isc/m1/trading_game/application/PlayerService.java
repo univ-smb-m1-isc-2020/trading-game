@@ -32,13 +32,13 @@ public class PlayerService {
     }
 
     public List<Portfolio> getPortfolios(long playerId){
-        Player player = repository.findById(playerId).orElse(null);//TODO test
+        Player player = repository.findById(playerId).orElse(null);
         if(player==null) return new ArrayList<>();
         return player.getPortfolios().stream().sorted(Comparator.comparingLong(Portfolio::getId)).collect(Collectors.toList());
     }
 
     public int getPortfolioNumber(long playerId, long portfolioId) {
-        Player player = repository.findById(playerId).orElse(null);//TODO test
+        Player player = repository.findById(playerId).orElse(null);
         if(player==null) return 0;
         Portfolio port = player.getPortfolios().stream().filter(p -> p.getId()==portfolioId).findFirst().orElse(null);
         if(port==null) return 0;

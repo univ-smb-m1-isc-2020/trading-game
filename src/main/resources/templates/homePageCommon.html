@@ -8,6 +8,7 @@
 <body>
     <h1 class="pageMainTitle">Trading Game ©</h1>
     <a class="logInOutLink" th:href="${loginPage}">Se connecter / S'enregistrer</a>
+    <h2>Parties en cours</h2>
     <div class="cell" th:each="game, iStat: ${currentGames}">
         <label class="gameCellHeader">Partie n°<span class="importantInfo" th:text="${iStat.index+1}"></span></label>
         <label class="gameCellHeader"><span class="importantInfo" th:text="${game.getCurrentDuration()+'/'+game.getTotalDuration()}"></span> jours</label>

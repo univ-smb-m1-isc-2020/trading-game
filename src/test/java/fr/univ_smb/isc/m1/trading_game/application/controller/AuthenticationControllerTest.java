@@ -25,7 +25,7 @@ public class AuthenticationControllerTest {
 
     @Test
     public void performRegisterNonExistingUser(){
-        when(mockUserService.register(USER_NAME, USER_PASSWORD)).thenReturn(true);
+        when(mockUserService.register(USER_NAME, USER_PASSWORD, false)).thenReturn(true);
         AuthenticationController authenticationController = new AuthenticationController(mockUserService);
         Assertions.assertEquals(REGISTER_NON_EXISTING_USER,
                 authenticationController.performRegister(USER_NAME, USER_PASSWORD, mockRedirectAttributes));
@@ -33,7 +33,7 @@ public class AuthenticationControllerTest {
 
     @Test
     public void performRegisterExistingUser(){
-        when(mockUserService.register(USER_NAME, USER_PASSWORD)).thenReturn(false);
+        when(mockUserService.register(USER_NAME, USER_PASSWORD, false)).thenReturn(false);
         AuthenticationController authenticationController = new AuthenticationController(mockUserService);
         Assertions.assertEquals(REGISTER_EXISTING_USER,
                 authenticationController.performRegister(USER_NAME, USER_PASSWORD, mockRedirectAttributes));

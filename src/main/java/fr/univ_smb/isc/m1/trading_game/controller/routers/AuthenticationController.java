@@ -50,7 +50,7 @@ public class AuthenticationController {
     public String performRegister(@RequestParam(name = "username")String username,
                                   @RequestParam(name = "password")String password,
                                   RedirectAttributes redirectAttrs){
-        if(userService.register(username, password)){
+        if(userService.register(username, password, false)){
             return "redirect:"+URLMap.loginPage;
         } else {
             redirectAttrs.addFlashAttribute("error", "L'utilisateur existe déjà");
