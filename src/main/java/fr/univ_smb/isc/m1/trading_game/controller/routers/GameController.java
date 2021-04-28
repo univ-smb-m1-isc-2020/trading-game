@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 @Controller
 public class GameController {
+    private final HeaderController headerController;
     private final GameService gameService;
     private final UserService userService;
     private final PlayerService playerService;
@@ -26,7 +27,8 @@ public class GameController {
     private final SellOrderService sellOrderService;
     private final PortfolioService portfolioService;
 
-    public GameController(GameService gameService, UserService userService, PlayerService playerService, TickerService tickerService, BuyOrderService buyOrderService, SellOrderService sellOrderService, PortfolioService service) {
+    public GameController(HeaderController headerController, GameService gameService, UserService userService, PlayerService playerService, TickerService tickerService, BuyOrderService buyOrderService, SellOrderService sellOrderService, PortfolioService service) {
+        this.headerController = headerController;
         this.gameService = gameService;
         this.userService = userService;
         this.playerService = playerService;
@@ -41,6 +43,7 @@ public class GameController {
                               @RequestParam(name = "gameId") long gameId,
                               @RequestParam(name = "playerId") long playerId,
                               @RequestParam(name = "portfolioId") long portfolioId){
+        headerController.loadHeaderParameters(model);
         model.addAttribute("tickers", tickerService.getTickers());
         model.addAttribute("performCreateOrder", URLMap.performCreateOrder);
         model.addAttribute("playerId", playerId);
@@ -82,6 +85,7 @@ public class GameController {
     public String gameManager(Model model,
                               @RequestParam(name="gameId") long gameId,
                               @RequestParam(name= "portfolioNumber", required = false) Optional<Integer> portfolioNumber) {
+        headerController.loadHeaderParameters(model);
         Game g = gameService.getGame(gameId);
         TradingGameUser user = userService.getCurrentUser(SecurityContextHolder.getContext());
         Player player = gameService.getPlayer(gameId, user);

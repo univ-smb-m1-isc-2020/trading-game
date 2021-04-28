@@ -6,7 +6,8 @@
     <link rel="stylesheet" href="/css/appTheme.css"/>
 </head>
 <body>
-    <h1>Créer une ordre</h1>
+    <div th:replace="fragment/header :: header"></div>
+    <h2>Créer une ordre</h2>
     <div class="verticallyAligned">
         <form th:action="${performCreateOrder}" method="post">
             <input name="gameId" type="hidden" th:value="${gameId}"/>

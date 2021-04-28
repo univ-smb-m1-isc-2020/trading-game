@@ -7,6 +7,7 @@
 </head>
 <body>
     <!-- Side navigation bars -->
+    <div th:replace="fragment/header :: header"></div>
     <div class="sidenavLeft">
         <label th:text="${'Total:'+totalBalance+'€'}"></label>
         <a th:each="portfolio, iStat:${playerPortfolios}"
