@@ -14,6 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -57,7 +58,15 @@ public class GameController {
         headerController.loadHeaderParameters(model);
         model.addAttribute("tickers", tickerService.getTickers()
                 .stream()
-                .map(t -> new EODTickerInfo(t, eodService.getLast(t).getClose()))
+                .map(t -> {
+                    EOD last = eodService.getLast(t);
+                    if(last!=null){
+                        return new EODTickerInfo(t, last.getClose());
+                    } else {
+                        return null;
+                    }
+                })
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList())
         );
         model.addAttribute("performCreateOrder", URLMap.performCreateOrder);
@@ -153,10 +162,16 @@ public class GameController {
                 .stream()
                 .map(t -> {
                     Ticker ticker = tickerService.get(t);
-                    return new PortfolioTickerInfo(ticker,
-                            currentPortfolio.getQuantity(t),
-                            eodService.getLast(ticker).getClose());
+                    EOD last = eodService.getLast(ticker);
+                    if(last!=null){
+                        return new PortfolioTickerInfo(ticker,
+                                currentPortfolio.getQuantity(t),
+                                eodService.getLast(ticker).getClose());
+                    } else {
+                        return null;
+                    }
                 })
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 
