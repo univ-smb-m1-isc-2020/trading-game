@@ -32,7 +32,7 @@ public class PortfolioService {
 
     public void applyOrders(long portfolioId, EOD dayData) {
         Portfolio portfolio = repository.findById(portfolioId).orElse(null);
-        if(portfolio==null) return;//TODO test
+        if(portfolio==null) return;
         for(Order o : portfolio.getOrders().stream().sorted(Comparator.comparingLong(Order::getId)).collect(Collectors.toList())){
             orderService.apply(o, dayData, portfolioId);
         }
@@ -40,16 +40,16 @@ public class PortfolioService {
 
     public List<Order> getOrders(long portfolioId){
         Portfolio port = repository.findById(portfolioId).orElse(null);
-        if(port==null) return new ArrayList<>();//TODO test
+        if(port==null) return new ArrayList<>();
         return port.getOrders().stream().sorted(Comparator.comparingLong(Order::getId)).collect(Collectors.toList());
     }
 
     public boolean buy(long portfolioId, String tickerMic, int unitPrice, int quantity)
     {
         Portfolio port = repository.findById(portfolioId).orElse(null);
-        if(port == null) return false;//TODO test
+        if(port == null) return false;
         Ticker ticker = tickerService.get(tickerMic);
-        if(ticker == null) return false;//TODO test
+        if(ticker == null) return false;
         int totalCost = unitPrice*quantity;
         int funds = port.getBalance();
 
@@ -66,9 +66,9 @@ public class PortfolioService {
     public boolean sell(long portfolioId, String tickerMic, int unitPrice, int quantity)
     {
         Portfolio port = repository.findById(portfolioId).orElse(null);
-        if(port==null)return false;//TODO test
+        if(port==null)return false;
         Ticker ticker = tickerService.get(tickerMic);
-        if(ticker==null)return false;//TODO test
+        if(ticker==null)return false;
         if(quantity > port.getQuantity(ticker.getSymbol())) return false;
         int totalBenefits = unitPrice*quantity;
         int newQuantity = port.getQuantity(ticker.getSymbol());

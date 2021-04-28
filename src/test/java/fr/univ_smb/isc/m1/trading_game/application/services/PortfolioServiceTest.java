@@ -52,6 +52,22 @@ public class PortfolioServiceTest {
     }
 
     @Test
+    public void init(){
+        PortfolioService service = new PortfolioService(mockRepository, mockOrderService, mockTickerService);
+        service.init();
+        verify(mockOrderService, times(1)).setPortfolioService(service);
+    }
+
+    @Test
+    public void create(){
+        int initialBalance = 100;
+        PortfolioService service = new PortfolioService(mockRepository, mockOrderService, mockTickerService);
+        Portfolio port = service.create(initialBalance);
+        Assertions.assertEquals(initialBalance, port.getBalance());
+        verify(mockRepository, times(1)).saveAndFlush(port);
+    }
+
+    @Test
     public void getOrders(){
         int orderCount = 3;
         Set<Order> orders = new HashSet<>();

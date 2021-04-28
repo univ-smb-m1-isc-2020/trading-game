@@ -6,6 +6,7 @@ import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.UserRepository
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,12 +36,34 @@ public class UserServiceTest {
     }
 
     @Test
-    public void getCurrentUserNotLogged(){
+    public void getCurrentUserAnonymous(){
         SecurityContext ctx = mock(SecurityContext.class);
-        when(ctx.getAuthentication()).thenReturn(mock(Authentication.class));
+        when(ctx.getAuthentication()).thenReturn(mock(AnonymousAuthenticationToken.class));
         UserService service = new UserService(mockEncoder, mockRepository);
-        TradingGameUser user = service.getCurrentUser(ctx);
-        Assertions.assertNull(user);
+        Assertions.assertNull(service.getCurrentUser(ctx));
+    }
+
+    @Test
+    public void getCurrentUserNotAuthenticated(){
+        Authentication mockAuth = mock(Authentication.class);
+        when(mockAuth.isAuthenticated()).thenReturn(false);
+        SecurityContext ctx = mock(SecurityContext.class);
+        when(ctx.getAuthentication()).thenReturn(mockAuth);
+        UserService service = new UserService(mockEncoder, mockRepository);
+        Assertions.assertNull(service.getCurrentUser(ctx));
+    }
+
+    @Test
+    public void getCurrentUser(){
+        Authentication mockAuth = mock(Authentication.class);
+        when(mockAuth.isAuthenticated()).thenReturn(true);
+        when(mockAuth.getPrincipal()).thenReturn(mockUser);
+        when(mockUser.getId()).thenReturn(mockUserId);
+        when(mockRepository.findById(mockUserId)).thenReturn(Optional.of(mockUser));
+        SecurityContext ctx = mock(SecurityContext.class);
+        when(ctx.getAuthentication()).thenReturn(mockAuth);
+        UserService service = new UserService(mockEncoder, mockRepository);
+        Assertions.assertEquals(mockUser, service.getCurrentUser(ctx));
     }
 
     @Test
