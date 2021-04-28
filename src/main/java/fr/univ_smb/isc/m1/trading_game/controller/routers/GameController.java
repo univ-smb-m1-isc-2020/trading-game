@@ -57,7 +57,7 @@ public class GameController {
         headerController.loadHeaderParameters(model);
         model.addAttribute("tickers", tickerService.getTickers()
                 .stream()
-                .map(t -> t.getSymbol()+" ("+eodService.getLast(t).getClose()/100.0+"€)")
+                .map(t -> new EODTickerInfo(t, eodService.getLast(t).getClose()))
                 .collect(Collectors.toList())
         );
         model.addAttribute("performCreateOrder", URLMap.performCreateOrder);
@@ -84,12 +84,10 @@ public class GameController {
         Player player = playerService.getPlayer(playerId);
         Ticker ticker = tickerService.get(tickerMic);
         int portfolioNumber = playerService.getPortfolioNumber(playerId, portfolioId);
-
         if (user != null && ticker != null && player.getId() == playerId && player.getPortfolios().stream().anyMatch(p -> p.getId() == portfolioId)) {
             if(type.equals("buy")){
                 BuyOrder order = buyOrderService.create(ticker, quantity);
                 portfolioService.addOrder(portfolioId, order);
-
             } else if(type.equals("sell")){
                 SellOrder order = sellOrderService.create(ticker, quantity);
                 portfolioService.addOrder(portfolioId, order);
@@ -97,7 +95,7 @@ public class GameController {
         }
 
         redirectAttr.addAttribute("gameId",gameId);
-        redirectAttr.addFlashAttribute("portfolioNumber", portfolioNumber);
+        redirectAttr.addAttribute("portfolioNumber", portfolioNumber);
         return "redirect:"+URLMap.viewGame;
     }
 
@@ -114,7 +112,7 @@ public class GameController {
                 && player != null){
 
             Portfolio currentPortfolio = playerService.getPortfolios(player.getId()).get(portfolioNumber.orElse(1)-1);
-            List<TickerInfo> portfolioTickers = getTickerInfo(currentPortfolio);
+            List<PortfolioTickerInfo> portfolioTickers = getTickerInfo(currentPortfolio);
             List<OrderInfo> portfolioOrders = getOrderInfo(currentPortfolio);
 
             model.addAttribute("totalBalance", playerService.getTotalBalance(player.getId())/100f);
@@ -148,13 +146,13 @@ public class GameController {
                 .collect(Collectors.toList());
     }
 
-    private List<TickerInfo> getTickerInfo(Portfolio currentPortfolio){
+    private List<PortfolioTickerInfo> getTickerInfo(Portfolio currentPortfolio){
         return currentPortfolio.getParts()
                 .keySet()
                 .stream()
                 .map(t -> {
                     Ticker ticker = tickerService.get(t);
-                    return new TickerInfo(ticker,
+                    return new PortfolioTickerInfo(ticker,
                             currentPortfolio.getQuantity(t),
                             eodService.getLast(ticker).getClose());
                 })
@@ -195,12 +193,30 @@ public class GameController {
         }
     }
 
-    private static class TickerInfo{
+    private static class EODTickerInfo {
+        private final String symbol;
+        private final double unitPrice;
+
+        public EODTickerInfo(Ticker t, int unitPrice){
+            this.symbol = t.getSymbol();
+            this.unitPrice = unitPrice/100.0;
+        }
+
+        public String getSymbol() {
+            return symbol;
+        }
+
+        public double getUnitPrice() {
+            return unitPrice;
+        }
+    }
+
+    private static class PortfolioTickerInfo {
         private final String symbol;
         private final int quantity;
         private final double unitPrice;
 
-        public TickerInfo(Ticker t, int quantity, int unitPrice){
+        public PortfolioTickerInfo(Ticker t, int quantity, int unitPrice){
             this.symbol = t.getSymbol();
             this.quantity = quantity;
             this.unitPrice = unitPrice/100.0;

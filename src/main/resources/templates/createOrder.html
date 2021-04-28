@@ -24,7 +24,7 @@
             <div class="cell verticallyAligned">
                 <label for="tickerSelect">Ticker :</label>
                 <select name="orderTicker" id="tickerSelect">
-                    <option th:each="ticker: ${tickers}" th:text="${ticker}"></option>
+                    <option th:each="ticker: ${tickers}" th:value="${ticker.getSymbol()}" th:label="${ticker.getSymbol()+'('+ticker.getUnitPrice()+'€)'}"></option>
                 </select>
             </div>
             <!-- Infos -->
@@ -35,7 +35,7 @@
                 </label>
             </div>
             <input type="submit" name="submit" value="Créer l'ordre">
-            <a th:href="${gameManagement}"> Annuler </a>
+            <a th:href="${gameManagement}">Annuler </a>
         </form>
     </div>
 </body>
