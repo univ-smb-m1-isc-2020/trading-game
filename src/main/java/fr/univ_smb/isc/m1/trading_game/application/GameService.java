@@ -30,6 +30,17 @@ public class GameService {
         return repository.findById(gameId).orElse(null);
     }
 
+    public List<Player> getRankings(long gameId){
+        Game game = repository.findById(gameId).orElse(null);
+        if(game==null) return new ArrayList<>();
+        return game.getPlayers()
+                .stream()
+                .sorted(Comparator.comparingInt(
+                        p->playerService.getTotalBalance(p.getId())
+                ))
+                .collect(Collectors.toList());
+    }
+
     public Game createGame(int maxPortfolios, int initialBalance, int transactionFee, Date startDate, int totalDuration){
         Game game = new Game(maxPortfolios, initialBalance, transactionFee, startDate, totalDuration);
         repository.saveAndFlush(game);
