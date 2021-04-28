@@ -22,10 +22,10 @@ public class AuthenticationController {
         this.userService = userService;
     }
 
-    @GetMapping(value = URLMap.loginPage)
+    @GetMapping(value = URLMap.LOGIN_PAGE)
     public String logIn(HttpServletRequest request, Model model) {
-        model.addAttribute("performLogin", URLMap.performLogin);
-        model.addAttribute("signupPage", URLMap.signupPage);
+        model.addAttribute("performLogin", URLMap.PERFORM_LOGIN);
+        model.addAttribute("signupPage", URLMap.SIGNUP_PAGE);
 
         HttpSession session = request.getSession(false);
         if (session != null) {
@@ -40,21 +40,21 @@ public class AuthenticationController {
         return "logIn";
     }
 
-    @GetMapping(value = URLMap.signupPage)
+    @GetMapping(value = URLMap.SIGNUP_PAGE)
     public String register(Model model){
-        model.addAttribute("performRegister",URLMap.performSignup);
+        model.addAttribute("performRegister",URLMap.PERFORM_SIGNUP);
         return "register";
     }
 
-    @PostMapping(value =URLMap.performSignup)
+    @PostMapping(value =URLMap.PERFORM_SIGNUP)
     public String performRegister(@RequestParam(name = "username")String username,
                                   @RequestParam(name = "password")String password,
                                   RedirectAttributes redirectAttrs){
         if(userService.register(username, password, false)){
-            return "redirect:"+URLMap.loginPage;
+            return "redirect:"+URLMap.LOGIN_PAGE;
         } else {
             redirectAttrs.addFlashAttribute("error", "L'utilisateur existe déjà");
-            return "redirect:"+URLMap.signupPage;
+            return "redirect:"+URLMap.SIGNUP_PAGE;
         }
 
     }

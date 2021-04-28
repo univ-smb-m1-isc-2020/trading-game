@@ -13,7 +13,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.net.URI;
-
 import java.util.List;
 
 @Transactional
@@ -50,7 +49,7 @@ public class HistoricalDataService {
         if(eods().isEmpty()){
             for(int i=0; i<tickers().size(); i+=tickersPerRequest){
                 List<Ticker> requestTickers = tickers.subList(i*tickersPerRequest,
-                        Math.min((i+1)*tickersPerRequest, tickers.size()));
+                        Math.min((i+1)*tickersPerRequest, tickers.size()-1));
                 fetchEODof(requestTickers);
             }
         }

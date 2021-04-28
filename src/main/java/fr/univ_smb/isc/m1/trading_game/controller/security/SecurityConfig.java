@@ -31,19 +31,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authenticationProvider(getProvider())
                 .authorizeRequests()
-                .antMatchers(URLMap.adminPrefix+"/**").hasRole(TradingGameUser.ADMIN_ROLE)
-                .antMatchers(URLMap.userPrefix+"/**").hasAnyRole(TradingGameUser.USER_ROLE, TradingGameUser.ADMIN_ROLE)
+                .antMatchers(URLMap.ADMIN_PREFIX +"/**").hasRole(TradingGameUser.ADMIN_ROLE)
+                .antMatchers(URLMap.USER_PREFIX +"/**").hasAnyRole(TradingGameUser.USER_ROLE, TradingGameUser.ADMIN_ROLE)
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
-                .loginPage(URLMap.loginPage)
-                .loginProcessingUrl(URLMap.performLogin)
-                .defaultSuccessUrl(URLMap.userHomepage, true)
-                .failureUrl(URLMap.loginPage)
+                .loginPage(URLMap.LOGIN_PAGE)
+                .loginProcessingUrl(URLMap.PERFORM_LOGIN)
+                .defaultSuccessUrl(URLMap.USER_HOMEPAGE, true)
+                .failureUrl(URLMap.LOGIN_PAGE)
                 .and()
                 .logout()
-                .logoutUrl(URLMap.performLogout)
-                .logoutSuccessUrl(URLMap.loginPage);
+                .logoutUrl(URLMap.PERFORM_LOGOUT)
+                .logoutSuccessUrl(URLMap.LOGIN_PAGE);
     }
 
     private AuthenticationProvider getProvider() {
