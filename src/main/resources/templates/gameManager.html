@@ -19,7 +19,7 @@
         <h3 class="action">Mes parts</h3>
         <ul>
             <li class="action" th:each="ticker:${portfolioTickers}">
-                <span class="importantInfo" th:text="${ticker.getSymbol()}"></span> - <span class="importantInfo" th:text="${ticker.getQuantity()}"></span>
+                <span class="importantInfo" th:text="${'('+ticker.getUnitPrice()+'€)' + ticker.getSymbol()}"></span> - <span class="importantInfo" th:text="${ticker.getQuantity()}"></span>
             </li>
         </ul>
     </div>

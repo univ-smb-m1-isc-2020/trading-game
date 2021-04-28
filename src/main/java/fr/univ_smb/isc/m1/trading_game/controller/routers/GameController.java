@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Comparator;
@@ -25,16 +24,26 @@ public class GameController {
     private final UserService userService;
     private final PlayerService playerService;
     private final TickerService tickerService;
+    private final EODService eodService;
     private final BuyOrderService buyOrderService;
     private final SellOrderService sellOrderService;
     private final PortfolioService portfolioService;
 
-    public GameController(HeaderController headerController, GameService gameService, UserService userService, PlayerService playerService, TickerService tickerService, BuyOrderService buyOrderService, SellOrderService sellOrderService, PortfolioService service) {
+    public GameController(HeaderController headerController,
+                          GameService gameService,
+                          UserService userService,
+                          PlayerService playerService,
+                          TickerService tickerService,
+                          EODService eodService,
+                          BuyOrderService buyOrderService,
+                          SellOrderService sellOrderService,
+                          PortfolioService service) {
         this.headerController = headerController;
         this.gameService = gameService;
         this.userService = userService;
         this.playerService = playerService;
         this.tickerService = tickerService;
+        this.eodService = eodService;
         this.buyOrderService = buyOrderService;
         this.sellOrderService = sellOrderService;
         portfolioService = service;
@@ -101,16 +110,8 @@ public class GameController {
                 && player != null){
 
             Portfolio currentPortfolio = playerService.getPortfolios(player.getId()).get(portfolioNumber.orElse(1)-1);
-            List<TickerInfo> portfolioTickers = currentPortfolio.getParts()
-                    .keySet()
-                    .stream()
-                    .map(t -> new TickerInfo(tickerService.get(t), currentPortfolio.getQuantity(t)))
-                    .collect(Collectors.toList());
-            List<OrderInfo> portfolioOrders = currentPortfolio.getOrders()
-                    .stream()
-                    .sorted(Comparator.comparingLong(Order::getId))
-                    .map(OrderInfo::new)
-                    .collect(Collectors.toList());
+            List<TickerInfo> portfolioTickers = getTickerInfo(currentPortfolio);
+            List<OrderInfo> portfolioOrders = getOrderInfo(currentPortfolio);
 
             model.addAttribute("totalBalance", playerService.getTotalBalance(player.getId())/100f);
             model.addAttribute("playerPortfolios", playerService.getPortfolios(player.getId()));
@@ -133,6 +134,27 @@ public class GameController {
         } else {
             return "redirect:"+URLMap.userHomepage;
         }
+    }
+
+    private List<OrderInfo> getOrderInfo(Portfolio currentPortfolio){
+        return currentPortfolio.getOrders()
+                .stream()
+                .sorted(Comparator.comparingLong(Order::getId))
+                .map(OrderInfo::new)
+                .collect(Collectors.toList());
+    }
+
+    private List<TickerInfo> getTickerInfo(Portfolio currentPortfolio){
+        return currentPortfolio.getParts()
+                .keySet()
+                .stream()
+                .map(t -> {
+                    Ticker ticker = tickerService.get(t);
+                    return new TickerInfo(ticker,
+                            currentPortfolio.getQuantity(t),
+                            eodService.getLast(ticker).getClose());
+                })
+                .collect(Collectors.toList());
     }
 
     private static class OrderInfo{
@@ -172,10 +194,12 @@ public class GameController {
     private static class TickerInfo{
         private final String symbol;
         private final int quantity;
+        private final double unitPrice;
 
-        public TickerInfo(Ticker t, int quantity){
+        public TickerInfo(Ticker t, int quantity, int unitPrice){
             this.symbol = t.getSymbol();
             this.quantity = quantity;
+            this.unitPrice = unitPrice/100.0;
         }
 
         public String getSymbol() {
@@ -184,6 +208,14 @@ public class GameController {
 
         public int getQuantity() {
             return quantity;
+        }
+
+        public double getUnitPrice() {
+            return unitPrice;
+        }
+
+        public double getTotalPrice() {
+            return getUnitPrice()*getQuantity();
         }
     }
 }
