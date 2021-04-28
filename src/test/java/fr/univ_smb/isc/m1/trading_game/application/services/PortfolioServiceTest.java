@@ -81,6 +81,26 @@ public class PortfolioServiceTest {
     }
 
     @Test
+    public void getBalance(){
+        int exampleBalance = 500;
+        when(mockPortfolio.getId()).thenReturn(mockPortfolioId);
+        when(mockPortfolio.getBalance()).thenReturn(exampleBalance);
+        when(mockRepository.findById(mockPortfolioId)).thenReturn(Optional.of(mockPortfolio));
+
+        PortfolioService service = new PortfolioService(mockRepository, mockOrderService, mockTickerService);
+        Assertions.assertEquals(exampleBalance,service.getBalance(mockPortfolioId));
+
+    }
+
+    @Test
+    public void getBalanceNotExisting(){
+        when(mockRepository.findById(mockPortfolioId)).thenReturn(Optional.empty());
+        PortfolioService service = new PortfolioService(mockRepository, mockOrderService, mockTickerService);
+        Assertions.assertEquals(0,service.getBalance(mockPortfolioId));
+
+    }
+
+    @Test
     public void addOrder(){
         Set<Order> orders = new HashSet<>();
         Order mockOrder = mock(Order.class);
