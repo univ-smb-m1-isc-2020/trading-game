@@ -14,11 +14,11 @@ public abstract class Order {
     protected int quantity;
     protected boolean isPending;
 
-    public Order(){
+    protected Order(){
         //JPA
     }
 
-    public Order(Ticker ticker, int quantity) {
+    protected Order(Ticker ticker, int quantity) {
         isPending = true;
         this.ticker = ticker;
         this.quantity = quantity;
