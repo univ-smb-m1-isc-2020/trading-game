@@ -1,5 +1,6 @@
-package fr.univ_smb.isc.m1.trading_game.application;
+package fr.univ_smb.isc.m1.trading_game.application.services;
 
+import fr.univ_smb.isc.m1.trading_game.application.EODService;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.EOD;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.EODRepository;
 import fr.univ_smb.isc.m1.trading_game.infrastructure.persistence.Ticker;
