@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 public class HistoricalDataService {
     private final static String API_TICKERS_URL = "http://api.marketstack.com/v1/exchanges/XPAR/tickers?";
-    private final static String API_KEY = "fcf3ec4f0f3991176231b03c30188779";
+    private final static String API_KEY = "ee65b8d3a92b740ed9ad77d932195c6a";
     private final static int TICKER_LIMIT = 60;
 
     private final static String API_EOD_URL = "http://api.marketstack.com/v1/eod?";
