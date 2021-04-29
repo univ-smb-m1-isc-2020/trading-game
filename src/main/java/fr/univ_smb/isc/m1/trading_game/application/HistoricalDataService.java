@@ -19,13 +19,13 @@ import java.util.List;
 @Service
 public class HistoricalDataService {
     private final static String API_TICKERS_URL = "http://api.marketstack.com/v1/exchanges/XPAR/tickers?";
-    private final static String API_KEY = "b12558fc063d7b8d1245b972fe227316";
-    private final static int TICKER_LIMIT = 3;
+    private final static String API_KEY = "fcf3ec4f0f3991176231b03c30188779";
+    private final static int TICKER_LIMIT = 60;
 
     private final static String API_EOD_URL = "http://api.marketstack.com/v1/eod?";
     private final static String START_DATE="2020-05-27";
     private final static String END_DATE="2021-04-22";
-    private final static int EOD_LIMIT = 10;
+    private final static int EOD_LIMIT = 1000;
 
     private final TickerRepository tickerRepository;
     private final EODRepository eodRepository;
@@ -49,8 +49,8 @@ public class HistoricalDataService {
         int tickersPerRequest = 3;
         if(eods().isEmpty()){
             for(int i=0; i<tickers().size(); i+=tickersPerRequest){
-                List<Ticker> requestTickers = tickers.subList(i*tickersPerRequest,
-                        Math.min((i+1)*tickersPerRequest, tickers.size()-1));
+                List<Ticker> requestTickers = tickers.subList(i,
+                        Math.min(i+tickersPerRequest, tickers.size()));
                 fetchEODof(requestTickers);
             }
         }
